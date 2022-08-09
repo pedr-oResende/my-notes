@@ -17,7 +17,7 @@ internal fun lightColors() = androidx.compose.material.lightColors(
 )
 
 @Composable
-internal fun darkColors() = androidx.compose.material.lightColors(
+internal fun darkColors() = androidx.compose.material.darkColors(
     primary = colorResource(id = R.color.primary_dark),
     primaryVariant = colorResource(id = R.color.primary_variant_dark),
     onPrimary = colorResource(id = R.color.on_primary_dark),
