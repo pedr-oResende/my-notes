@@ -3,7 +3,7 @@ buildscript {
         compileSdkVersion = 32
         minSdkVersion = 21
         targetSdkVersion = 30
-        kotlin_version = '1.6.10'
+        kotlin_version = '1.7.0'
         compose_version = '1.2.0'
         compose_pager_version = '0.25.0'
         viewmodel_compose_version = '2.5.1'
@@ -24,8 +24,6 @@ buildscript {
         gson_version = '2.9.0'
         retrofit_version = '2.9.0'
         okhttp_version = '4.10.0'
-        glide_version = '4.13.2'
-        glide_transformation_version = '4.3.0' //Use when change minSdk to 21
 
         koin_version = '3.1.5'
         koin_compose = '3.1.5'
@@ -34,7 +32,7 @@ buildscript {
 plugins {
     id 'com.android.application' version '7.2.2' apply false
     id 'com.android.library' version '7.2.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.5.31' apply false
+    id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
 }
 
 task clean(type: Delete) {

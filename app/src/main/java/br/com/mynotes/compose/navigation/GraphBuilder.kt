@@ -33,6 +33,11 @@ fun NavGraphBuilder.home(
         LaunchedEffect(LocalContext.current) {
             updateHome = it.arguments?.getBoolean(Screens.Home.argumentKey)
         }
-        HomeScreen()
+        HomeScreen(
+            navHostController = navHostController,
+            onBackPressedDispatcher = onBackPressedDispatcher,
+            viewModel = viewModel,
+            updateHome = updateHome
+        )
     }
 }

@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+<!--    Light colors-->
+    <color name="primary_light">#FBC02D</color>
+    <color name="primary_variant_light">#CCFBC02D</color>
+    <color name="on_primary_light">#000000</color>
+
+    <color name="secondary_light">#4E342E</color>
+    <color name="secondary_variant_light">#CC4E342E</color>
+    <color name="on_secondary_light">#ffffff</color>
+
+<!--    Dark colors-->
+
+    <color name="primary_dark">#212121</color>
+    <color name="primary_variant_dark">#CC212121</color>
+    <color name="on_primary_dark">#FFFFFF</color>
+
+    <color name="secondary_dark">#FBC02D</color>
+    <color name="secondary_variant_dark">#CCFBC02D</color>
+    <color name="on_secondary_dark">#000000</color>
+
+    <color name="error">#B00020</color>
+    <color name="on_error">#FFF</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,4 +30,5 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
 </resources>

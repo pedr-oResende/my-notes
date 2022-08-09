@@ -3,11 +3,13 @@ package br.com.mynotes
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import br.com.mynotes.data.di.mapperModules
 import br.com.mynotes.data.di.repositoryModules
 import br.com.mynotes.domain.di.useCaseModules
 import br.com.mynotes.presentation.di.viewModelModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
+import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class MyNotesApp : Application() {
@@ -21,9 +23,14 @@ class MyNotesApp : Application() {
         startKoin {
             androidContext(this@MyNotesApp)
             androidFileProperties()
-            viewModelModules
-            repositoryModules
-            useCaseModules
+            modules(
+                listOf(
+                    viewModelModules,
+                    repositoryModules,
+                    useCaseModules,
+                    mapperModules
+                )
+            )
         }
     }
 

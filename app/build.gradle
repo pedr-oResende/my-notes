@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("kotlin-parcelize")
+    id("com.google.devtools.ksp") version '1.6.10-1.0.2'
 }
 
 android {
@@ -30,7 +32,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_1_8
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
     }
     buildFeatures {
         compose true
