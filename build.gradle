@@ -1,8 +1,36 @@
 buildscript {
     ext {
-        compose_version = '1.1.0-beta01'
+        compileSdkVersion = 32
+        minSdkVersion = 21
+        targetSdkVersion = 30
+        kotlin_version = '1.6.10'
+        compose_version = '1.2.0'
+        compose_pager_version = '0.25.0'
+        viewmodel_compose_version = '2.5.1'
+        activity_compose_version = '1.5.1'
+        accompanist_compose_version = '0.23.0'
+        coil_compose_version = '2.0.0'
+        constraintlayout_compose_version = '1.0.1'
+        coroutines_version = '1.6.0'
+        material_version = '1.6.1'
+        activity_version = '1.4.0'
+        fragment_version = "1.5.1"
+        appcompat_version = '1.4.2'
+        core_ktx_version = '1.8.0'
+        constraint_layout_version = '2.1.4'
+        navigation_version = '2.2.1'
+        lifecycle_version = '2.5.1'
+        room_version = '2.4.1'
+        gson_version = '2.9.0'
+        retrofit_version = '2.9.0'
+        okhttp_version = '4.10.0'
+        glide_version = '4.13.2'
+        glide_transformation_version = '4.3.0' //Use when change minSdk to 21
+
+        koin_version = '3.1.5'
+        koin_compose = '3.1.5'
     }
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+}
 plugins {
     id 'com.android.application' version '7.2.2' apply false
     id 'com.android.library' version '7.2.2' apply false
