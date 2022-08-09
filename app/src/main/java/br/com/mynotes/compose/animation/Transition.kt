@@ -7,7 +7,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 
-val exitTransition =
+internal val exitTransition =
     slideOutHorizontally(
         animationSpec = tween(
             durationMillis = 300,
@@ -16,7 +16,7 @@ val exitTransition =
     ) + fadeOut(animationSpec = tween(300))
 
 
-val popEnterTransition =
+internal val popEnterTransition =
     slideInHorizontally(
         animationSpec = tween(
             durationMillis = 300,
