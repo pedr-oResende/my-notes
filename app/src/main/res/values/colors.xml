@@ -10,6 +10,8 @@
     <color name="secondary_variant_light">#CC4E342E</color>
     <color name="on_secondary_light">#ffffff</color>
 
+    <color name="light_status_bar">#C49000</color>
+
 <!--    Dark colors-->
 
     <color name="primary_dark">#212121</color>
@@ -19,6 +21,8 @@
     <color name="secondary_dark">#FBC02D</color>
     <color name="secondary_variant_dark">#CCFBC02D</color>
     <color name="on_secondary_dark">#000000</color>
+
+    <color name="dark_status_bar">#000000</color>
 
     <color name="error">#B00020</color>
     <color name="on_error">#FFF</color>

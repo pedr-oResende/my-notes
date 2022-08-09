@@ -9,7 +9,6 @@ import br.com.mynotes.domain.di.useCaseModules
 import br.com.mynotes.presentation.di.viewModelModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class MyNotesApp : Application() {

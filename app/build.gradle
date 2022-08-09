@@ -68,6 +68,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:$compose_pager_version"
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.45'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
