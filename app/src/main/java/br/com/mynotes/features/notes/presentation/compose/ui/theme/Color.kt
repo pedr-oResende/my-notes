@@ -1,4 +1,4 @@
-package br.com.mynotes.compose.ui.theme
+package br.com.mynotes.features.notes.presentation.compose.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.colorResource

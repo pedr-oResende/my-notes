@@ -1,4 +1,4 @@
-package br.com.mynotes.presentation.home
+package br.com.mynotes.features.notes.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 

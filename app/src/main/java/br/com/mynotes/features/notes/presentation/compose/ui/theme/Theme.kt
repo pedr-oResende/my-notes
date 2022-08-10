@@ -1,4 +1,4 @@
-package br.com.mynotes.compose.ui.theme
+package br.com.mynotes.features.notes.presentation.compose.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

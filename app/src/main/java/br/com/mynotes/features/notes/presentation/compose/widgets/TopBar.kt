@@ -1,4 +1,4 @@
-package br.com.mynotes.compose.widgets
+package br.com.mynotes.features.notes.presentation.compose.widgets
 
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.material.Icon

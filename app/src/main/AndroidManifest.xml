@@ -15,7 +15,7 @@
         android:theme="@style/Theme.MyNotes"
         tools:targetApi="31">
         <activity
-            android:name="br.com.mynotes.presentation.MainActivity"
+            android:name="br.com.mynotes.features.notes.presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.MyNotes">
             <intent-filter>

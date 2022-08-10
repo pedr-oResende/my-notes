@@ -1,4 +1,4 @@
-package br.com.mynotes.presentation.home
+package br.com.mynotes.features.notes.presentation.screens.home
 
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.Arrangement
@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import br.com.mynotes.compose.ui.theme.MyNotesTheme
-import br.com.mynotes.compose.widgets.TopBar
+import br.com.mynotes.features.notes.presentation.compose.ui.theme.MyNotesTheme
+import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 
 @Composable
 fun HomeScreen(

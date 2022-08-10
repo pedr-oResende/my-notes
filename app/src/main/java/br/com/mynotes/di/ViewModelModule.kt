@@ -1,6 +1,6 @@
-package br.com.mynotes.presentation.di
+package br.com.mynotes.di
 
-import br.com.mynotes.presentation.home.HomeViewModel
+import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

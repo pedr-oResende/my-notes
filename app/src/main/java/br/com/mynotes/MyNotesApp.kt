@@ -3,10 +3,10 @@ package br.com.mynotes
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import br.com.mynotes.data.di.mapperModules
-import br.com.mynotes.data.di.repositoryModules
-import br.com.mynotes.domain.di.useCaseModules
-import br.com.mynotes.presentation.di.viewModelModules
+import br.com.mynotes.di.mapperModules
+import br.com.mynotes.di.repositoryModules
+import br.com.mynotes.di.useCaseModules
+import br.com.mynotes.di.viewModelModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.core.context.startKoin

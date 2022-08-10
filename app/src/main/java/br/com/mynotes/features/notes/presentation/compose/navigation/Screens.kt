@@ -1,4 +1,4 @@
-package br.com.mynotes.compose.navigation
+package br.com.mynotes.features.notes.presentation.compose.navigation
 
 import androidx.navigation.NavHostController
 

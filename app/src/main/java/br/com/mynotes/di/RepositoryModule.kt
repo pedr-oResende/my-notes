@@ -1,4 +1,4 @@
-package br.com.mynotes.data.di
+package br.com.mynotes.di
 
 import org.koin.dsl.module
 
