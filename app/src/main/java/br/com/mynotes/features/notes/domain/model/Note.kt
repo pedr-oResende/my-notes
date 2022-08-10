@@ -1,5 +1,6 @@
 package br.com.mynotes.features.notes.domain.model
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.mynotes.ui.theme.*
@@ -10,10 +11,24 @@ data class Note(
     val title: String,
     val content: String,
     val createAt: String,
-    val timestamp: Long,
-    val color: Int
-) {
-    companion object {
-        val colors = listOf(null, Red, Blue, Orange, Green, Purple)
-    }
-}
+    val timestamp: Long
+)
+
+val notes = listOf(
+    Note(
+        id = 1,
+        title = "title",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2022-08-10",
+        timestamp = 1000L
+    ),
+    Note(
+        id = 2,
+        title = "titletitle",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent" + "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2021-08-10",
+        timestamp = 2000L
+    )
+)

@@ -3,12 +3,12 @@ package br.com.mynotes.features.notes.presentation.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
-import br.com.mynotes.features.notes.presentation.util.NoteOrder
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
-import br.com.mynotes.features.notes.presentation.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,19 +25,11 @@ class HomeViewModel @Inject constructor(
 //    val notesList: StateFlow<StateUI<List<Note>>> = _notesList
 
     init {
-        getNotes(NoteOrder.Date(OrderType.Descending))
+        getNotes()
     }
 
     fun onEvent(event: NotesEvent) {
         when (event) {
-            is NotesEvent.Order -> {
-                if (state.value.noteOrder::class != event.noteOrder::class &&
-                    state.value.noteOrder.orderType == event.noteOrder.orderType
-                ) {
-                    return
-                }
-                getNotes(event.noteOrder)
-            }
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
                     noteUseCases.deleteNotesUseCase(event.note)
@@ -56,7 +48,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getNotes(noteOrder: NoteOrder) {
+    private fun getNotes() {
 //        viewModelScope.launch {
 //            noteUseCases.getNotesUseCase(noteOrder).onStart {
 //                _notesList.emit(StateUI.Processing())
@@ -67,12 +59,13 @@ class HomeViewModel @Inject constructor(
 //            }
 //        }
         getNotesJob?.cancel()
-        getNotesJob = noteUseCases.getNotesUseCase(noteOrder).onEach { notes ->
+        getNotesJob = noteUseCases.getNotesUseCase().onEach { notes ->
             _state.value = state.value.copy(
-                notes = notes,
-                noteOrder = noteOrder
+                notes = notes
             )
         }.launchIn(viewModelScope)
     }
+
+    fun refresh() = getNotes()
 
 }

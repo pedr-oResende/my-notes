@@ -12,6 +12,15 @@
 
     <color name="light_status_bar">#C49000</color>
 
+    <color name="background_light">#E0E0E0</color>
+    <color name="background_secondary_light">#DFDFDF</color>
+    <color name="on_background_light">#1C1C1C</color>
+    <color name="on_background_variant_light">#CC1C1C1C</color>
+
+    <color name="surface_light">#FFFFFF</color>
+    <color name="on_surface_light">#010101</color>
+    <color name="on_surface_variant_light">#CC010101</color>
+
 <!--    Dark colors-->
 
     <color name="primary_dark">#212121</color>
@@ -23,6 +32,17 @@
     <color name="on_secondary_dark">#000000</color>
 
     <color name="dark_status_bar">#000000</color>
+
+    <color name="background_dark">#1C1C1C</color>
+    <color name="background_secondary_dark">#020202</color>
+    <color name="on_background_dark">#F4F4F4</color>
+    <color name="on_background_variant_dark">#CCF4F4F4</color>
+
+    <color name="surface_dark">#2C2C2C</color>
+    <color name="on_surface_dark">#DCDCDC</color>
+    <color name="on_surface_variant_dark">#D1D1D1</color>
+
+<!--    Others-->
 
     <color name="error">#B00020</color>
     <color name="on_error">#FFF</color>
