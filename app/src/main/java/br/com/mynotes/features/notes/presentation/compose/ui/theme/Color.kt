@@ -1,29 +1,9 @@
 package br.com.mynotes.features.notes.presentation.compose.ui.theme
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.colorResource
-import br.com.mynotes.R
+import androidx.compose.ui.graphics.Color
 
-@Composable
-internal fun lightColors() = androidx.compose.material.lightColors(
-    primary = colorResource(id = R.color.primary_light),
-    primaryVariant = colorResource(id = R.color.primary_variant_light),
-    onPrimary = colorResource(id = R.color.on_primary_light),
-    secondary = colorResource(id = R.color.secondary_light),
-    secondaryVariant = colorResource(id = R.color.secondary_variant_light),
-    onSecondary = colorResource(id = R.color.on_secondary_light),
-    error = colorResource(id = R.color.error),
-    onError = colorResource(id = R.color.on_error)
-)
-
-@Composable
-internal fun darkColors() = androidx.compose.material.darkColors(
-    primary = colorResource(id = R.color.primary_dark),
-    primaryVariant = colorResource(id = R.color.primary_variant_dark),
-    onPrimary = colorResource(id = R.color.on_primary_dark),
-    secondary = colorResource(id = R.color.secondary_dark),
-    secondaryVariant = colorResource(id = R.color.secondary_variant_dark),
-    onSecondary = colorResource(id = R.color.on_secondary_dark),
-    error = colorResource(id = R.color.error),
-    onError = colorResource(id = R.color.on_error)
-)
+val Red = Color(0xFFD32F2F)
+val Blue = Color(0xFF0288D1)
+val Orange = Color(0xFFFFA000)
+val Green = Color(0xFF388E3C)
+val Purple = Color(0xFFE91E63)
