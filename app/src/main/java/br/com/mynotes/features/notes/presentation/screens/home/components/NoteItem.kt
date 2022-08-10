@@ -28,7 +28,6 @@ fun NoteItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(all = 16.dp)
-                .padding(end = 32.dp)
         ) {
             Text(
                 text = note.title,
