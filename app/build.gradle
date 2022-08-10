@@ -1,11 +1,9 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp") version '1.6.10-1.0.2'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
-
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdk 32
@@ -68,7 +66,6 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.constraintlayout:constraintlayout-compose:$constraintlayout_compose_version"
     implementation "com.google.accompanist:accompanist-pager:$compose_pager_version"
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.45'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 
@@ -92,26 +89,10 @@ dependencies {
     // Material
     implementation "com.google.android.material:material:$material_version"
 
-    // Koin
-    implementation "io.insert-koin:koin-core:$koin_version"
-    implementation "io.insert-koin:koin-android:$koin_version"
-    implementation "io.insert-koin:koin-android-compat:$koin_version"
-    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
-    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
-    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
-    testImplementation "io.insert-koin:koin-test:$koin_version"
-    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
-
-    // Retrofit
-    implementation "com.google.code.gson:gson:$gson_version"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-
     // Room components
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 }

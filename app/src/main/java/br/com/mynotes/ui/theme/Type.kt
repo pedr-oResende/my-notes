@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.compose.ui.theme
+package br.com.mynotes.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,9 +1,8 @@
 package br.com.mynotes.features.notes.domain.model
 
-import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.mynotes.features.notes.presentation.compose.ui.theme.*
+import br.com.mynotes.ui.theme.*
 
 @Entity
 data class Note(
@@ -15,6 +14,6 @@ data class Note(
     val color: Int
 ) {
     companion object {
-        val colors = listOf(Red, Blue, Orange, Green, Purple)
+        val colors = listOf(null, Red, Blue, Orange, Green, Purple)
     }
 }

@@ -1,31 +1,29 @@
 package br.com.mynotes.features.notes.presentation.screens.home
 
 import androidx.activity.OnBackPressedDispatcher
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import br.com.mynotes.features.notes.presentation.compose.ui.theme.MyNotesTheme
+import br.com.mynotes.ui.theme.MyNotesTheme
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 
 @Composable
 fun HomeScreen(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,
-    viewModel: HomeViewModel,
+    viewModel: HomeViewModel = hiltViewModel(),
     updateHome: Boolean?
 ) {
     MyNotesTheme {
         Scaffold(
             topBar = {
                 TopBar(
-                    title = "Home",
+                    title = "Your notes",
                     backPressedDispatcher = onBackPressedDispatcher,
                     hasNavigationIcon = false
                 )
@@ -34,11 +32,9 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues = padding),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .padding(paddingValues = padding)
             ) {
-                Text(text = "Hello world!")
+
             }
         }
     }

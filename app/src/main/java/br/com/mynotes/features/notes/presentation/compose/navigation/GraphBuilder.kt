@@ -12,8 +12,6 @@ import androidx.navigation.navArgument
 import br.com.mynotes.features.notes.presentation.compose.animation.exitTransition
 import br.com.mynotes.features.notes.presentation.compose.animation.popEnterTransition
 import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
-import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
-import org.koin.androidx.compose.getViewModel
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.home(
@@ -28,7 +26,6 @@ fun NavGraphBuilder.home(
         exitTransition = { exitTransition },
         popEnterTransition = { popEnterTransition }
     ) {
-        val viewModel = getViewModel<HomeViewModel>()
         var updateHome: Boolean? = false
         LaunchedEffect(LocalContext.current) {
             updateHome = it.arguments?.getBoolean(Screens.Home.argumentKey)
@@ -36,7 +33,6 @@ fun NavGraphBuilder.home(
         HomeScreen(
             navHostController = navHostController,
             onBackPressedDispatcher = onBackPressedDispatcher,
-            viewModel = viewModel,
             updateHome = updateHome
         )
     }
