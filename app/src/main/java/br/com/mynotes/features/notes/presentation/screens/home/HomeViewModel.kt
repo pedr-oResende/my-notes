@@ -118,7 +118,7 @@ class HomeViewModel @Inject constructor(
         _state.value = state.value.copy(
             isInSelectedMode = false
         )
-        selectedNotes.removeAll{ true }
+        selectedNotes.removeAll { true }
     }
 
 }
