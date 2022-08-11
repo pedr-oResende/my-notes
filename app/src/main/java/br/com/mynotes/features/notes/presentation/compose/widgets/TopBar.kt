@@ -9,13 +9,16 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun TopBar(
-    title: String,
+    title: String? = null,
     backPressedDispatcher: OnBackPressedDispatcher,
     actions: @Composable RowScope.() -> Unit = {},
     hasNavigationIcon: Boolean = true
 ) {
     TopAppBar(
-        title = { Text(text = title) },
+        title = {
+            if (title != null)
+                Text(text = title)
+        },
         navigationIcon = if (hasNavigationIcon) {
             {
                 IconButton(onClick = { backPressedDispatcher.onBackPressed() }) {

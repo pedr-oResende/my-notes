@@ -33,7 +33,8 @@ class HomeViewModel @Inject constructor(
     init {
         getNotes()
         _state.value = state.value.copy(
-            isInGridMode = PreferencesWrapper.instance?.getBoolean(PreferencesKey.LAYOUT_STATE_KEY) ?: true
+            isInGridMode = PreferencesWrapper.instance?.getBoolean(PreferencesKey.LAYOUT_STATE_KEY)
+                ?: true
         )
     }
 
@@ -48,14 +49,19 @@ class HomeViewModel @Inject constructor(
                 selectNote(event.noteId)
             }
             is NotesEvent.ToggleListView -> {
-                val value = !state.value.isInGridMode
-                _state.value = state.value.copy(
-                    isInGridMode = value
-                )
-                PreferencesWrapper.instance?.putBoolean(
-                    key = PreferencesKey.LAYOUT_STATE_KEY,
-                    value = value
-                )
+                toggleListView()
+            }
+            is NotesEvent.ToggleCloseSelection -> {
+                disableSelectedMode()
+            }
+            is NotesEvent.AddNote -> {
+
+            }
+            is NotesEvent.ArchiveNote -> {
+
+            }
+            is NotesEvent.MarkNote -> {
+
             }
         }
     }
@@ -95,6 +101,24 @@ class HomeViewModel @Inject constructor(
 
     fun onItemLongClick(noteId: Int?) {
         onEvent(NotesEvent.SelectNote(noteId))
+    }
+
+    private fun toggleListView() {
+        val value = !state.value.isInGridMode
+        _state.value = state.value.copy(
+            isInGridMode = value
+        )
+        PreferencesWrapper.instance?.putBoolean(
+            key = PreferencesKey.LAYOUT_STATE_KEY,
+            value = value
+        )
+    }
+
+    private fun disableSelectedMode() {
+        _state.value = state.value.copy(
+            isInSelectedMode = false
+        )
+        selectedNotes.removeAll{ true }
     }
 
 }

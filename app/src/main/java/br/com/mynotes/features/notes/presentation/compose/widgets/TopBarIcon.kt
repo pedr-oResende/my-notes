@@ -13,26 +13,23 @@ fun TopBarIcon(
     onClick: () -> Unit,
     painter: Painter? = null,
     imageVector: ImageVector? = null,
-    visibility: Boolean,
     color: Color = MaterialTheme.colors.onSurface
 ) {
-    if (visibility) {
-        IconButton(
-            onClick = onClick
-        ) {
-            if (painter != null) {
-                Icon(
-                    painter = painter,
-                    tint = color,
-                    contentDescription = null
-                )
-            } else if (imageVector != null){
-                Icon(
-                    imageVector = imageVector,
-                    tint = color,
-                    contentDescription = null
-                )
-            }
+    IconButton(
+        onClick = onClick
+    ) {
+        if (painter != null) {
+            Icon(
+                painter = painter,
+                tint = color,
+                contentDescription = null
+            )
+        } else if (imageVector != null) {
+            Icon(
+                imageVector = imageVector,
+                tint = color,
+                contentDescription = null
+            )
         }
     }
 }
