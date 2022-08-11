@@ -6,22 +6,33 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun TopBarIcon(
     onClick: () -> Unit,
-    icon: Painter,
+    painter: Painter? = null,
+    imageVector: ImageVector? = null,
     visibility: Boolean,
-    color: Color = MaterialTheme.colors.onPrimary
+    color: Color = MaterialTheme.colors.onSurface
 ) {
     if (visibility) {
         IconButton(
             onClick = onClick
         ) {
-            Icon(
-                painter = icon,
-                tint = color,
-                contentDescription = null)
+            if (painter != null) {
+                Icon(
+                    painter = painter,
+                    tint = color,
+                    contentDescription = null
+                )
+            } else if (imageVector != null){
+                Icon(
+                    imageVector = imageVector,
+                    tint = color,
+                    contentDescription = null
+                )
+            }
         }
     }
 }

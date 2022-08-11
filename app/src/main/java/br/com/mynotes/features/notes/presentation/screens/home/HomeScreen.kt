@@ -5,9 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
@@ -32,7 +33,7 @@ fun HomeScreen(
         Scaffold(
             topBar = {
                 TopBar(
-                    title = "Your notes",
+                    title = "My notes",
                     backPressedDispatcher = onBackPressedDispatcher,
                     hasNavigationIcon = false,
                     actions = {
@@ -40,11 +41,19 @@ fun HomeScreen(
                             onClick = {
                                 viewModel.onEvent(NotesEvent.ToggleListView)
                             },
-                            icon = if (state.isInGridMode)
-                                rememberAsyncImagePainter(model = R.drawable.ic_grid_view)
-                            else
-                                rememberAsyncImagePainter(model = R.drawable.ic_list_view),
+                            painter =
+                            rememberAsyncImagePainter(
+                                model = if (state.isInGridMode)
+                                    R.drawable.ic_list_view
+                                else
+                                    R.drawable.ic_grid_view
+                            ),
                             visibility = true
+                        )
+                        TopBarIcon(
+                            onClick = { },
+                            imageVector = Icons.Default.Delete,
+                            visibility = state.isInSelectedMode
                         )
                     },
                 )
@@ -61,22 +70,17 @@ fun HomeScreen(
                 val onClick = {
 
                 }
-                val onLongClick = {
-
-                }
                 if (state.isInGridMode) {
                     GridNotesList(
-                        modifier = Modifier.padding(horizontal = 8.dp),
                         notes = notes,
-                        onClick = onClick,
-                        onLongClick = onLongClick
+                        viewModel = viewModel,
+                        onClick = onClick
                     )
                 } else {
                     LinearNotesList(
-                        modifier = Modifier.padding(horizontal = 8.dp),
                         notes = notes,
-                        onClick = onClick,
-                        onLongClick = onLongClick
+                        viewModel = viewModel,
+                        onClick = onClick
                     )
                 }
             }

@@ -1,7 +1,5 @@
 package br.com.mynotes.features.notes.presentation.screens.home.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,14 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.compose.widgets.StaggeredVerticalGrid
+import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
+import br.com.mynotes.features.notes.presentation.util.NotesEvent
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GridNotesList(
     modifier: Modifier = Modifier,
     notes: List<Note>,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit,
+    viewModel: HomeViewModel,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -29,13 +28,18 @@ fun GridNotesList(
         StaggeredVerticalGrid(modifier = modifier) {
             notes.forEach { note ->
                 NoteItem(
-                    modifier = Modifier
-                        .padding(all = 8.dp)
-                        .combinedClickable(
-                            onClick = onClick,
-                            onLongClick = onLongClick
-                        ),
-                    note = note
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    note = note,
+                    isSelected = viewModel.isNoteSelected(note),
+                    onClick = {
+                        if (viewModel.state.value.isInSelectedMode)
+                            viewModel.onEvent(NotesEvent.SelectNote(note.id))
+                        else
+                            onClick()
+                    },
+                    onLongClick = {
+                        viewModel.onItemLongClick(note.id)
+                    }
                 )
             }
         }
