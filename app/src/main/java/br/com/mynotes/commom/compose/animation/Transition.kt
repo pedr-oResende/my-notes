@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.compose.animation
+package br.com.mynotes.commom.compose.animation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween

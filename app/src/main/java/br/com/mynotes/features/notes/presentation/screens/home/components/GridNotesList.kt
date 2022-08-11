@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.compose.widgets.StaggeredVerticalGrid
+import br.com.mynotes.commom.compose.widgets.StaggeredVerticalGrid
 import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 

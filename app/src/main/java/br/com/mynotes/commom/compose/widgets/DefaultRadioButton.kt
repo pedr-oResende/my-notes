@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.compose.widgets
+package br.com.mynotes.commom.compose.widgets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
