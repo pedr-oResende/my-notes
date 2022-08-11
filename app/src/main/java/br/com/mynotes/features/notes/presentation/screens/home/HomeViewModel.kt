@@ -1,12 +1,15 @@
 package br.com.mynotes.features.notes.presentation.screens.home
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.mynotes.commom.util.PreferencesKey
+import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -14,18 +17,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val noteUseCases: NoteUseCases
+    private val noteUseCases: NoteUseCases,
+    private val preferencesWrapper: PreferencesWrapper
 ) : ViewModel() {
 
     private var getNotesJob: Job? = null
 
-    private val _state = MutableStateFlow(NotesState())
-    val state: MutableStateFlow<NotesState> = _state
+    private val _state = mutableStateOf(NotesState())
+    val state: State<NotesState> = _state
 //    private val _notesList = MutableStateFlow<StateUI<List<Note>>>(StateUI.Idle())
 //    val notesList: StateFlow<StateUI<List<Note>>> = _notesList
 
     init {
         getNotes()
+        _state.value = state.value.copy(
+            isInGridMode = preferencesWrapper.getBoolean(PreferencesKey.LAYOUT_STATE_KEY) ?: true
+        )
     }
 
     fun onEvent(event: NotesEvent) {
@@ -35,14 +42,14 @@ class HomeViewModel @Inject constructor(
                     noteUseCases.deleteNotesUseCase(event.note)
                 }
             }
-            is NotesEvent.ToggleOrderSection -> {
-                _state.value = state.value.copy(
-                    isOrderSectionVisible = !state.value.isOrderSectionVisible
-                )
-            }
             is NotesEvent.ToggleListView -> {
+                val value = !state.value.isInGridMode
                 _state.value = state.value.copy(
-                    isInGridMode = !state.value.isInGridMode
+                    isInGridMode = value
+                )
+                preferencesWrapper.putBoolean(
+                    key = PreferencesKey.LAYOUT_STATE_KEY,
+                    value = value
                 )
             }
         }

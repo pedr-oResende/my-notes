@@ -6,9 +6,9 @@
     <color name="primary_variant_light">#CCFBC02D</color>
     <color name="on_primary_light">#000000</color>
 
-    <color name="secondary_light">#4E342E</color>
-    <color name="secondary_variant_light">#CC4E342E</color>
-    <color name="on_secondary_light">#ffffff</color>
+    <color name="secondary_light">#F99327</color>
+    <color name="secondary_variant_light">#CCF99327</color>
+    <color name="on_secondary_light">#000000</color>
 
     <color name="light_status_bar">#C49000</color>
 
@@ -23,12 +23,12 @@
 
 <!--    Dark colors-->
 
-    <color name="primary_dark">#212121</color>
-    <color name="primary_variant_dark">#CC212121</color>
-    <color name="on_primary_dark">#FFFFFF</color>
+    <color name="primary_dark">#FBC02D</color>
+    <color name="primary_variant_dark">#CCFBC02D</color>
+    <color name="on_primary_dark">#000000</color>
 
-    <color name="secondary_dark">#FBC02D</color>
-    <color name="secondary_variant_dark">#CCFBC02D</color>
+    <color name="secondary_dark">#4e342e</color>
+    <color name="secondary_variant_dark">#CC4e342e</color>
     <color name="on_secondary_dark">#000000</color>
 
     <color name="dark_status_bar">#000000</color>

@@ -1,9 +1,7 @@
 package br.com.mynotes.features.notes.domain.model
 
-import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import br.com.mynotes.ui.theme.*
 
 @Entity
 data class Note(
@@ -27,7 +25,55 @@ val notes = listOf(
         title = "titletitle",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent" + "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2021-08-10",
+        timestamp = 2000L
+    ),
+    Note(
+        id = 3,
+        title = "title",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2022-08-10",
+        timestamp = 1000L
+    ),
+    Note(
+        id = 4,
+        title = "titletitle",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2021-08-10",
+        timestamp = 2000L
+    ),
+    Note(
+        id = 1,
+        title = "title",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2022-08-10",
+        timestamp = 1000L
+    ),
+    Note(
+        id = 2,
+        title = "titletitle",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent" + "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
+                "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2021-08-10",
+        timestamp = 2000L
+    ),
+    Note(
+        id = 3,
+        title = "title",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent",
+        createAt = "2022-08-10",
+        timestamp = 1000L
+    ),
+    Note(
+        id = 4,
+        title = "titletitle",
+        content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2021-08-10",
         timestamp = 2000L
     )

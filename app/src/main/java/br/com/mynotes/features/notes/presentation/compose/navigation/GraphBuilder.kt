@@ -7,11 +7,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.navArgument
 import br.com.mynotes.features.notes.presentation.compose.animation.exitTransition
 import br.com.mynotes.features.notes.presentation.compose.animation.popEnterTransition
 import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
+import com.google.accompanist.navigation.animation.composable
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.home(

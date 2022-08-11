@@ -2,6 +2,7 @@ package br.com.mynotes.di
 
 import android.app.Application
 import androidx.room.Room
+import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.data.data_source.NoteDatabase
 import br.com.mynotes.features.notes.data.repository.NoteRepositoryImpl
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
@@ -41,6 +42,12 @@ object AppModule {
             getNotesUseCase = GetNotesUseCase(repository),
             deleteNotesUseCase = DeleteNotesUseCase(repository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferencesWrapper(): PreferencesWrapper {
+        return PreferencesWrapper.instance!!
     }
 
 }
