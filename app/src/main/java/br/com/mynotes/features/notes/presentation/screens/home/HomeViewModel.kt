@@ -19,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val noteUseCases: NoteUseCases,
-    private val preferencesWrapper: PreferencesWrapper
+    private val noteUseCases: NoteUseCases
 ) : ViewModel() {
 
     private val selectedNotes = mutableStateListOf<Int?>()
@@ -34,7 +33,7 @@ class HomeViewModel @Inject constructor(
     init {
         getNotes()
         _state.value = state.value.copy(
-            isInGridMode = preferencesWrapper.getBoolean(PreferencesKey.LAYOUT_STATE_KEY) ?: true
+            isInGridMode = PreferencesWrapper.instance?.getBoolean(PreferencesKey.LAYOUT_STATE_KEY) ?: true
         )
     }
 
@@ -53,7 +52,7 @@ class HomeViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     isInGridMode = value
                 )
-                preferencesWrapper.putBoolean(
+                PreferencesWrapper.instance?.putBoolean(
                     key = PreferencesKey.LAYOUT_STATE_KEY,
                     value = value
                 )

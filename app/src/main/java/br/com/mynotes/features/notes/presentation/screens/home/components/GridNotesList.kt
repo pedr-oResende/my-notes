@@ -25,10 +25,10 @@ fun GridNotesList(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        StaggeredVerticalGrid(modifier = modifier) {
+        StaggeredVerticalGrid(modifier = modifier.padding(horizontal = 8.dp)) {
             notes.forEach { note ->
                 NoteItem(
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+                    modifier = Modifier.padding(all = 8.dp),
                     note = note,
                     isSelected = viewModel.isNoteSelected(note),
                     onClick = {

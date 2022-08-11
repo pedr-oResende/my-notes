@@ -12,16 +12,13 @@ fun MyNotesTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     val systemUiController = rememberSystemUiController()
     val colors = if (darkTheme) {
         systemUiController.apply {
-            setStatusBarColor(
-                color = colorResource(id = R.color.dark_status_bar)
-            )
+            setStatusBarColor(color = colorResource(id = R.color.dark_status_bar))
+            setSystemBarsColor(color = MaterialTheme.colors.background)
         }
         darkColors()
     } else {
         systemUiController.apply {
-            setStatusBarColor(
-                color = colorResource(id = R.color.light_status_bar)
-            )
+            setStatusBarColor(color = colorResource(id = R.color.light_status_bar))
         }
         lightColors()
     }
