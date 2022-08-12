@@ -2,17 +2,14 @@ package br.com.mynotes.commom.compose.navigation
 
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import br.com.mynotes.commom.compose.animation.enterTransition
 import br.com.mynotes.commom.compose.animation.exitTransition
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
 import br.com.mynotes.features.notes.presentation.screens.note_detail.NoteDetailScreen
+import br.com.mynotes.features.notes.presentation.util.HomeEvent
 import com.google.accompanist.navigation.animation.composable
 
 @ExperimentalAnimationApi
@@ -23,20 +20,16 @@ fun NavGraphBuilder.home(
 ) {
     composable(
         route = Screens.Home.route,
-        arguments = listOf(navArgument(Screens.Home.argumentKey) {
-            type = NavType.BoolType
-        }),
         popExitTransition = { exitTransition(-with) },
         enterTransition = { enterTransition(-with) }
     ) {
-        var updateHome: Boolean? = false
-        LaunchedEffect(LocalContext.current) {
-            updateHome = it.arguments?.getBoolean(Screens.Home.argumentKey)
-        }
+        val homeEvent = navHostController.previousBackStackEntry?.savedStateHandle?.get<HomeEvent>(
+            key = Screens.Home.argumentKey
+        )
         HomeScreen(
             navHostController = navHostController,
             onBackPressedDispatcher = onBackPressedDispatcher,
-            updateHome = updateHome
+            homeEvent = homeEvent
         )
     }
 }

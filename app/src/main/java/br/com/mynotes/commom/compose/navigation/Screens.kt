@@ -33,15 +33,7 @@ sealed class Screens(val route: String, val argumentKey: String) {
     object Home : Screens(
         route = "home",
         argumentKey = "home"
-    ) {
-        fun backToHome(navHostController: NavHostController, updateHome: Boolean = false) {
-            navHostController.navigate(
-                route = "kids_home/$updateHome"
-            ) {
-                popUpTo(0)
-            }
-        }
-    }
+    )
 
     object NoteDetail : Screens(
         route = "note_detail",

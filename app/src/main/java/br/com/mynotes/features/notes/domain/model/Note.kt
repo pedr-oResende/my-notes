@@ -5,14 +5,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Entity
+@Entity(tableName = "note")
 @Parcelize
 data class Note(
     @PrimaryKey val id: Int? = null,
     val title: String,
     val content: String,
     val createAt: String,
-    val timestamp: Long
+    val timestamp: Long,
+    val isArchived: Boolean,
+    val isFixed: Boolean
 ) : Parcelable
 
 val notes = listOf(
@@ -21,7 +23,9 @@ val notes = listOf(
         title = "title",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2022-08-10",
-        timestamp = 1000L
+        timestamp = 1000L,
+        isArchived = false,
+        isFixed = true
     ),
     Note(
         id = 2,
@@ -32,28 +36,36 @@ val notes = listOf(
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2021-08-10",
-        timestamp = 2000L
+        timestamp = 2000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 3,
         title = "title",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2022-08-10",
-        timestamp = 1000L
+        timestamp = 1000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 4,
         title = "titletitle",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2021-08-10",
-        timestamp = 2000L
+        timestamp = 2000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 5,
         title = "title",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2022-08-10",
-        timestamp = 1000L
+        timestamp = 1000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 6,
@@ -64,28 +76,36 @@ val notes = listOf(
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2021-08-10",
-        timestamp = 2000L
+        timestamp = 2000L,
+        isArchived = true,
+        isFixed = false
     ),
     Note(
         id = 7,
         title = "title",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2022-08-10",
-        timestamp = 1000L
+        timestamp = 1000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 8,
         title = "titletitle",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2021-08-10",
-        timestamp = 2000L
+        timestamp = 2000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 9,
         title = "title",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2022-08-10",
-        timestamp = 1000L
+        timestamp = 1000L,
+        isArchived = true,
+        isFixed = false
     ),
     Note(
         id = 10,
@@ -96,20 +116,26 @@ val notes = listOf(
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent" +
                 "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2021-08-10",
-        timestamp = 2000L
+        timestamp = 2000L,
+        isArchived = true,
+        isFixed = false
     ),
     Note(
         id = 11,
         title = "title",
         content = "contentcontentcontentcontentcontentcontentcontentcontentcontent"+ "contentcontentcontentcontentcontentcontentcontentcontentcontent",
         createAt = "2022-08-10",
-        timestamp = 1000L
+        timestamp = 1000L,
+        isArchived = false,
+        isFixed = false
     ),
     Note(
         id = 12,
         title = "titletitle",
         content = "content",
         createAt = "2021-08-10",
-        timestamp = 5000L
+        timestamp = 5000L,
+        isArchived = false,
+        isFixed = false
     )
 ).sortedByDescending { it.timestamp }

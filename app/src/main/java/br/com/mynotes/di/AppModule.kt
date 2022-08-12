@@ -37,7 +37,9 @@ object AppModule {
     fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
         return NoteUseCases(
             getNotesUseCase = GetNotesUseCase(repository),
-            deleteNotesUseCase = DeleteNotesUseCase(repository)
+            deleteNotesUseCase = DeleteNotesUseCase(repository),
+            archiveNotesUseCase = EditNotesUseCase(repository),
+            getNoteByIdUseCase = GetNoteByIdUseCase(repository)
         )
     }
 
@@ -46,7 +48,8 @@ object AppModule {
     fun provideNoteDetailUseCases(repository: NoteRepository): NoteDetailUseCases {
         return NoteDetailUseCases(
             addNotesUseCase = AddNoteUseCase(repository),
-            deleteNotesUseCase = DeleteNotesUseCase(repository)
+            deleteNoteUseCase = DeleteNoteUseCase(repository),
+            archiveNoteUseCase = ArchiveNoteUseCase(repository)
         )
     }
 }

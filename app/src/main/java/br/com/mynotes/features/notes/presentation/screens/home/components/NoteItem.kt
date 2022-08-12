@@ -4,12 +4,16 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,11 +54,24 @@ fun NoteItem(
                 .fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
-            Text(
-                text = note.title,
-                style = MaterialTheme.typography.h6,
-                color = MaterialTheme.colors.onPrimary
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = note.title,
+                    style = MaterialTheme.typography.h5,
+                    color = MaterialTheme.colors.onPrimary
+                )
+                if (note.isFixed) {
+                    Icon(
+                        modifier = Modifier.rotate(45f),
+                        imageVector = Icons.Rounded.PushPin,
+                        tint = MaterialTheme.colors.onSurface,
+                        contentDescription = null
+                    )
+                }
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = note.content,
@@ -78,7 +95,7 @@ private fun NoteItemPreview() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NoteItem(note = notes[1], isSelected = true)
+            NoteItem(note = notes[0], isSelected = true)
         }
     }
 }

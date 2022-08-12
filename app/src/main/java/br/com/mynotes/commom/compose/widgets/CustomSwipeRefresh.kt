@@ -12,7 +12,7 @@ fun CustomSwipeRefresh(
     swipeRefreshState: SwipeRefreshState,
     onRefresh: () -> Unit,
     indicatorBackgroundColor: Color = MaterialTheme.colors.surface,
-    indicatorContentColor: Color = MaterialTheme.colors.secondary,
+    indicatorContentColor: Color = MaterialTheme.colors.primary,
     indicatorScale: Boolean = true,
     content: @Composable () -> Unit
 
