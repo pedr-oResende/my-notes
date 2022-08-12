@@ -12,8 +12,10 @@ import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.domain.model.notes
 import br.com.mynotes.commom.compose.widgets.TopBar
 import br.com.mynotes.commom.compose.widgets.TopBarIcon
@@ -21,6 +23,7 @@ import br.com.mynotes.features.notes.presentation.screens.home.components.GridNo
 import br.com.mynotes.features.notes.presentation.screens.home.components.LinearNotesList
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
+import br.com.mynotes.R
 
 @Composable
 fun HomeScreen(
@@ -35,8 +38,6 @@ fun HomeScreen(
             topBar = {
                 if (state.isInSelectedMode) {
                     TopBar(
-                        backPressedDispatcher = onBackPressedDispatcher,
-                        hasNavigationIcon = false,
                         actions = {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -63,21 +64,21 @@ fun HomeScreen(
                     )
                 } else {
                     TopBar(
-                        title = "My notes",
-                        backPressedDispatcher = onBackPressedDispatcher,
-                        hasNavigationIcon = false,
+                        title = stringResource(id = R.string.app_name),
                         actions = {
                             TopBarIcon(
                                 onClick = {
                                     viewModel.onEvent(NotesEvent.ToggleListView)
                                 },
                                 imageVector = if (state.isInGridMode)
-                                        Icons.Outlined.ViewAgenda
-                                    else
-                                        Icons.Outlined.GridView
+                                    Icons.Outlined.ViewAgenda
+                                else
+                                    Icons.Outlined.GridView
                             )
                             TopBarIcon(
-                                onClick = { },
+                                onClick = {
+                                    Screens.NoteDetail.navigate(navHostController)
+                                },
                                 imageVector = Icons.Default.Edit
                             )
                         }
@@ -93,20 +94,17 @@ fun HomeScreen(
                 if (updateHome == true) {
                     viewModel.refresh()
                 }
-                val onClick = {
-
-                }
                 if (state.isInGridMode) {
                     GridNotesList(
                         notes = notes,
                         viewModel = viewModel,
-                        onClick = onClick
+                        navHostController = navHostController
                     )
                 } else {
                     LinearNotesList(
                         notes = notes,
                         viewModel = viewModel,
-                        onClick = onClick
+                        navHostController = navHostController
                     )
                 }
             }

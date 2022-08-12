@@ -11,25 +11,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @Composable
 fun TopBarIcon(
     onClick: () -> Unit,
-    painter: Painter? = null,
-    imageVector: ImageVector? = null,
+    imageVector: ImageVector,
     color: Color = MaterialTheme.colors.onSurface
 ) {
     IconButton(
         onClick = onClick
     ) {
-        if (painter != null) {
-            Icon(
-                painter = painter,
-                tint = color,
-                contentDescription = null
-            )
-        } else if (imageVector != null) {
-            Icon(
-                imageVector = imageVector,
-                tint = color,
-                contentDescription = null
-            )
-        }
+        Icon(
+            imageVector = imageVector,
+            tint = color,
+            contentDescription = null
+        )
     }
 }

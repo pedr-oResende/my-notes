@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 sealed class Screens(val route: String, val argumentKey: String) {
 
     fun navigate(navHostController: NavHostController) {
-        navHostController.navigate(route)
+        navigateWithArgument(navHostController = navHostController, argumentValue = null)
     }
 
     fun <T> navigateWithArgument(
@@ -16,7 +16,7 @@ sealed class Screens(val route: String, val argumentKey: String) {
             key = argumentKey,
             value = argumentValue
         )
-        navigate(navHostController)
+        navHostController.navigate(route)
     }
 
     fun <T> navigateWithListArgument(
@@ -30,7 +30,7 @@ sealed class Screens(val route: String, val argumentKey: String) {
         navigate(navHostController)
     }
 
-    object Home: Screens(
+    object Home : Screens(
         route = "home",
         argumentKey = "home"
     ) {
@@ -42,5 +42,10 @@ sealed class Screens(val route: String, val argumentKey: String) {
             }
         }
     }
+
+    object NoteDetail : Screens(
+        route = "note_detail",
+        argumentKey = "note_detail"
+    )
 
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
@@ -16,8 +17,8 @@ import br.com.mynotes.features.notes.presentation.util.NotesEvent
 fun LinearNotesList(
     modifier: Modifier = Modifier,
     notes: List<Note>,
-    onClick: () -> Unit,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    navHostController: NavHostController
 ) {
     LazyColumn(modifier = modifier) {
         item { Spacer(modifier = Modifier.height(8.dp)) }
@@ -30,7 +31,10 @@ fun LinearNotesList(
                     if (viewModel.state.value.isInSelectedMode)
                         viewModel.onEvent(NotesEvent.SelectNote(note.id))
                     else
-                        onClick()
+                        viewModel.goToDetail(
+                            navHostController = navHostController,
+                            note = note
+                        )
                 },
                 onLongClick = {
                     viewModel.onItemLongClick(note.id)

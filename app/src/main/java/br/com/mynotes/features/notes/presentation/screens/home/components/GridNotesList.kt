@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.commom.compose.widgets.StaggeredVerticalGrid
 import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
@@ -19,7 +20,7 @@ fun GridNotesList(
     modifier: Modifier = Modifier,
     notes: List<Note>,
     viewModel: HomeViewModel,
-    onClick: () -> Unit
+    navHostController: NavHostController
 ) {
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
@@ -35,7 +36,10 @@ fun GridNotesList(
                         if (viewModel.state.value.isInSelectedMode)
                             viewModel.onEvent(NotesEvent.SelectNote(note.id))
                         else
-                            onClick()
+                            viewModel.goToDetail(
+                                navHostController = navHostController,
+                                note = note
+                            )
                     },
                     onLongClick = {
                         viewModel.onItemLongClick(note.id)

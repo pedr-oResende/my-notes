@@ -4,6 +4,6 @@
     <string name="app_name">My Notes</string>
 
     <string name="note_title_placeholder">Título</string>
-    <string name="note_content_placeholder">Nota</string>
+    <string name="note_content_placeholder">Note</string>
 
 </resources>

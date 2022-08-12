@@ -1,8 +1,10 @@
 package br.com.mynotes.commom.compose.widgets
 
-import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -10,18 +12,17 @@ import androidx.compose.runtime.Composable
 @Composable
 fun TopBar(
     title: String? = null,
-    backPressedDispatcher: OnBackPressedDispatcher,
+    onBackPressed: (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
-    hasNavigationIcon: Boolean = true
 ) {
     TopAppBar(
         title = {
             if (title != null)
                 Text(text = title)
         },
-        navigationIcon = if (hasNavigationIcon) {
+        navigationIcon = if (onBackPressed != null) {
             {
-                IconButton(onClick = { backPressedDispatcher.onBackPressed() }) {
+                IconButton(onClick = onBackPressed) {
                     Icon(Icons.Default.ArrowBack, contentDescription = null)
                 }
             }

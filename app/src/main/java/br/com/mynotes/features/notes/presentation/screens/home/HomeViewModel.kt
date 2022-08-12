@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
+import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
@@ -119,6 +121,13 @@ class HomeViewModel @Inject constructor(
             isInSelectedMode = false
         )
         selectedNotes.removeAll { true }
+    }
+
+    fun goToDetail(navHostController: NavHostController, note: Note) {
+        Screens.NoteDetail.navigateWithArgument(
+            navHostController = navHostController,
+            argumentValue = note
+        )
     }
 
 }

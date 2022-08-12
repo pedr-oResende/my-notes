@@ -1,16 +1,19 @@
 package br.com.mynotes.features.notes.domain.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 @Entity
+@Parcelize
 data class Note(
     @PrimaryKey val id: Int? = null,
     val title: String,
     val content: String,
     val createAt: String,
     val timestamp: Long
-)
+) : Parcelable
 
 val notes = listOf(
     Note(
