@@ -10,4 +10,5 @@ sealed class NotesEvent {
     data class AddNote(val note: Note): NotesEvent()
     object ToggleListView: NotesEvent()
     object ToggleCloseSelection: NotesEvent()
+    object ToggleMarkPin : NotesEvent()
 }

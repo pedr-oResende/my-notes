@@ -7,23 +7,24 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.ViewAgenda
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import br.com.mynotes.R
 import br.com.mynotes.commom.compose.navigation.Screens
-import br.com.mynotes.features.notes.domain.model.notes
 import br.com.mynotes.commom.compose.widgets.TopBar
 import br.com.mynotes.commom.compose.widgets.TopBarIcon
+import br.com.mynotes.features.notes.domain.model.notes
 import br.com.mynotes.features.notes.presentation.screens.home.components.GridNotesList
 import br.com.mynotes.features.notes.presentation.screens.home.components.LinearNotesList
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
-import br.com.mynotes.R
 
 @Composable
 fun HomeScreen(
@@ -51,8 +52,13 @@ fun HomeScreen(
                                 )
                                 Row {
                                     TopBarIcon(
-                                        onClick = { },
-                                        imageVector = Icons.Default.PushPin
+                                        onClick = {
+                                            viewModel.onEvent(NotesEvent.ToggleMarkPin)
+                                        },
+                                        imageVector = if (state.isPinMarked)
+                                            Icons.Rounded.PushPin
+                                        else
+                                            Icons.Outlined.PushPin
                                     )
                                     TopBarIcon(
                                         onClick = { },

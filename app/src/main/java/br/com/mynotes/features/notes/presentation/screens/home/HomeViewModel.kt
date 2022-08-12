@@ -65,6 +65,11 @@ class HomeViewModel @Inject constructor(
             is NotesEvent.MarkNote -> {
 
             }
+            NotesEvent.ToggleMarkPin -> {
+                _state.value = state.value.copy(
+                    isPinMarked = !state.value.isPinMarked
+                )
+            }
         }
     }
 
