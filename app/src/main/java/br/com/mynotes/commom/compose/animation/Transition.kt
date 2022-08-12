@@ -2,24 +2,17 @@ package br.com.mynotes.commom.compose.animation
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 
-internal val exitTransition =
+internal fun exitTransition(width: Int) =
     slideOutHorizontally(
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
-        )
-    ) + fadeOut(animationSpec = tween(300))
+        targetOffsetX = { width },
+        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+    )
 
-
-internal val popEnterTransition =
+internal fun enterTransition(width: Int) =
     slideInHorizontally(
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
-        )
-    ) + fadeIn(animationSpec = tween(300))
+        initialOffsetX = { width },
+        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
+    )

@@ -31,12 +31,12 @@ class MainActivity : ComponentActivity() {
                             home(
                                 navHostController = navController,
                                 onBackPressedDispatcher = onBackPressedDispatcher,
-                                with = constraints.maxWidth / 2
+                                with = constraints.maxWidth
                             )
                             noteDetail(
                                 navHostController = navController,
                                 onBackPressedDispatcher = onBackPressedDispatcher,
-                                with = constraints.maxWidth / 2
+                                with = constraints.maxWidth
                             )
                         }
 
