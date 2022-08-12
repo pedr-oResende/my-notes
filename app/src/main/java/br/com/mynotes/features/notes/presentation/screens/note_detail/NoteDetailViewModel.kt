@@ -3,29 +3,58 @@ package br.com.mynotes.features.notes.presentation.screens.note_detail
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
 import br.com.mynotes.features.notes.presentation.util.NoteDetailEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteDetailViewModel@Inject constructor(
+class NoteDetailViewModel @Inject constructor(
     private val noteDetailUseCases: NoteDetailUseCases
-): ViewModel() {
+) : ViewModel() {
     private val _state = mutableStateOf(NoteDetailState())
     val state: State<NoteDetailState> = _state
+
+    private val _eventFlow = MutableSharedFlow<UIEvents>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
+    private val timeInNote = System.currentTimeMillis()
 
     fun onEvent(event: NoteDetailEvent) {
         when (event) {
             is NoteDetailEvent.ArchiveNote -> {
-
+                viewModelScope.launch {
+                    noteDetailUseCases.archiveNoteUseCase(getNote())
+                    _eventFlow.emit(UIEvents.ProcessNote)
+                }
             }
             is NoteDetailEvent.DeleteNote -> {
-
+                viewModelScope.launch {
+                    noteDetailUseCases.deleteNoteUseCase(getNote().id)
+                    _eventFlow.emit(UIEvents.ProcessNote)
+                }
             }
             is NoteDetailEvent.SaveNote -> {
-
+                viewModelScope.launch {
+                    try {
+                        noteDetailUseCases.addNoteUseCase(getNote())
+                        _eventFlow.emit(UIEvents.ProcessNote)
+                    } catch(e: InvalidNoteException) {
+                        _eventFlow.emit(
+                            UIEvents.ShowSnackBar(
+                                message = e.message ?: "Não foi possível salvar a sua atonação"
+                            )
+                        )
+                    }
+                }
             }
             is NoteDetailEvent.ToggleMarkPin -> {
                 _state.value = state.value.copy(
@@ -46,8 +75,33 @@ class NoteDetailViewModel@Inject constructor(
     }
 
     fun loadNote(note: Note?) {
+        _state.value = state.value.copy(
+            note = note
+        )
         onEvent(NoteDetailEvent.TitleChanged(note?.title ?: ""))
         onEvent(NoteDetailEvent.ContentChanged(note?.content ?: ""))
+    }
+
+    private fun getTimeStamp() = System.currentTimeMillis() - timeInNote
+
+    private fun getCurrentDate(): String {
+        val createdAt = state.value.note?.createAt ?: ""
+        if (createdAt.isNotBlank())
+            return createdAt
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return sdf.format(Date())
+    }
+
+    private fun getNote(isArchived: Boolean = false): Note = state.value.let { state ->
+        Note(
+            id = state.note?.id,
+            title = state.title,
+            content = state.content,
+            isArchived = if (state.note?.isArchived == true) state.note.isArchived else isArchived,
+            isFixed = state.isPinMarked,
+            createAt = getCurrentDate(),
+            timestamp = getTimeStamp()
+        )
     }
 
 }

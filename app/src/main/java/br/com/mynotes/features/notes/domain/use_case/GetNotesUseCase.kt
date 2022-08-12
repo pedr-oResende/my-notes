@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 class GetNotesUseCase(
     private val repository: NoteRepository
 ) {
-    suspend operator fun invoke(): Flow<List<Note>> {
+    operator fun invoke(): Flow<List<Note>> {
         return repository.getNotes().map { notes ->
             notes.sortedBy { it.timestamp }
         }

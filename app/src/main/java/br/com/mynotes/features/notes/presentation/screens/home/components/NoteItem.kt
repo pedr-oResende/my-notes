@@ -67,7 +67,7 @@ fun NoteItem(
                     Icon(
                         modifier = Modifier.rotate(45f),
                         imageVector = Icons.Rounded.PushPin,
-                        tint = MaterialTheme.colors.onSurface,
+                        tint = MaterialTheme.colors.onPrimary,
                         contentDescription = null
                     )
                 }

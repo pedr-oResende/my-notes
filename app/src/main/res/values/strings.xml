@@ -5,5 +5,7 @@
 
     <string name="note_title_placeholder">Título</string>
     <string name="note_content_placeholder">Nota</string>
+    <string name="title_empty_error_message">Preencha o título</string>
+    <string name="content_empty_error_message">Preencha o corpo da nota</string>
 
 </resources>

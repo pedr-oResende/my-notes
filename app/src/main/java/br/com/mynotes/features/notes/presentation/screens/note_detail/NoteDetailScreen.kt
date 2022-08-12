@@ -4,9 +4,9 @@ import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.PushPin
@@ -25,6 +25,7 @@ import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.note_detail.components.CustomEditText
 import br.com.mynotes.features.notes.presentation.util.NoteDetailEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun NoteDetailScreen(
@@ -35,10 +36,34 @@ fun NoteDetailScreen(
 ) {
     MyNotesTheme {
         val state = viewModel.state.value
+        val scaffoldState = rememberScaffoldState()
         LaunchedEffect(key1 = true) {
             viewModel.loadNote(note)
+            viewModel.eventFlow.collectLatest { event ->
+                when (event) {
+                    UIEvents.ProcessNote -> {
+                        onBackPressedDispatcher.onBackPressed()
+                    }
+                    is UIEvents.ShowSnackBar -> {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = event.message
+                        )
+                    }
+                }
+            }
         }
         Scaffold(
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        viewModel.onEvent(NoteDetailEvent.SaveNote)
+                    },
+                    backgroundColor = MaterialTheme.colors.primary,
+                    contentColor = MaterialTheme.colors.onPrimary,
+                ) {
+                    Icon(imageVector = Icons.Default.Done, contentDescription = null)
+                }
+            },
             topBar = {
                 TopBar(
                     actions = {
@@ -53,24 +78,23 @@ fun NoteDetailScreen(
                         )
                         TopBarIcon(
                             onClick = {
-
+                                viewModel.onEvent(NoteDetailEvent.ArchiveNote)
                             },
                             imageVector = Icons.Outlined.Archive
                         )
                         TopBarIcon(
                             onClick = {
-                                viewModel.onEvent(NoteDetailEvent.DeleteNote(note))
-                                onBackPressedDispatcher.onBackPressed()
+                                viewModel.onEvent(NoteDetailEvent.DeleteNote)
                             },
                             imageVector = Icons.Outlined.Delete
                         )
                     },
                     onBackPressed = {
-                        // save note
                         onBackPressedDispatcher.onBackPressed()
                     }
                 )
-            }
+            },
+            scaffoldState = scaffoldState
         ) { padding ->
             Column(
                 modifier = Modifier

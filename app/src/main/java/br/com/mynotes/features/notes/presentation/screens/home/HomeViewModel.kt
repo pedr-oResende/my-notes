@@ -11,14 +11,11 @@ import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
-import br.com.mynotes.features.notes.presentation.model.StateUI
-import br.com.mynotes.features.notes.presentation.util.HomeEvent
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,15 +25,9 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val selectedNotes = mutableStateListOf<Int?>()
-
+    private var getNotesJob: Job? = null
     private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
-    private val _notesList = MutableStateFlow<StateUI<List<Note>>>(StateUI.Idle())
-    val notesList: StateFlow<StateUI<List<Note>>> = _notesList
-    private val _deleteNoteChannel = MutableStateFlow<StateUI<Long>>(StateUI.Idle())
-    val deleteNoteChannel: StateFlow<StateUI<Long>> = _deleteNoteChannel
-    private val _editNoteChannel = MutableStateFlow<StateUI<Long>>(StateUI.Idle())
-    val editNoteChannel: StateFlow<StateUI<Long>> = _editNoteChannel
 
     init {
         getNotes()
@@ -83,39 +74,23 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getNotes() {
-        viewModelScope.launch {
-            noteUseCases.getNotesUseCase().onStart {
-                _notesList.emit(StateUI.Processing())
-            }.catch {
-                _notesList.emit(StateUI.Error(it.message.toString()))
-            }.collect { data ->
-                val notes = getNoteListFiltered(data)
-                _notesList.emit(StateUI.Processed(notes))
-            }
-        }
+        getNotesJob?.cancel()
+        getNotesJob = noteUseCases.getNotesUseCase().onEach { notes ->
+            _state.value = state.value.copy(
+                notes = getNoteListFiltered(notes)
+            )
+        }.launchIn(viewModelScope)
     }
 
     private fun deleteNotes() {
         viewModelScope.launch {
-            noteUseCases.deleteNotesUseCase(getSelectedList()).onStart {
-                _deleteNoteChannel.emit(StateUI.Processing())
-            }.catch {
-                _deleteNoteChannel.emit(StateUI.Error(it.message.toString()))
-            }.collect { data ->
-                _deleteNoteChannel.emit(StateUI.Processed(data))
-            }
+            noteUseCases.deleteNotesUseCase(selectedNotes.toList())
         }
     }
 
     private fun editNotes() {
         viewModelScope.launch {
-            noteUseCases.archiveNotesUseCase(getSelectedList()).onStart {
-                _editNoteChannel.emit(StateUI.Processing())
-            }.catch {
-                _editNoteChannel.emit(StateUI.Error(it.message.toString()))
-            }.collect { data ->
-                _editNoteChannel.emit(StateUI.Processed(data))
-            }
+            noteUseCases.archiveNotesUseCase(getSelectedList())
         }
     }
 
@@ -175,26 +150,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getSelectedList(): List<Note> {
-        val list =  mutableListOf<Note>()
+        val list = mutableListOf<Note>()
         selectedNotes.forEach { id ->
-            if(id != null){
+            if (id != null) {
                 val note = noteUseCases.getNoteByIdUseCase(id)
                 if (note != null) list.add(note)
             }
         }
         return list
-    }
-
-    fun resolveHomeEvent(homeEvent: HomeEvent) {
-        when (homeEvent) {
-            HomeEvent.NoteDeleted -> {
-                refresh()
-                onNoteDeleted()
-            }
-            HomeEvent.Refresh -> {
-                refresh()
-            }
-        }
     }
 
     private fun onNoteDeleted() {

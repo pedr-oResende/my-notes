@@ -9,27 +9,20 @@ import br.com.mynotes.commom.compose.animation.exitTransition
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
 import br.com.mynotes.features.notes.presentation.screens.note_detail.NoteDetailScreen
-import br.com.mynotes.features.notes.presentation.util.HomeEvent
 import com.google.accompanist.navigation.animation.composable
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.home(
     navHostController: NavHostController,
-    onBackPressedDispatcher: OnBackPressedDispatcher,
-    with: Int
+    width: Int
 ) {
     composable(
         route = Screens.Home.route,
-        popExitTransition = { exitTransition(-with) },
-        enterTransition = { enterTransition(-with) }
+        popExitTransition = { exitTransition(-width) },
+        enterTransition = { enterTransition(-width) }
     ) {
-        val homeEvent = navHostController.previousBackStackEntry?.savedStateHandle?.get<HomeEvent>(
-            key = Screens.Home.argumentKey
-        )
         HomeScreen(
-            navHostController = navHostController,
-            onBackPressedDispatcher = onBackPressedDispatcher,
-            homeEvent = homeEvent
+            navHostController = navHostController
         )
     }
 }
@@ -38,12 +31,12 @@ fun NavGraphBuilder.home(
 fun NavGraphBuilder.noteDetail(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,
-    with: Int
+    width: Int
 ) {
     composable(
         route = Screens.NoteDetail.route,
-        popExitTransition = { exitTransition(with) },
-        enterTransition = { enterTransition(with) }
+        popExitTransition = { exitTransition(width) },
+        enterTransition = { enterTransition(width) }
     ) {
         val note = navHostController.previousBackStackEntry?.savedStateHandle?.get<Note>(
             key = Screens.NoteDetail.argumentKey
