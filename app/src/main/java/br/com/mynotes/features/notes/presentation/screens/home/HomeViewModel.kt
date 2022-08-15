@@ -1,7 +1,6 @@
 package br.com.mynotes.features.notes.presentation.screens.home
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,7 +28,6 @@ class HomeViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases
 ) : ViewModel() {
 
-    private val selectedNotes = mutableStateListOf<Note>()
     private var getNotesJob: Job? = null
     private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
@@ -61,7 +59,7 @@ class HomeViewModel @Inject constructor(
                 disableSelectedMode()
             }
             is NotesEvent.ArchiveNote -> {
-                editNotes(selectedNotes.map { note ->
+                editNotes(state.value.selectedNotes.map { note ->
                     note.copy(
                         isArchived = true
                     )
@@ -69,15 +67,17 @@ class HomeViewModel @Inject constructor(
                 disableSelectedMode()
             }
             is NotesEvent.RestoreNotes -> {
-                editNotes(selectedNotes)
+                editNotes(state.value.selectedNotes)
                 disableSelectedMode()
             }
             is NotesEvent.ToggleMarkPin -> {
-                editNotes(selectedNotes.map { note ->
-                    note.copy(
-                        isFixed = !note.isFixed
-                    )
-                })
+                state.value.selectedNotes.let { notes ->
+                    editNotes(notes.map { note ->
+                        note.copy(
+                            isFixed = !notes.all { it.isFixed }
+                        )
+                    })
+                }
                 disableSelectedMode()
             }
             is NotesEvent.OnNoteDeleted -> {
@@ -102,7 +102,7 @@ class HomeViewModel @Inject constructor(
 
     private fun deleteNotes() {
         viewModelScope.launch {
-            noteUseCases.deleteNotesUseCase(selectedNotes.map { it.id })
+            noteUseCases.deleteNotesUseCase(state.value.selectedNotes.map { it.id })
             _eventFlow.emit(
                 UIEvents.ShowUndoSnackBar(
                     text = "Algumas notas foram removidas",
@@ -128,17 +128,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun selectNote(note: Note) {
+        val selectedNotes = state.value.selectedNotes.toMutableList()
         if (selectedNotes.contains(note)) {
             selectedNotes.removeAll { it.id == note.id }
         } else {
             selectedNotes.add(note)
         }
         _state.value = state.value.copy(
-            isInSelectedMode = selectedNotes.isNotEmpty()
+            isInSelectedMode = selectedNotes.isNotEmpty(),
+            selectedNotes = selectedNotes,
+            isPinFilled = selectedNotes.all { it.isFixed }
         )
     }
 
-    fun isNoteSelected(note: Note): Boolean = selectedNotes.contains(note)
+    fun isNoteSelected(note: Note): Boolean = state.value.selectedNotes.contains(note)
 
     fun onItemLongClick(note: Note) {
         onEvent(NotesEvent.SelectNote(note))
@@ -156,10 +159,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun disableSelectedMode(cleanSelectedList: Boolean = true) {
-        _state.value = state.value.copy(
-            isInSelectedMode = false
-        )
+        val selectedNotes = state.value.selectedNotes.toMutableList()
         selectedNotes.removeAll { cleanSelectedList }
+        _state.value = state.value.copy(
+            isInSelectedMode = false,
+            selectedNotes = selectedNotes
+        )
     }
 
     fun goToDetail(navHostController: NavHostController, note: Note) {

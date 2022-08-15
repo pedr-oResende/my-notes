@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -53,7 +54,11 @@ fun HomeScreen(
                                         onClick = {
                                             viewModel.onEvent(NotesEvent.ToggleMarkPin)
                                         },
-                                        imageVector = Icons.Filled.PushPin
+                                        imageVector = if (state.isPinFilled) {
+                                            Icons.Filled.PushPin
+                                        } else {
+                                            Icons.Outlined.PushPin
+                                        }
                                     )
                                     TopBarIcon(
                                         onClick = {
