@@ -6,6 +6,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import br.com.mynotes.MyNotesApp
+import br.com.mynotes.R
+import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
@@ -14,6 +17,8 @@ import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,10 +29,13 @@ class HomeViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases
 ) : ViewModel() {
 
-    private val selectedNotes = mutableStateListOf<Int?>()
+    private val selectedNotes = mutableStateListOf<Note>()
     private var getNotesJob: Job? = null
     private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
+
+    private val _eventFlow = MutableSharedFlow<UIEvents>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         getNotes()
@@ -41,34 +49,44 @@ class HomeViewModel @Inject constructor(
         when (event) {
             is NotesEvent.DeleteNote -> {
                 deleteNotes()
+                disableSelectedMode(cleanSelectedList = false)
             }
             is NotesEvent.SelectNote -> {
-                selectNote(event.noteId)
+                selectNote(event.note)
             }
             is NotesEvent.ToggleListView -> {
                 toggleListView()
             }
             is NotesEvent.ToggleCloseSelection -> {
                 disableSelectedMode()
-                if (event.cleanList)
-                    cleanSelectedList()
             }
             is NotesEvent.ArchiveNote -> {
-                editNotes()
+                editNotes(selectedNotes.map { note ->
+                    note.copy(
+                        isArchived = true
+                    )
+                })
+                disableSelectedMode()
             }
             is NotesEvent.RestoreNotes -> {
-                editNotes()
+                editNotes(selectedNotes)
+                disableSelectedMode()
             }
-            is NotesEvent.PinNote -> {
-                editNotes()
+            is NotesEvent.ToggleMarkPin -> {
+                editNotes(selectedNotes.map { note ->
+                    note.copy(
+                        isFixed = !note.isFixed
+                    )
+                })
+                disableSelectedMode()
             }
-            NotesEvent.ToggleMarkPin -> {
-                _state.value = state.value.copy(
-                    togglePin = !state.value.togglePin
-                )
-            }
-            NotesEvent.OnNoteDeleted -> {
+            is NotesEvent.OnNoteDeleted -> {
                 onNoteDeleted()
+            }
+            is NotesEvent.ToggleMenuMore -> {
+                _state.value = state.value.copy(
+                    showMenuMore = !state.value.showMenuMore
+                )
             }
         }
     }
@@ -84,35 +102,46 @@ class HomeViewModel @Inject constructor(
 
     private fun deleteNotes() {
         viewModelScope.launch {
-            noteUseCases.deleteNotesUseCase(selectedNotes.toList())
+            noteUseCases.deleteNotesUseCase(selectedNotes.map { it.id })
+            _eventFlow.emit(
+                UIEvents.ShowUndoSnackBar(
+                    text = "Algumas notas foram removidas",
+                    label = "Desfazer"
+                )
+            )
         }
     }
 
-    private fun editNotes() {
+    private fun editNotes(notes: List<Note>) {
         viewModelScope.launch {
-            noteUseCases.archiveNotesUseCase(getSelectedList())
+            try {
+                noteUseCases.editNotesUseCase(notes)
+            } catch (e: InvalidNoteException) {
+                _eventFlow.emit(
+                    UIEvents.ShowSnackBar(
+                        message = e.message ?: MyNotesApp.getContext()
+                            ?.getString(R.string.save_note_error_message) ?: ""
+                    )
+                )
+            }
         }
     }
 
-    fun refresh() {
-        getNotes()
-    }
-
-    private fun selectNote(noteId: Int?) {
-        if (selectedNotes.contains(noteId)) {
-            selectedNotes.remove(noteId)
+    private fun selectNote(note: Note) {
+        if (selectedNotes.contains(note)) {
+            selectedNotes.removeAll { it.id == note.id }
         } else {
-            selectedNotes.add(noteId)
+            selectedNotes.add(note)
         }
         _state.value = state.value.copy(
             isInSelectedMode = selectedNotes.isNotEmpty()
         )
     }
 
-    fun isNoteSelected(note: Note): Boolean = selectedNotes.contains(note.id)
+    fun isNoteSelected(note: Note): Boolean = selectedNotes.contains(note)
 
-    fun onItemLongClick(noteId: Int?) {
-        onEvent(NotesEvent.SelectNote(noteId))
+    fun onItemLongClick(note: Note) {
+        onEvent(NotesEvent.SelectNote(note))
     }
 
     private fun toggleListView() {
@@ -126,14 +155,11 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun disableSelectedMode() {
+    private fun disableSelectedMode(cleanSelectedList: Boolean = true) {
         _state.value = state.value.copy(
             isInSelectedMode = false
         )
-    }
-
-    fun cleanSelectedList() {
-        selectedNotes.removeAll { true }
+        selectedNotes.removeAll { cleanSelectedList }
     }
 
     fun goToDetail(navHostController: NavHostController, note: Note) {
@@ -147,17 +173,6 @@ class HomeViewModel @Inject constructor(
         return notes.filter { note ->
             !note.isArchived
         }
-    }
-
-    private suspend fun getSelectedList(): List<Note> {
-        val list = mutableListOf<Note>()
-        selectedNotes.forEach { id ->
-            if (id != null) {
-                val note = noteUseCases.getNoteByIdUseCase(id)
-                if (note != null) list.add(note)
-            }
-        }
-        return list
     }
 
     private fun onNoteDeleted() {

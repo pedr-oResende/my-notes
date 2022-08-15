@@ -29,7 +29,7 @@ fun LinearNotesList(
                 isSelected = viewModel.isNoteSelected(note),
                 onClick = {
                     if (viewModel.state.value.isInSelectedMode)
-                        viewModel.onEvent(NotesEvent.SelectNote(note.id))
+                        viewModel.onEvent(NotesEvent.SelectNote(note))
                     else
                         viewModel.goToDetail(
                             navHostController = navHostController,
@@ -37,7 +37,7 @@ fun LinearNotesList(
                         )
                 },
                 onLongClick = {
-                    viewModel.onItemLongClick(note.id)
+                    viewModel.onItemLongClick(note)
                 }
             )
         }

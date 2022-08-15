@@ -6,7 +6,7 @@ data class NotesState(
     val notes: List<Note> = emptyList(),
     val isInGridMode: Boolean = true,
     val isInSelectedMode: Boolean = false,
-    val togglePin: Boolean = false,
     val aNoteHasBeenDeleted: Boolean = false,
-    val isInFixedMode: Boolean = false
+    val isInFixedMode: Boolean = false,
+    val showMenuMore: Boolean = false
 )

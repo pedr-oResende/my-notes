@@ -4,6 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.mynotes.MyNotesApp
+import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
@@ -32,7 +34,9 @@ class NoteDetailViewModel @Inject constructor(
         when (event) {
             is NoteDetailEvent.ArchiveNote -> {
                 viewModelScope.launch {
-                    noteDetailUseCases.archiveNoteUseCase(getNote())
+                    noteDetailUseCases.archiveNoteUseCase(getNote().copy(
+                        isArchived = true
+                    ))
                     _eventFlow.emit(UIEvents.ProcessNote)
                 }
             }
@@ -50,7 +54,7 @@ class NoteDetailViewModel @Inject constructor(
                     } catch(e: InvalidNoteException) {
                         _eventFlow.emit(
                             UIEvents.ShowSnackBar(
-                                message = e.message ?: "Não foi possível salvar a sua atonação"
+                                message = e.message ?: MyNotesApp.getContext()?.getString(R.string.save_note_error_message) ?: ""
                             )
                         )
                     }
@@ -76,10 +80,11 @@ class NoteDetailViewModel @Inject constructor(
 
     fun loadNote(note: Note?) {
         _state.value = state.value.copy(
-            note = note
+            note = note,
+            title = note?.title ?: "",
+            content = note?.content ?: "",
+            isPinMarked = note?.isFixed ?: state.value.isPinMarked
         )
-        onEvent(NoteDetailEvent.TitleChanged(note?.title ?: ""))
-        onEvent(NoteDetailEvent.ContentChanged(note?.content ?: ""))
     }
 
     private fun getTimeStamp() = System.currentTimeMillis() - timeInNote
@@ -92,12 +97,12 @@ class NoteDetailViewModel @Inject constructor(
         return sdf.format(Date())
     }
 
-    private fun getNote(isArchived: Boolean = false): Note = state.value.let { state ->
+    private fun getNote(): Note = state.value.let { state ->
         Note(
             id = state.note?.id,
             title = state.title,
             content = state.content,
-            isArchived = if (state.note?.isArchived == true) state.note.isArchived else isArchived,
+            isArchived = state.note?.isArchived ?: false,
             isFixed = state.isPinMarked,
             createAt = getCurrentDate(),
             timestamp = getTimeStamp()

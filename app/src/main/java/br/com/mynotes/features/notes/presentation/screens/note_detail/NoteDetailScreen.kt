@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.PushPin
-import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -72,7 +72,7 @@ fun NoteDetailScreen(
                                 viewModel.onEvent(NoteDetailEvent.ToggleMarkPin)
                             },
                             imageVector = if (state.isPinMarked)
-                                Icons.Rounded.PushPin
+                                Icons.Filled.PushPin
                             else
                                 Icons.Outlined.PushPin
                         )

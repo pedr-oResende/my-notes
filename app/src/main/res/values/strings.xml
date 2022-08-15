@@ -7,5 +7,8 @@
     <string name="note_content_placeholder">Nota</string>
     <string name="title_empty_error_message">Preencha o título</string>
     <string name="content_empty_error_message">Preencha o corpo da nota</string>
+    <string name="dropdown_label_archive">Arquivar</string>
+    <string name="dropdown_label_delete">Deletar</string>
+    <string name="save_note_error_message">Não foi possível salvar a sua atonação</string>
 
 </resources>
