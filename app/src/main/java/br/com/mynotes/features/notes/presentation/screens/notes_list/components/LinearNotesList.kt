@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home.components
+package br.com.mynotes.features.notes.presentation.screens.notes_list.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -10,14 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
+import br.com.mynotes.features.notes.presentation.screens.notes_list.NotesListViewModel
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 
 @Composable
 fun LinearNotesList(
     modifier: Modifier = Modifier,
     notes: List<Note>,
-    viewModel: HomeViewModel,
+    viewModel: NotesListViewModel,
     navHostController: NavHostController
 ) {
     LazyColumn(modifier = modifier) {

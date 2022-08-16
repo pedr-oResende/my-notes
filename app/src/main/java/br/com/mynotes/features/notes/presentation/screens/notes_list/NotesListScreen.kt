@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home
+package br.com.mynotes.features.notes.presentation.screens.notes_list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -17,19 +17,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.presentation.screens.home.components.GridNotesList
-import br.com.mynotes.features.notes.presentation.screens.home.components.LinearNotesList
+import br.com.mynotes.features.notes.presentation.screens.notes_list.components.GridNotesList
+import br.com.mynotes.features.notes.presentation.screens.notes_list.components.LinearNotesList
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun HomeScreen(
+fun NotesListScreen(
     navHostController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: NotesListViewModel = hiltViewModel()
 ) {
     MyNotesTheme {
         val state = viewModel.state.value
@@ -141,20 +142,35 @@ fun HomeScreen(
                         }
                     }
                 }
-                if (state.isInGridMode) {
-                    GridNotesList(
-                        notes = notes,
-                        viewModel = viewModel,
-                        navHostController = navHostController
-                    )
-                } else {
-                    LinearNotesList(
-                        notes = notes,
-                        viewModel = viewModel,
-                        navHostController = navHostController
-                    )
-                }
+                NotesList(
+                    state = state,
+                    notes = notes,
+                    viewModel = viewModel,
+                    navHostController = navHostController
+                )
             }
         }
+    }
+}
+
+@Composable
+fun NotesList(
+    state: NotesState,
+    notes: List<Note>,
+    viewModel: NotesListViewModel,
+    navHostController: NavHostController
+) {
+    if (state.isInGridMode) {
+        GridNotesList(
+            notes = notes,
+            viewModel = viewModel,
+            navHostController = navHostController
+        )
+    } else {
+        LinearNotesList(
+            notes = notes,
+            viewModel = viewModel,
+            navHostController = navHostController
+        )
     }
 }

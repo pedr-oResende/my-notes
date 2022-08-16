@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.presentation.compose.animation.enterTransition
 import br.com.mynotes.features.notes.presentation.compose.animation.exitTransition
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
+import br.com.mynotes.features.notes.presentation.screens.notes_list.NotesListScreen
 import br.com.mynotes.features.notes.presentation.screens.note_detail.NoteDetailScreen
 import com.google.accompanist.navigation.animation.composable
 
@@ -21,7 +21,7 @@ fun NavGraphBuilder.home(
         popExitTransition = { exitTransition(-width) },
         enterTransition = { enterTransition(-width) }
     ) {
-        HomeScreen(
+        NotesListScreen(
             navHostController = navHostController
         )
     }
