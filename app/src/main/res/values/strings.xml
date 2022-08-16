@@ -10,5 +10,9 @@
     <string name="dropdown_label_archive">Arquivar</string>
     <string name="dropdown_label_delete">Deletar</string>
     <string name="save_note_error_message">Não foi possível salvar a sua atonação</string>
+    <string name="notes_list_fixed_label">Marcadas</string>
+    <string name="notes_list_others_label">Outras</string>
+    <string name="notes_list_notes_removed_message">Algumas notas foram removidas</string>
+    <string name="label_undo">Desfazer</string>
 
 </resources>

@@ -10,5 +10,9 @@
     <string name="dropdown_label_archive">Archivar</string>
     <string name="dropdown_label_delete">Borrar</string>
     <string name="save_note_error_message">No se pudo guardar tu tono</string>
+    <string name="notes_list_fixed_label">Marcadas</string>
+    <string name="notes_list_others_label">Otros</string>
+    <string name="notes_list_notes_removed_message">Algunas notas han sido eliminadas</string>
+    <string name="label_undo">Deshacer</string>
 
 </resources>

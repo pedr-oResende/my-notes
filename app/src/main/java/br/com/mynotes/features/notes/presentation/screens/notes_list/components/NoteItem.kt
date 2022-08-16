@@ -54,24 +54,11 @@ fun NoteItem(
                 .fillMaxWidth()
                 .padding(all = 16.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = note.title,
-                    style = MaterialTheme.typography.h5,
-                    color = MaterialTheme.colors.onPrimary
-                )
-                if (note.isFixed) {
-                    Icon(
-                        modifier = Modifier.rotate(45f),
-                        imageVector = Icons.Rounded.PushPin,
-                        tint = MaterialTheme.colors.onPrimary,
-                        contentDescription = null
-                    )
-                }
-            }
+            Text(
+                text = note.title,
+                style = MaterialTheme.typography.h5,
+                color = MaterialTheme.colors.onPrimary
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = note.content,

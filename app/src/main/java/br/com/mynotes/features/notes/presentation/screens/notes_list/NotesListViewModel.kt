@@ -101,12 +101,13 @@ class NotesListViewModel @Inject constructor(
     }
 
     private fun deleteNotes() {
+        val context = MyNotesApp.getContext()!!
         viewModelScope.launch {
             noteUseCases.deleteNotesUseCase(state.value.selectedNotes.map { it.id })
             _eventFlow.emit(
                 UIEvents.ShowUndoSnackBar(
-                    text = "Algumas notas foram removidas",
-                    label = "Desfazer"
+                    text = context.getString(R.string.notes_list_notes_removed_message),
+                    label = context.getString(R.string.label_undo)
                 )
             )
         }

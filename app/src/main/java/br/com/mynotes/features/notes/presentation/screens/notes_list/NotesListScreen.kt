@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
@@ -142,12 +143,39 @@ fun NotesListScreen(
                         }
                     }
                 }
-                NotesList(
-                    state = state,
-                    notes = notes,
-                    viewModel = viewModel,
-                    navHostController = navHostController
-                )
+                val fixedNotes = notes.filter { it.isFixed }
+                val otherNotes = notes.filter { !it.isFixed }
+                if (fixedNotes.isNotEmpty()) {
+                    Text(
+                        text = stringResource(R.string.notes_list_fixed_label),
+                        style = MaterialTheme.typography.body2,
+                        modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+                    )
+                    NotesList(
+                        state = state,
+                        notes = fixedNotes,
+                        viewModel = viewModel,
+                        navHostController = navHostController
+                    )
+                    Text(
+                        text = stringResource(R.string.notes_list_others_label),
+                        style = MaterialTheme.typography.body2,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                    NotesList(
+                        state = state,
+                        notes = otherNotes,
+                        viewModel = viewModel,
+                        navHostController = navHostController
+                    )
+                } else {
+                    NotesList(
+                        state = state,
+                        notes = notes,
+                        viewModel = viewModel,
+                        navHostController = navHostController
+                    )
+                }
             }
         }
     }
