@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.BoxWithConstraints
-import br.com.mynotes.commom.compose.navigation.Screens
-import br.com.mynotes.commom.compose.navigation.home
-import br.com.mynotes.commom.compose.navigation.noteDetail
+import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
+import br.com.mynotes.features.notes.presentation.compose.navigation.home
+import br.com.mynotes.features.notes.presentation.compose.navigation.noteDetail
 import br.com.mynotes.ui.theme.MyNotesTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

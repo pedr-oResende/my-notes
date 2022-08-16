@@ -1,4 +1,4 @@
-package br.com.mynotes.commom.compose.widgets
+package br.com.mynotes.features.notes.presentation.compose.widgets
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon

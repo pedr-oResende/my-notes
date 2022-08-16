@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
-import br.com.mynotes.commom.compose.widgets.TopBar
-import br.com.mynotes.commom.compose.widgets.TopBarIcon
+import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
+import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.note_detail.components.CustomEditText
 import br.com.mynotes.features.notes.presentation.util.NoteDetailEvent

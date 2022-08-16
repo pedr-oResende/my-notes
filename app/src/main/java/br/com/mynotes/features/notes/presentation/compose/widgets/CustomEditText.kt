@@ -1,4 +1,4 @@
-package br.com.mynotes.commom.compose.widgets
+package br.com.mynotes.features.notes.presentation.compose.widgets
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape

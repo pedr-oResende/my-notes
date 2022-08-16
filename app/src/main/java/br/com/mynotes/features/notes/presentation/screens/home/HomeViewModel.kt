@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import br.com.mynotes.MyNotesApp
 import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
-import br.com.mynotes.commom.compose.navigation.Screens
+import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note

@@ -1,11 +1,10 @@
-package br.com.mynotes.commom.compose.widgets
+package br.com.mynotes.features.notes.presentation.compose.widgets
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
