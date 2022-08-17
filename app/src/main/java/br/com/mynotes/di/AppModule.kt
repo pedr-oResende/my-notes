@@ -23,7 +23,7 @@ object AppModule {
             app,
             NoteDatabase::class.java,
             NoteDatabase.DATABASE_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
@@ -38,7 +38,7 @@ object AppModule {
         return NoteUseCases(
             getNotesUseCase = GetNotesUseCase(repository),
             deleteNotesUseCase = DeleteNotesUseCase(repository),
-            editNotesUseCase = EditNotesUseCase(repository),
+            updateNotesUseCase = AddNoteUseCase(repository),
             getNoteByIdUseCase = GetNoteByIdUseCase(repository)
         )
     }

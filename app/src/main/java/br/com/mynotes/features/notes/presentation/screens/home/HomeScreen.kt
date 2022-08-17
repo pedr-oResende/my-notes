@@ -24,7 +24,7 @@ import br.com.mynotes.features.notes.presentation.compose.components.NotesList
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.presentation.util.NotesEvent
+import br.com.mynotes.features.notes.presentation.util.HomeEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -33,8 +33,15 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navHostController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    snackBarMessage: String
 ) {
+    LaunchedEffect(key1 = true) {
+        if (snackBarMessage.isNotBlank())
+        scaffoldState.snackbarHostState.showSnackbar(
+            message = snackBarMessage
+        )
+    }
     MyNotesTheme {
         val notesUI = viewModel.notesUI.value
         val scope = rememberCoroutineScope()
@@ -53,14 +60,14 @@ fun HomeScreen(
                             ) {
                                 TopBarIcon(
                                     onClick = {
-                                        viewModel.onEvent(NotesEvent.ToggleCloseSelection)
+                                        viewModel.onEvent(HomeEvent.ToggleCloseSelection)
                                     },
                                     imageVector = Icons.Filled.Close
                                 )
                                 Row {
                                     TopBarIcon(
                                         onClick = {
-                                            viewModel.onEvent(NotesEvent.ToggleMarkPin)
+                                            viewModel.onEvent(HomeEvent.ToggleMarkPin)
                                         },
                                         imageVector = if (notesUI.isPinFilled) {
                                             Icons.Filled.PushPin
@@ -70,15 +77,15 @@ fun HomeScreen(
                                     )
                                     TopBarIcon(
                                         onClick = {
-                                            viewModel.onEvent(NotesEvent.ToggleMenuMore)
+                                            viewModel.onEvent(HomeEvent.ToggleMenuMore)
                                         },
                                         imageVector = Icons.Filled.MoreVert
                                     )
                                     DropdownMenu(
                                         expanded = notesUI.showMenuMore,
-                                        onDismissRequest = { viewModel.onEvent(NotesEvent.ToggleMenuMore) }) {
+                                        onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
                                         DropdownMenuItem(onClick = {
-                                            viewModel.onEvent(NotesEvent.ArchiveNote)
+                                            viewModel.onEvent(HomeEvent.ArchiveNote)
                                         }) {
                                             Text(
                                                 text = stringResource(R.string.dropdown_label_archive),
@@ -86,7 +93,7 @@ fun HomeScreen(
                                             )
                                         }
                                         DropdownMenuItem(onClick = {
-                                            viewModel.onEvent(NotesEvent.DeleteNote)
+                                            viewModel.onEvent(HomeEvent.DeleteNote)
                                         }) {
                                             Text(
                                                 text = stringResource(R.string.dropdown_label_delete),
@@ -121,7 +128,7 @@ fun HomeScreen(
                                 Row {
                                     TopBarIcon(
                                         onClick = {
-                                            viewModel.onEvent(NotesEvent.ToggleListView)
+                                            viewModel.onEvent(HomeEvent.ToggleListView)
                                         },
                                         imageVector = if (notesUI.isInGridMode)
                                             Icons.Outlined.ViewAgenda
@@ -161,7 +168,7 @@ fun HomeScreen(
                                     actionLabel = event.label
                                 )
                                 if (result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onEvent(NotesEvent.RestoreNotes)
+                                    viewModel.onEvent(HomeEvent.RestoreNotes)
                                 }
                             }
                         }
@@ -171,7 +178,7 @@ fun HomeScreen(
                 val otherNotes = notes.filter { !it.isFixed }
                 val onItemClick: (Note) -> Unit = { note ->
                     if (notesUI.isInSelectedMode)
-                        viewModel.onEvent(NotesEvent.SelectNote(note))
+                        viewModel.onEvent(HomeEvent.SelectNote(note))
                     else
                         viewModel.goToDetail(
                             navHostController = navHostController,
@@ -193,17 +200,19 @@ fun HomeScreen(
                         onItemClick = onItemClick,
                         onItemLongClick = onItemLongClick
                     )
-                    Text(
-                        text = stringResource(R.string.notes_list_others_label),
-                        style = MaterialTheme.typography.body2,
-                        modifier = Modifier.padding(start = 16.dp)
-                    )
-                    NotesList(
-                        isInGridMode = notesUI.isInGridMode,
-                        notes = otherNotes,
-                        onItemClick = onItemClick,
-                        onItemLongClick = onItemLongClick
-                    )
+                    if (otherNotes.isNotEmpty()) {
+                        Text(
+                            text = stringResource(R.string.notes_list_others_label),
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                        NotesList(
+                            isInGridMode = notesUI.isInGridMode,
+                            notes = otherNotes,
+                            onItemClick = onItemClick,
+                            onItemLongClick = onItemLongClick
+                        )
+                    }
                 } else {
                     NotesList(
                         isInGridMode = notesUI.isInGridMode,

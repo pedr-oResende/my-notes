@@ -32,22 +32,22 @@ sealed class Screens(val route: String, val argumentKey: String) {
 
     object Home : Screens(
         route = "home",
-        argumentKey = "home"
+        argumentKey = "home_argument"
     )
 
     object Archive : Screens(
         route = "archive",
-        argumentKey = "archive"
+        argumentKey = "archive_argument"
     )
 
     object TrashCan : Screens(
         route = "trash_can",
-        argumentKey = "trash_can"
+        argumentKey = "trash_can_argument"
     )
 
     object NoteDetail : Screens(
         route = "note_detail",
-        argumentKey = "note_detail"
+        argumentKey = "note_detail_argument"
     )
 
 }

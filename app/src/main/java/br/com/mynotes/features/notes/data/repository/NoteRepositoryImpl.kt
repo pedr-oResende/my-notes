@@ -24,4 +24,9 @@ class NoteRepositoryImpl(
     override suspend fun deleteNote(id: Int?) {
         dao.deleteNote(id)
     }
+
+    override suspend fun deleteMultipleNotes(ids: List<Int?>) {
+        dao.deleteMultipleNotes(ids)
+    }
+
 }

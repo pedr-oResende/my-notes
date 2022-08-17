@@ -13,7 +13,7 @@ import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
-import br.com.mynotes.features.notes.presentation.util.NotesEvent
+import br.com.mynotes.features.notes.presentation.util.HomeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -44,23 +44,28 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun onEvent(event: NotesEvent) {
+    fun onEvent(event: HomeEvent) {
         when (event) {
-            is NotesEvent.DeleteNote -> {
+            is HomeEvent.DeleteNote -> {
                 recentlyDeletedNotes.addAll(selectedNotes())
                 deleteNotes()
                 disableSelectedMode()
             }
-            is NotesEvent.SelectNote -> {
-                selectNote(event.note)
-            }
-            is NotesEvent.ToggleListView -> {
-                toggleListView()
-            }
-            is NotesEvent.ToggleCloseSelection -> {
+            is HomeEvent.RestoreNotes -> {
+                editNotes(recentlyDeletedNotes)
+                recentlyDeletedNotes.removeAll { true }
                 disableSelectedMode()
             }
-            is NotesEvent.ArchiveNote -> {
+            is HomeEvent.SelectNote -> {
+                selectNote(event.note)
+            }
+            is HomeEvent.ToggleListView -> {
+                toggleListView()
+            }
+            is HomeEvent.ToggleCloseSelection -> {
+                disableSelectedMode()
+            }
+            is HomeEvent.ArchiveNote -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
                         isArchived = true
@@ -68,12 +73,7 @@ class HomeViewModel @Inject constructor(
                 })
                 disableSelectedMode()
             }
-            is NotesEvent.RestoreNotes -> {
-                editNotes(recentlyDeletedNotes)
-                recentlyDeletedNotes.removeAll { true }
-                disableSelectedMode()
-            }
-            is NotesEvent.ToggleMarkPin -> {
+            is HomeEvent.ToggleMarkPin -> {
                 selectedNotes().let { notes ->
                     editNotes(notes.map { note ->
                         note.copy(
@@ -83,10 +83,10 @@ class HomeViewModel @Inject constructor(
                 }
                 disableSelectedMode()
             }
-            is NotesEvent.OnNoteDeleted -> {
+            is HomeEvent.OnNoteDeleted -> {
                 onNoteDeleted()
             }
-            is NotesEvent.ToggleMenuMore -> {
+            is HomeEvent.ToggleMenuMore -> {
                 _notesUI.value = notesUI.value.copy(
                     showMenuMore = !notesUI.value.showMenuMore
                 )
@@ -117,16 +117,18 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun editNotes(notes: List<Note>) {
-        viewModelScope.launch {
-            try {
-                noteUseCases.editNotesUseCase(notes)
-            } catch (e: InvalidNoteException) {
-                _eventFlow.emit(
-                    NotesEvents.ShowSnackBar(
-                        message = e.message ?: MyNotesApp.getContext()
-                            ?.getString(R.string.save_note_error_message) ?: ""
+        notes.forEach { note ->
+            viewModelScope.launch {
+                try {
+                    noteUseCases.updateNotesUseCase(note)
+                } catch (e: InvalidNoteException) {
+                    _eventFlow.emit(
+                        NotesEvents.ShowSnackBar(
+                            message = e.message ?: MyNotesApp.getContext()
+                                ?.getString(R.string.save_note_error_message) ?: ""
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -147,7 +149,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onItemLongClick(note: Note) {
-        onEvent(NotesEvent.SelectNote(note))
+        onEvent(HomeEvent.SelectNote(note))
     }
 
     private fun toggleListView() {

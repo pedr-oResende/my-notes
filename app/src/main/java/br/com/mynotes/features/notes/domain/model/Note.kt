@@ -2,6 +2,7 @@ package br.com.mynotes.features.notes.domain.model
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
@@ -15,8 +16,27 @@ data class Note(
     val timestamp: Long,
     val isArchived: Boolean,
     val isFixed: Boolean,
-    val isSelected: Boolean
-) : Parcelable
+    @Ignore val isSelected: Boolean
+) : Parcelable {
+    constructor(
+        id: Int?,
+        title: String,
+        content: String,
+        createAt: String,
+        timestamp: Long,
+        isArchived: Boolean,
+        isFixed: Boolean
+    ) : this(
+        id = id,
+        title = title,
+        content = content,
+        createAt = createAt,
+        timestamp = timestamp,
+        isArchived = isArchived,
+        isFixed = isFixed,
+        isSelected = false
+    )
+}
 
 val notes = listOf(
     Note(

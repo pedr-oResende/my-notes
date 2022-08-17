@@ -4,8 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.mynotes.MyNotesApp
-import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
@@ -52,11 +50,7 @@ class NoteDetailViewModel @Inject constructor(
                         noteDetailUseCases.addNoteUseCase(getNote())
                         _eventFlow.emit(NotesDetailEvents.ProcessNote)
                     } catch(e: InvalidNoteException) {
-                        _eventFlow.emit(
-                            NotesDetailEvents.ShowSnackBar(
-                                message = e.message ?: MyNotesApp.getContext()?.getString(R.string.save_note_error_message) ?: ""
-                            )
-                        )
+                        _eventFlow.emit(NotesDetailEvents.EmptyNote)
                     }
                 }
             }
@@ -81,8 +75,8 @@ class NoteDetailViewModel @Inject constructor(
     fun loadNote(note: Note?) {
         _noteDetailUI.value = noteDetailUI.value.copy(
             note = note,
-            title = note?.title ?: "",
-            content = note?.content ?: "",
+            title = note?.title ?: noteDetailUI.value.title,
+            content = note?.content ?: noteDetailUI.value.content,
             isPinMarked = note?.isFixed ?: noteDetailUI.value.isPinMarked
         )
     }

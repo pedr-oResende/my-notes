@@ -6,9 +6,7 @@ import br.com.mynotes.features.notes.domain.repository.NoteRepository
 class EditNotesUseCase(
     private val repository: NoteRepository
 ) {
-    suspend operator fun invoke(notes: List<Note>) {
-        notes.forEach { note ->
-            repository.insertNote(note)
-        }
+    suspend operator fun invoke(note: Note) {
+        repository.insertNote(note)
     }
 }

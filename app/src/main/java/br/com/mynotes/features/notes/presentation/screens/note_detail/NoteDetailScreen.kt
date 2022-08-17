@@ -1,12 +1,14 @@
 package br.com.mynotes.features.notes.presentation.screens.note_detail
 
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
@@ -14,14 +16,16 @@ import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.domain.model.Note
+import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.note_detail.components.CustomEditText
 import br.com.mynotes.features.notes.presentation.util.NoteDetailEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
@@ -37,33 +41,37 @@ fun NoteDetailScreen(
 ) {
     MyNotesTheme {
         val state = viewModel.noteDetailUI.value
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewModel.onEvent(NoteDetailEvent.SaveNote)
+            }
+        })
+        val context = LocalContext.current
         LaunchedEffect(key1 = true) {
             viewModel.loadNote(note)
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    NotesDetailEvents.ProcessNote -> {
-                        onBackPressedDispatcher.onBackPressed()
+                    is NotesDetailEvents.ProcessNote -> {
+                        Screens.Home.navigateWithArgument(
+                            navHostController = navHostController,
+                            argumentValue  = null
+                        )
                     }
                     is NotesDetailEvents.ShowSnackBar -> {
                         scaffoldState.snackbarHostState.showSnackbar(
                             message = event.message
                         )
                     }
+                    is NotesDetailEvents.EmptyNote -> {
+                        Screens.Home.navigateWithArgument(
+                            navHostController = navHostController,
+                            argumentValue  = context.getString(R.string.empty_nome_message)
+                        )
+                    }
                 }
             }
         }
         Scaffold(
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        viewModel.onEvent(NoteDetailEvent.SaveNote)
-                    },
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = MaterialTheme.colors.onPrimary,
-                ) {
-                    Icon(imageVector = Icons.Default.Done, contentDescription = null)
-                }
-            },
             topBar = {
                 TopBar(
                     actions = {

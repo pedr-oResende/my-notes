@@ -4,6 +4,7 @@ import androidx.room.*
 import br.com.mynotes.features.notes.domain.model.Note
 import kotlinx.coroutines.flow.Flow
 
+
 @Dao
 interface NoteDao {
 
@@ -18,4 +19,8 @@ interface NoteDao {
 
     @Query("DELETE FROM note WHERE id = :id")
     suspend fun deleteNote(id: Int?)
+
+    @Query("DELETE FROM note WHERE id IN (:ids)")
+    suspend fun deleteMultipleNotes(ids: List<Int?>)
+
 }

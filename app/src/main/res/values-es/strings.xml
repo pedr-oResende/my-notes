@@ -17,5 +17,6 @@
     <string name="menu_item_home">Home</string>
     <string name="menu_item_archive">Archivado</string>
     <string name="menu_item_trash_can">Bote de basura</string>
+    <string name="empty_nome_message">Nota vacía descartada</string>
 
 </resources>

@@ -17,11 +17,15 @@ fun NavGraphBuilder.home(
     scaffoldState: ScaffoldState
 ) {
     composable(
-        route = Screens.Home.route
+        route = Screens.Home.route,
     ) {
+        val snackBarMessage = navHostController.previousBackStackEntry?.savedStateHandle?.get(
+            key = Screens.Home.argumentKey
+        ) ?: ""
         HomeScreen(
             navHostController = navHostController,
-            scaffoldState = scaffoldState
+            scaffoldState = scaffoldState,
+            snackBarMessage = snackBarMessage
         )
     }
 }
