@@ -20,11 +20,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.domain.model.Note
+import br.com.mynotes.features.notes.presentation.compose.components.NotesList
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.presentation.screens.home.components.GridNotesList
-import br.com.mynotes.features.notes.presentation.screens.home.components.LinearNotesList
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -37,12 +36,12 @@ fun HomeScreen(
     scaffoldState: ScaffoldState
 ) {
     MyNotesTheme {
-        val state = viewModel.notesUI.value
+        val notesUI = viewModel.notesUI.value
         val scope = rememberCoroutineScope()
         Scaffold(
             topBar = {
                 AnimatedVisibility(
-                    visible = state.isInSelectedMode,
+                    visible = notesUI.isInSelectedMode,
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
@@ -63,7 +62,7 @@ fun HomeScreen(
                                         onClick = {
                                             viewModel.onEvent(NotesEvent.ToggleMarkPin)
                                         },
-                                        imageVector = if (state.isPinFilled) {
+                                        imageVector = if (notesUI.isPinFilled) {
                                             Icons.Filled.PushPin
                                         } else {
                                             Icons.Outlined.PushPin
@@ -76,7 +75,7 @@ fun HomeScreen(
                                         imageVector = Icons.Filled.MoreVert
                                     )
                                     DropdownMenu(
-                                        expanded = state.showMenuMore,
+                                        expanded = notesUI.showMenuMore,
                                         onDismissRequest = { viewModel.onEvent(NotesEvent.ToggleMenuMore) }) {
                                         DropdownMenuItem(onClick = {
                                             viewModel.onEvent(NotesEvent.ArchiveNote)
@@ -101,7 +100,7 @@ fun HomeScreen(
                     )
                 }
                 AnimatedVisibility(
-                    visible = !state.isInSelectedMode,
+                    visible = !notesUI.isInSelectedMode,
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
@@ -124,7 +123,7 @@ fun HomeScreen(
                                         onClick = {
                                             viewModel.onEvent(NotesEvent.ToggleListView)
                                         },
-                                        imageVector = if (state.isInGridMode)
+                                        imageVector = if (notesUI.isInGridMode)
                                             Icons.Outlined.ViewAgenda
                                         else
                                             Icons.Outlined.GridView
@@ -147,7 +146,7 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(paddingValues = padding)
             ) {
-                val notes = state.notes
+                val notes = notesUI.notes
                 LaunchedEffect(key1 = true) {
                     viewModel.eventFlow.collectLatest { event ->
                         when (event) {
@@ -170,6 +169,18 @@ fun HomeScreen(
                 }
                 val fixedNotes = notes.filter { it.isFixed }
                 val otherNotes = notes.filter { !it.isFixed }
+                val onItemClick: (Note) -> Unit = { note ->
+                    if (notesUI.isInSelectedMode)
+                        viewModel.onEvent(NotesEvent.SelectNote(note))
+                    else
+                        viewModel.goToDetail(
+                            navHostController = navHostController,
+                            note = note
+                        )
+                }
+                val onItemLongClick: (Note) -> Unit = { note ->
+                    viewModel.onItemLongClick(note)
+                }
                 if (fixedNotes.isNotEmpty()) {
                     Text(
                         text = stringResource(R.string.notes_list_fixed_label),
@@ -177,10 +188,10 @@ fun HomeScreen(
                         modifier = Modifier.padding(start = 16.dp, top = 16.dp)
                     )
                     NotesList(
-                        state = state,
+                        isInGridMode = notesUI.isInGridMode,
                         notes = fixedNotes,
-                        viewModel = viewModel,
-                        navHostController = navHostController
+                        onItemClick = onItemClick,
+                        onItemLongClick = onItemLongClick
                     )
                     Text(
                         text = stringResource(R.string.notes_list_others_label),
@@ -188,42 +199,20 @@ fun HomeScreen(
                         modifier = Modifier.padding(start = 16.dp)
                     )
                     NotesList(
-                        state = state,
+                        isInGridMode = notesUI.isInGridMode,
                         notes = otherNotes,
-                        viewModel = viewModel,
-                        navHostController = navHostController
+                        onItemClick = onItemClick,
+                        onItemLongClick = onItemLongClick
                     )
                 } else {
                     NotesList(
-                        state = state,
+                        isInGridMode = notesUI.isInGridMode,
                         notes = notes,
-                        viewModel = viewModel,
-                        navHostController = navHostController
+                        onItemClick = onItemClick,
+                        onItemLongClick = onItemLongClick
                     )
                 }
             }
         }
-    }
-}
-
-@Composable
-fun NotesList(
-    state: NotesUI,
-    notes: List<Note>,
-    viewModel: HomeViewModel,
-    navHostController: NavHostController
-) {
-    if (state.isInGridMode) {
-        GridNotesList(
-            notes = notes,
-            viewModel = viewModel,
-            navHostController = navHostController
-        )
-    } else {
-        LinearNotesList(
-            notes = notes,
-            viewModel = viewModel,
-            navHostController = navHostController
-        )
     }
 }

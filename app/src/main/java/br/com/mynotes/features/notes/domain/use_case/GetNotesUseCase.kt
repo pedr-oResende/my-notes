@@ -10,7 +10,11 @@ class GetNotesUseCase(
 ) {
     operator fun invoke(): Flow<List<Note>> {
         return repository.getNotes().map { notes ->
-            notes.sortedBy { it.timestamp }
+            notes.sortedBy { it.timestamp }.map {
+                it.copy(
+                    isSelected = false
+                )
+            }
         }
     }
 }

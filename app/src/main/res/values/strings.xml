@@ -14,5 +14,8 @@
     <string name="notes_list_others_label">Outras</string>
     <string name="notes_list_notes_removed_message">Algumas notas foram removidas</string>
     <string name="label_undo">Desfazer</string>
+    <string name="menu_item_home">Home</string>
+    <string name="menu_item_archive">Arquivo</string>
+    <string name="menu_item_trash_can">Lixeira</string>
 
 </resources>

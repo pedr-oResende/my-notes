@@ -14,7 +14,8 @@ data class Note(
     val createAt: String,
     val timestamp: Long,
     val isArchived: Boolean,
-    val isFixed: Boolean
+    val isFixed: Boolean,
+    val isSelected: Boolean
 ) : Parcelable
 
 val notes = listOf(
@@ -25,7 +26,8 @@ val notes = listOf(
         createAt = "2022-08-10",
         timestamp = 1000L,
         isArchived = false,
-        isFixed = true
+        isFixed = true,
+        isSelected = false
     ),
     Note(
         id = 2,
@@ -38,7 +40,8 @@ val notes = listOf(
         createAt = "2021-08-10",
         timestamp = 2000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 3,
@@ -47,7 +50,8 @@ val notes = listOf(
         createAt = "2022-08-10",
         timestamp = 1000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 4,
@@ -56,7 +60,8 @@ val notes = listOf(
         createAt = "2021-08-10",
         timestamp = 2000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 5,
@@ -65,7 +70,8 @@ val notes = listOf(
         createAt = "2022-08-10",
         timestamp = 1000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 6,
@@ -78,7 +84,8 @@ val notes = listOf(
         createAt = "2021-08-10",
         timestamp = 2000L,
         isArchived = true,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 7,
@@ -87,7 +94,8 @@ val notes = listOf(
         createAt = "2022-08-10",
         timestamp = 1000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 8,
@@ -96,7 +104,8 @@ val notes = listOf(
         createAt = "2021-08-10",
         timestamp = 2000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 9,
@@ -105,7 +114,8 @@ val notes = listOf(
         createAt = "2022-08-10",
         timestamp = 1000L,
         isArchived = true,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 10,
@@ -118,7 +128,8 @@ val notes = listOf(
         createAt = "2021-08-10",
         timestamp = 2000L,
         isArchived = true,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 11,
@@ -127,7 +138,8 @@ val notes = listOf(
         createAt = "2022-08-10",
         timestamp = 1000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     ),
     Note(
         id = 12,
@@ -136,6 +148,7 @@ val notes = listOf(
         createAt = "2021-08-10",
         timestamp = 5000L,
         isArchived = false,
-        isFixed = false
+        isFixed = false,
+        isSelected = false
     )
 ).sortedByDescending { it.timestamp }

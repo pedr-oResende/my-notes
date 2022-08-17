@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.compose.widgets
+package br.com.mynotes.features.notes.presentation.compose.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,12 +11,13 @@ import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.mynotes.features.notes.presentation.model.MenuItem
-
+import br.com.mynotes.R
 @Composable
 fun DrawerHeader() {
     Box(
@@ -25,7 +26,7 @@ fun DrawerHeader() {
             .padding(vertical = 64.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "My notes", fontSize = 52.sp, style = TextStyle(fontStyle = FontStyle.Italic))
+        Text(text = stringResource(id = R.string.app_name), fontSize = 52.sp, style = TextStyle(fontStyle = FontStyle.Italic))
     }
 }
 

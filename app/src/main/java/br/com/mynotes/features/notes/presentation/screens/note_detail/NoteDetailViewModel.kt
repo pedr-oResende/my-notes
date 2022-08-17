@@ -105,7 +105,8 @@ class NoteDetailViewModel @Inject constructor(
             isArchived = state.note?.isArchived ?: false,
             isFixed = state.isPinMarked,
             createAt = getCurrentDate(),
-            timestamp = getTimeStamp()
+            timestamp = getTimeStamp(),
+            isSelected = false
         )
     }
 

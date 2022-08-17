@@ -37,7 +37,6 @@ fun NoteDetailScreen(
 ) {
     MyNotesTheme {
         val state = viewModel.noteDetailUI.value
-        val scaffoldState = rememberScaffoldState()
         LaunchedEffect(key1 = true) {
             viewModel.loadNote(note)
             viewModel.eventFlow.collectLatest { event ->

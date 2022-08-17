@@ -22,7 +22,6 @@ import br.com.mynotes.ui.theme.MyNotesTheme
 fun NoteItem(
     modifier: Modifier = Modifier,
     note: Note,
-    isSelected: Boolean = false,
     onLongClick: (() -> Unit)? = null,
     onClick: (() -> Unit)? = null,
 ) {
@@ -41,7 +40,7 @@ fun NoteItem(
             )
             .background(
                 color = MaterialTheme.colors.primary.copy(
-                    alpha = if (isSelected) 0.6f else 1f
+                    alpha = if (note.isSelected) 0.6f else 1f
                 )
             )
     ) {
@@ -78,7 +77,7 @@ private fun NoteItemPreview() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NoteItem(note = notes[0], isSelected = true)
+            NoteItem(note = notes[0])
         }
     }
 }
