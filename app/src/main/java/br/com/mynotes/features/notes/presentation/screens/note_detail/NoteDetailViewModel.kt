@@ -22,10 +22,10 @@ import javax.inject.Inject
 class NoteDetailViewModel @Inject constructor(
     private val noteDetailUseCases: NoteDetailUseCases
 ) : ViewModel() {
-    private val _state = mutableStateOf(NoteDetailState())
-    val state: State<NoteDetailState> = _state
+    private val _noteDetailUI = mutableStateOf(NoteDetailUI())
+    val noteDetailUI: State<NoteDetailUI> = _noteDetailUI
 
-    private val _eventFlow = MutableSharedFlow<UIEvents>()
+    private val _eventFlow = MutableSharedFlow<NotesDetailEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     private val timeInNote = System.currentTimeMillis()
@@ -37,23 +37,23 @@ class NoteDetailViewModel @Inject constructor(
                     noteDetailUseCases.archiveNoteUseCase(getNote().copy(
                         isArchived = true
                     ))
-                    _eventFlow.emit(UIEvents.ProcessNote)
+                    _eventFlow.emit(NotesDetailEvents.ProcessNote)
                 }
             }
             is NoteDetailEvent.DeleteNote -> {
                 viewModelScope.launch {
                     noteDetailUseCases.deleteNoteUseCase(getNote().id)
-                    _eventFlow.emit(UIEvents.ProcessNote)
+                    _eventFlow.emit(NotesDetailEvents.ProcessNote)
                 }
             }
             is NoteDetailEvent.SaveNote -> {
                 viewModelScope.launch {
                     try {
                         noteDetailUseCases.addNoteUseCase(getNote())
-                        _eventFlow.emit(UIEvents.ProcessNote)
+                        _eventFlow.emit(NotesDetailEvents.ProcessNote)
                     } catch(e: InvalidNoteException) {
                         _eventFlow.emit(
-                            UIEvents.ShowSnackBar(
+                            NotesDetailEvents.ShowSnackBar(
                                 message = e.message ?: MyNotesApp.getContext()?.getString(R.string.save_note_error_message) ?: ""
                             )
                         )
@@ -61,17 +61,17 @@ class NoteDetailViewModel @Inject constructor(
                 }
             }
             is NoteDetailEvent.ToggleMarkPin -> {
-                _state.value = state.value.copy(
-                    isPinMarked = !state.value.isPinMarked
+                _noteDetailUI.value = noteDetailUI.value.copy(
+                    isPinMarked = !noteDetailUI.value.isPinMarked
                 )
             }
             is NoteDetailEvent.TitleChanged -> {
-                _state.value = state.value.copy(
+                _noteDetailUI.value = noteDetailUI.value.copy(
                     title = event.title
                 )
             }
             is NoteDetailEvent.ContentChanged -> {
-                _state.value = state.value.copy(
+                _noteDetailUI.value = noteDetailUI.value.copy(
                     content = event.content
                 )
             }
@@ -79,25 +79,25 @@ class NoteDetailViewModel @Inject constructor(
     }
 
     fun loadNote(note: Note?) {
-        _state.value = state.value.copy(
+        _noteDetailUI.value = noteDetailUI.value.copy(
             note = note,
             title = note?.title ?: "",
             content = note?.content ?: "",
-            isPinMarked = note?.isFixed ?: state.value.isPinMarked
+            isPinMarked = note?.isFixed ?: noteDetailUI.value.isPinMarked
         )
     }
 
     private fun getTimeStamp() = System.currentTimeMillis() - timeInNote
 
     private fun getCurrentDate(): String {
-        val createdAt = state.value.note?.createAt ?: ""
+        val createdAt = noteDetailUI.value.note?.createAt ?: ""
         if (createdAt.isNotBlank())
             return createdAt
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return sdf.format(Date())
     }
 
-    private fun getNote(): Note = state.value.let { state ->
+    private fun getNote(): Note = noteDetailUI.value.let { state ->
         Note(
             id = state.note?.id,
             title = state.title,

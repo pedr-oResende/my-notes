@@ -1,17 +1,18 @@
-package br.com.mynotes.features.notes.presentation.screens.notes_list
+package br.com.mynotes.features.notes.presentation.screens.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,23 +23,29 @@ import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.presentation.screens.notes_list.components.GridNotesList
-import br.com.mynotes.features.notes.presentation.screens.notes_list.components.LinearNotesList
+import br.com.mynotes.features.notes.presentation.screens.home.components.GridNotesList
+import br.com.mynotes.features.notes.presentation.screens.home.components.LinearNotesList
 import br.com.mynotes.features.notes.presentation.util.NotesEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
-fun NotesListScreen(
+fun HomeScreen(
     navHostController: NavHostController,
-    viewModel: NotesListViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     MyNotesTheme {
-        val state = viewModel.state.value
-        val scaffoldState = rememberScaffoldState()
+        val state = viewModel.notesUI.value
+        val scope = rememberCoroutineScope()
         Scaffold(
             topBar = {
-                if (state.isInSelectedMode) {
+                AnimatedVisibility(
+                    visible = state.isInSelectedMode,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
                     TopBar(
                         actions = {
                             Row(
@@ -92,30 +99,48 @@ fun NotesListScreen(
                             }
                         }
                     )
-                } else {
+                }
+                AnimatedVisibility(
+                    visible = !state.isInSelectedMode,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
                     TopBar(
-                        title = stringResource(id = R.string.app_name),
                         actions = {
-                            TopBarIcon(
-                                onClick = {
-                                    viewModel.onEvent(NotesEvent.ToggleListView)
-                                },
-                                imageVector = if (state.isInGridMode)
-                                    Icons.Outlined.ViewAgenda
-                                else
-                                    Icons.Outlined.GridView
-                            )
-                            TopBarIcon(
-                                onClick = {
-                                    Screens.NoteDetail.navigate(navHostController)
-                                },
-                                imageVector = Icons.Default.Edit
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                TopBarIcon(
+                                    onClick = {
+                                        scope.launch {
+                                            scaffoldState.drawerState.open()
+                                        }
+                                    },
+                                    imageVector = Icons.Filled.Menu
+                                )
+                                Row {
+                                    TopBarIcon(
+                                        onClick = {
+                                            viewModel.onEvent(NotesEvent.ToggleListView)
+                                        },
+                                        imageVector = if (state.isInGridMode)
+                                            Icons.Outlined.ViewAgenda
+                                        else
+                                            Icons.Outlined.GridView
+                                    )
+                                    TopBarIcon(
+                                        onClick = {
+                                            Screens.NoteDetail.navigate(navHostController)
+                                        },
+                                        imageVector = Icons.Default.Edit
+                                    )
+                                }
+                            }
                         }
                     )
                 }
-            },
-            scaffoldState = scaffoldState
+            }
         ) { padding ->
             Column(
                 modifier = Modifier
@@ -126,12 +151,12 @@ fun NotesListScreen(
                 LaunchedEffect(key1 = true) {
                     viewModel.eventFlow.collectLatest { event ->
                         when (event) {
-                            is UIEvents.ShowSnackBar -> {
+                            is NotesEvents.ShowSnackBar -> {
                                 scaffoldState.snackbarHostState.showSnackbar(
                                     message = event.message
                                 )
                             }
-                            is UIEvents.ShowUndoSnackBar -> {
+                            is NotesEvents.ShowUndoSnackBar -> {
                                 val result = scaffoldState.snackbarHostState.showSnackbar(
                                     message = event.text,
                                     actionLabel = event.label
@@ -183,9 +208,9 @@ fun NotesListScreen(
 
 @Composable
 fun NotesList(
-    state: NotesState,
+    state: NotesUI,
     notes: List<Note>,
-    viewModel: NotesListViewModel,
+    viewModel: HomeViewModel,
     navHostController: NavHostController
 ) {
     if (state.isInGridMode) {

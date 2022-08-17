@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.notes_list
+package br.com.mynotes.features.notes.presentation.screens.home
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -24,20 +24,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesListViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases
 ) : ViewModel() {
 
     private var getNotesJob: Job? = null
-    private val _state = mutableStateOf(NotesState())
-    val state: State<NotesState> = _state
+    private val _notesUI = mutableStateOf(NotesUI())
+    val notesUI: State<NotesUI> = _notesUI
 
-    private val _eventFlow = MutableSharedFlow<UIEvents>()
+    private val _eventFlow = MutableSharedFlow<NotesEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         getNotes()
-        _state.value = state.value.copy(
+        _notesUI.value = notesUI.value.copy(
             isInGridMode = PreferencesWrapper.instance?.getBoolean(PreferencesKey.LAYOUT_STATE_KEY)
                 ?: true
         )
@@ -59,7 +59,7 @@ class NotesListViewModel @Inject constructor(
                 disableSelectedMode()
             }
             is NotesEvent.ArchiveNote -> {
-                editNotes(state.value.selectedNotes.map { note ->
+                editNotes(notesUI.value.selectedNotes.map { note ->
                     note.copy(
                         isArchived = true
                     )
@@ -67,11 +67,11 @@ class NotesListViewModel @Inject constructor(
                 disableSelectedMode()
             }
             is NotesEvent.RestoreNotes -> {
-                editNotes(state.value.selectedNotes)
+                editNotes(notesUI.value.selectedNotes)
                 disableSelectedMode()
             }
             is NotesEvent.ToggleMarkPin -> {
-                state.value.selectedNotes.let { notes ->
+                notesUI.value.selectedNotes.let { notes ->
                     editNotes(notes.map { note ->
                         note.copy(
                             isFixed = !notes.all { it.isFixed }
@@ -84,8 +84,8 @@ class NotesListViewModel @Inject constructor(
                 onNoteDeleted()
             }
             is NotesEvent.ToggleMenuMore -> {
-                _state.value = state.value.copy(
-                    showMenuMore = !state.value.showMenuMore
+                _notesUI.value = notesUI.value.copy(
+                    showMenuMore = !notesUI.value.showMenuMore
                 )
             }
         }
@@ -94,7 +94,7 @@ class NotesListViewModel @Inject constructor(
     private fun getNotes() {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getNotesUseCase().onEach { notes ->
-            _state.value = state.value.copy(
+            _notesUI.value = notesUI.value.copy(
                 notes = getNoteListFiltered(notes)
             )
         }.launchIn(viewModelScope)
@@ -103,9 +103,9 @@ class NotesListViewModel @Inject constructor(
     private fun deleteNotes() {
         val context = MyNotesApp.getContext()!!
         viewModelScope.launch {
-            noteUseCases.deleteNotesUseCase(state.value.selectedNotes.map { it.id })
+            noteUseCases.deleteNotesUseCase(notesUI.value.selectedNotes.map { it.id })
             _eventFlow.emit(
-                UIEvents.ShowUndoSnackBar(
+                NotesEvents.ShowUndoSnackBar(
                     text = context.getString(R.string.notes_list_notes_removed_message),
                     label = context.getString(R.string.label_undo)
                 )
@@ -119,7 +119,7 @@ class NotesListViewModel @Inject constructor(
                 noteUseCases.editNotesUseCase(notes)
             } catch (e: InvalidNoteException) {
                 _eventFlow.emit(
-                    UIEvents.ShowSnackBar(
+                    NotesEvents.ShowSnackBar(
                         message = e.message ?: MyNotesApp.getContext()
                             ?.getString(R.string.save_note_error_message) ?: ""
                     )
@@ -129,28 +129,28 @@ class NotesListViewModel @Inject constructor(
     }
 
     private fun selectNote(note: Note) {
-        val selectedNotes = state.value.selectedNotes.toMutableList()
+        val selectedNotes = notesUI.value.selectedNotes.toMutableList()
         if (selectedNotes.contains(note)) {
             selectedNotes.removeAll { it.id == note.id }
         } else {
             selectedNotes.add(note)
         }
-        _state.value = state.value.copy(
+        _notesUI.value = notesUI.value.copy(
             isInSelectedMode = selectedNotes.isNotEmpty(),
             selectedNotes = selectedNotes,
             isPinFilled = selectedNotes.all { it.isFixed }
         )
     }
 
-    fun isNoteSelected(note: Note): Boolean = state.value.selectedNotes.contains(note)
+    fun isNoteSelected(note: Note): Boolean = notesUI.value.selectedNotes.contains(note)
 
     fun onItemLongClick(note: Note) {
         onEvent(NotesEvent.SelectNote(note))
     }
 
     private fun toggleListView() {
-        val value = !state.value.isInGridMode
-        _state.value = state.value.copy(
+        val value = !notesUI.value.isInGridMode
+        _notesUI.value = notesUI.value.copy(
             isInGridMode = value
         )
         PreferencesWrapper.instance?.putBoolean(
@@ -160,9 +160,9 @@ class NotesListViewModel @Inject constructor(
     }
 
     private fun disableSelectedMode(cleanSelectedList: Boolean = true) {
-        val selectedNotes = state.value.selectedNotes.toMutableList()
+        val selectedNotes = notesUI.value.selectedNotes.toMutableList()
         selectedNotes.removeAll { cleanSelectedList }
-        _state.value = state.value.copy(
+        _notesUI.value = notesUI.value.copy(
             isInSelectedMode = false,
             selectedNotes = selectedNotes
         )
@@ -182,7 +182,7 @@ class NotesListViewModel @Inject constructor(
     }
 
     private fun onNoteDeleted() {
-        _state.value = state.value.copy(
+        _notesUI.value = notesUI.value.copy(
             aNoteHasBeenDeleted = true
         )
     }

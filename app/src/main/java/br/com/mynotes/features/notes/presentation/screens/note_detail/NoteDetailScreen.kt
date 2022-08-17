@@ -32,19 +32,20 @@ fun NoteDetailScreen(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,
     note: Note?,
-    viewModel: NoteDetailViewModel = hiltViewModel()
+    viewModel: NoteDetailViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState
 ) {
     MyNotesTheme {
-        val state = viewModel.state.value
+        val state = viewModel.noteDetailUI.value
         val scaffoldState = rememberScaffoldState()
         LaunchedEffect(key1 = true) {
             viewModel.loadNote(note)
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    UIEvents.ProcessNote -> {
+                    NotesDetailEvents.ProcessNote -> {
                         onBackPressedDispatcher.onBackPressed()
                     }
-                    is UIEvents.ShowSnackBar -> {
+                    is NotesDetailEvents.ShowSnackBar -> {
                         scaffoldState.snackbarHostState.showSnackbar(
                             message = event.message
                         )
