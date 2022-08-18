@@ -18,5 +18,6 @@
     <string name="menu_item_archive">Arquivo</string>
     <string name="menu_item_trash_can">Lixeira</string>
     <string name="empty_nome_message">Nota vazia descartada</string>
+    <string name="search_note_placeholder">Pesquise suas notas</string>
 
 </resources>

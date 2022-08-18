@@ -91,6 +91,11 @@ class HomeViewModel @Inject constructor(
                     showMenuMore = !notesUI.value.showMenuMore
                 )
             }
+            is HomeEvent.SearchTextChanged -> {
+                _notesUI.value = notesUI.value.copy(
+                    searchNotesText = event.text
+                )
+            }
         }
     }
 
@@ -98,7 +103,7 @@ class HomeViewModel @Inject constructor(
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getNotesUseCase().onEach { notes ->
             _notesUI.value = notesUI.value.copy(
-                notes = getNoteListFiltered(notes)
+                notes = notes.filter { note -> !note.isArchived }
             )
         }.launchIn(viewModelScope)
     }
@@ -181,9 +186,10 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun getNoteListFiltered(notes: List<Note>): List<Note> {
-        return notes.filter { note ->
-            !note.isArchived
+    fun getNotesListFiltered(): List<Note> {
+        return notesUI.value.notes.filter { note ->
+            note.title.contains(notesUI.value.searchNotesText, ignoreCase = true) ||
+            note.content.contains(notesUI.value.searchNotesText, ignoreCase = true)
         }
     }
 

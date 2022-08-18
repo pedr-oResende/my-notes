@@ -5,6 +5,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,7 @@ import br.com.mynotes.R
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.compose.components.NotesList
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
+import br.com.mynotes.features.notes.presentation.compose.widgets.CustomEditText
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.presentation.util.HomeEvent
@@ -109,45 +112,16 @@ fun HomeScreen(
                         }
                     )
                 }
-                AnimatedVisibility(
-                    visible = !notesUI.isInSelectedMode,
-                    enter = fadeIn(),
-                    exit = fadeOut()
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        Screens.NoteDetail.navigate(navHostController)
+                    },
+                    backgroundColor = MaterialTheme.colors.surface,
+                    contentColor = MaterialTheme.colors.primary
                 ) {
-                    TopBar(
-                        actions = {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                TopBarIcon(
-                                    onClick = {
-                                        scope.launch {
-                                            scaffoldState.drawerState.open()
-                                        }
-                                    },
-                                    imageVector = Icons.Filled.Menu
-                                )
-                                Row {
-                                    TopBarIcon(
-                                        onClick = {
-                                            viewModel.onEvent(HomeEvent.ToggleListView)
-                                        },
-                                        imageVector = if (notesUI.isInGridMode)
-                                            Icons.Outlined.ViewAgenda
-                                        else
-                                            Icons.Outlined.GridView
-                                    )
-                                    TopBarIcon(
-                                        onClick = {
-                                            Screens.NoteDetail.navigate(navHostController)
-                                        },
-                                        imageVector = Icons.Default.Edit
-                                    )
-                                }
-                            }
-                        }
-                    )
+                    Icon(imageVector = Icons.Filled.Edit, contentDescription = null)
                 }
             }
         ) { padding ->
@@ -156,7 +130,46 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(paddingValues = padding)
             ) {
-                val notes = notesUI.notes
+                AnimatedVisibility(
+                    visible = !notesUI.isInSelectedMode,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    CustomEditText(
+                        modifier = Modifier
+                            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                            .clip(RoundedCornerShape(50)),
+                        placeholder = stringResource(R.string.search_note_placeholder),
+                        value = notesUI.searchNotesText,
+                        onValueChange = { newText ->
+                            viewModel.onEvent(HomeEvent.SearchTextChanged(newText))
+                        },
+                        leadingIcon = {
+                            TopBarIcon(
+                                onClick = {
+                                    scope.launch {
+                                        scaffoldState.drawerState.open()
+                                    }
+                                },
+                                imageVector = Icons.Filled.Menu
+                            )
+                        },
+                        trailingIcon = {
+                            Row {
+                                TopBarIcon(
+                                    onClick = {
+                                        viewModel.onEvent(HomeEvent.ToggleListView)
+                                    },
+                                    imageVector = if (notesUI.isInGridMode)
+                                        Icons.Outlined.ViewAgenda
+                                    else
+                                        Icons.Outlined.GridView
+                                )
+                            }
+                        }
+                    )
+                }
+                val notes = viewModel.getNotesListFiltered()
                 LaunchedEffect(key1 = true) {
                     viewModel.eventFlow.collectLatest { event ->
                         when (event) {

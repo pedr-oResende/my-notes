@@ -18,5 +18,6 @@
     <string name="menu_item_archive">Archive</string>
     <string name="menu_item_trash_can">Trash can</string>
     <string name="empty_nome_message">Empty note descarted</string>
+    <string name="search_note_placeholder">Search your notes</string>
 
 </resources>

@@ -10,6 +10,12 @@ val H6 = TextStyle(
     fontSize = 20.sp,
     letterSpacing = 0.15.sp
 )
+val Body1 = TextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    letterSpacing = 0.25.sp
+)
+
 val Body2 = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 14.sp,
@@ -23,6 +29,7 @@ val Button = TextStyle(
 
 val Typography = Typography(
     h6 = H6,
+    body1 = Body1,
     body2 = Body2,
     button = Button
 )

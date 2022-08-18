@@ -1,6 +1,7 @@
 package br.com.mynotes.features.notes.presentation.compose.widgets
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -8,9 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -19,10 +19,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomEditText(
     modifier: Modifier = Modifier,
-    label: String,
-    placeholder: String? = null,
-    count: Int? = null,
-    value: MutableState<String>,
+    placeholder: String,
+    value: String,
+    onValueChange: (value: String) -> Unit,
     visualTransformation: VisualTransformation? = null,
     keyboardType: KeyboardType? = null,
     isError: Boolean = false,
@@ -30,20 +29,17 @@ fun CustomEditText(
     trailingIcon: @Composable (() -> Unit)? = null
 ) {
     TextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(shape = RoundedCornerShape(25)),
-        value = value.value,
+        modifier = modifier.fillMaxWidth().height(50.dp),
+        value = value,
         onValueChange = { newText ->
-            if (count == null || newText.length <= count) {
-                value.value = newText
-            }
+            onValueChange(newText)
         },
         placeholder = {
-            if (placeholder != null) Text(text = placeholder)
-        },
-        label = {
-            Text(text = label)
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onSurface
+            )
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
@@ -51,14 +47,14 @@ fun CustomEditText(
             imeAction = ImeAction.Next
         ),
         colors = TextFieldDefaults.textFieldColors(
-            focusedLabelColor = MaterialTheme.colors.secondary,
+            focusedLabelColor = Color.Transparent,
             cursorColor = MaterialTheme.colors.secondary,
             backgroundColor = MaterialTheme.colors.surface,
-            focusedIndicatorColor = MaterialTheme.colors.secondary
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
         ),
         visualTransformation = visualTransformation ?: VisualTransformation.None,
         isError = isError,
-        shape = RoundedCornerShape(8.dp),
         leadingIcon = if (leadingIcon != null) {
             { leadingIcon() }
         } else null,

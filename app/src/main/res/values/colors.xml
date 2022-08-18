@@ -12,12 +12,12 @@
 
     <color name="light_status_bar">#C49000</color>
 
-    <color name="background_light">#E0E0E0</color>
-    <color name="background_secondary_light">#DFDFDF</color>
+    <color name="background_light">#FFFFFF</color>
+    <color name="background_secondary_light">#CCFFFFFF</color>
     <color name="on_background_light">#1C1C1C</color>
     <color name="on_background_variant_light">#CC1C1C1C</color>
 
-    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_light">#E0E0E0</color>
     <color name="on_surface_light">#010101</color>
     <color name="on_surface_variant_light">#CC010101</color>
 
