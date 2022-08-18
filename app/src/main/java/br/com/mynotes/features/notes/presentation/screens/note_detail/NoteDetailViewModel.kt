@@ -32,9 +32,7 @@ class NoteDetailViewModel @Inject constructor(
         when (event) {
             is NoteDetailEvent.ArchiveNote -> {
                 viewModelScope.launch {
-                    noteDetailUseCases.archiveNoteUseCase(getNote().copy(
-                        isArchived = true
-                    ))
+                    noteDetailUseCases.archiveNoteUseCase(getNote())
                     _eventFlow.emit(NotesDetailEvents.ProcessNote)
                 }
             }

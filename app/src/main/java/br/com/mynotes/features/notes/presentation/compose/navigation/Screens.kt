@@ -4,6 +4,10 @@ import androidx.navigation.NavHostController
 
 sealed class Screens(val route: String, val argumentKey: String) {
 
+    fun navigateUp(navHostController: NavHostController) {
+        navHostController.navigateUp()
+    }
+
     fun navigate(navHostController: NavHostController) {
         navigateWithArgument(navHostController = navHostController, argumentValue = null)
     }

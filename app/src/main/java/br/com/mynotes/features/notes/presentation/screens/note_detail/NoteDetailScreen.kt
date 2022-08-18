@@ -17,11 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
+import br.com.mynotes.commom.extensions.getActivity
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
@@ -41,21 +43,23 @@ fun NoteDetailScreen(
 ) {
     MyNotesTheme {
         val state = viewModel.noteDetailUI.value
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+        val context = LocalContext.current
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 viewModel.onEvent(NoteDetailEvent.SaveNote)
+                if (isEnabled) {
+                    isEnabled = false
+                    context.getActivity()?.onBackPressed()
+                }
             }
-        })
-        val context = LocalContext.current
+        }
+        onBackPressedDispatcher.addCallback(LocalLifecycleOwner.current, callback)
         LaunchedEffect(key1 = true) {
             viewModel.loadNote(note)
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
                     is NotesDetailEvents.ProcessNote -> {
-                        Screens.Home.navigateWithArgument(
-                            navHostController = navHostController,
-                            argumentValue  = null
-                        )
+                        Screens.Home.navigateUp(navHostController)
                     }
                     is NotesDetailEvents.ShowSnackBar -> {
                         scaffoldState.snackbarHostState.showSnackbar(
@@ -65,7 +69,7 @@ fun NoteDetailScreen(
                     is NotesDetailEvents.EmptyNote -> {
                         Screens.Home.navigateWithArgument(
                             navHostController = navHostController,
-                            argumentValue  = context.getString(R.string.empty_nome_message)
+                            argumentValue = context.getString(R.string.empty_nome_message)
                         )
                     }
                 }

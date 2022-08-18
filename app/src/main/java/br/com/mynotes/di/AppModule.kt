@@ -52,4 +52,12 @@ object AppModule {
             archiveNoteUseCase = ArchiveNoteUseCase(repository)
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideArchiveUseCases(repository: NoteRepository): ArchiveNoteUseCases {
+        return ArchiveNoteUseCases(
+            unarchiveNoteUseCase = UnarchiveNoteUseCase(repository)
+        )
+    }
 }

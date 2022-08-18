@@ -1,5 +1,6 @@
 package br.com.mynotes.features.notes.presentation.screens.home
 
+import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -33,18 +34,20 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     navHostController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel(),
+    onBackPressedDispatcher: OnBackPressedDispatcher,
     scaffoldState: ScaffoldState,
     snackBarMessage: String
 ) {
+    val notesUI = viewModel.notesUI.value
+    val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = true) {
-        if (snackBarMessage.isNotBlank())
-        scaffoldState.snackbarHostState.showSnackbar(
-            message = snackBarMessage
-        )
+        if (snackBarMessage.isNotBlank()) {
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = snackBarMessage
+            )
+        }
     }
     MyNotesTheme {
-        val notesUI = viewModel.notesUI.value
-        val scope = rememberCoroutineScope()
         Scaffold(
             topBar = {
                 AnimatedVisibility(

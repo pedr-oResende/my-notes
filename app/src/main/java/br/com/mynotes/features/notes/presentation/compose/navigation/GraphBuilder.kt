@@ -6,6 +6,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
 import br.com.mynotes.features.notes.presentation.screens.note_detail.NoteDetailScreen
@@ -14,18 +15,20 @@ import com.google.accompanist.navigation.animation.composable
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.home(
     navHostController: NavHostController,
+    onBackPressedDispatcher: OnBackPressedDispatcher,
     scaffoldState: ScaffoldState
 ) {
     composable(
         route = Screens.Home.route,
     ) {
-        val snackBarMessage = navHostController.previousBackStackEntry?.savedStateHandle?.get(
+        val snackBarMessage = navHostController.previousBackStackEntry?.savedStateHandle?.getArgument(
             key = Screens.Home.argumentKey
         ) ?: ""
         HomeScreen(
             navHostController = navHostController,
             scaffoldState = scaffoldState,
-            snackBarMessage = snackBarMessage
+            snackBarMessage = snackBarMessage,
+            onBackPressedDispatcher = onBackPressedDispatcher
         )
     }
 }
@@ -63,7 +66,7 @@ fun NavGraphBuilder.noteDetail(
     composable(
         route = Screens.NoteDetail.route
     ) {
-        val note = navHostController.previousBackStackEntry?.savedStateHandle?.get<Note>(
+        val note = navHostController.previousBackStackEntry?.savedStateHandle?.getArgument<Note>(
             key = Screens.NoteDetail.argumentKey
         )
         NoteDetailScreen(
