@@ -12,7 +12,7 @@
     <string name="save_note_error_message">Could not save your note</string>
     <string name="notes_list_fixed_label">Marked</string>
     <string name="notes_list_others_label">Others</string>
-    <string name="notes_list_notes_removed_message">Some notes were removed</string>
+    <string name="notes_list_notes_removed_message">Notes moved to trash can</string>
     <string name="label_undo">Undo</string>
     <string name="menu_item_home">Home</string>
     <string name="menu_item_archive">Archive</string>

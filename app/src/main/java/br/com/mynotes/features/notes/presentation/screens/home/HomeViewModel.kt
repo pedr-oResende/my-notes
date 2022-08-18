@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
-        getNotes()
+        getNotes(ScreenState.HomeScreen)
         _notesUI.value = notesUI.value.copy(
             isInGridMode = PreferencesWrapper.instance?.getBoolean(PreferencesKey.LAYOUT_STATE_KEY)
                 ?: true
@@ -48,7 +48,11 @@ class HomeViewModel @Inject constructor(
         when (event) {
             is HomeEvent.DeleteNote -> {
                 recentlyDeletedNotes.addAll(selectedNotes())
-                deleteNotes()
+                deleteNotes(selectedNotes().map { note ->
+                    note.copy(
+                        isDeleted = true
+                    )
+                })
                 disableSelectedMode()
             }
             is HomeEvent.RestoreNotes -> {
@@ -96,28 +100,62 @@ class HomeViewModel @Inject constructor(
                     searchNotesText = event.text
                 )
             }
+            is HomeEvent.ChangeScreen -> {
+                _notesUI.value = notesUI.value.copy(
+                    screenState = event.screen
+                )
+                getNotes(event.screen)
+            }
         }
     }
 
-    private fun getNotes() {
+    private fun getNotes(screenState: ScreenState) {
+        when(screenState) {
+            ScreenState.HomeScreen -> {
+                getMainNotes()
+            }
+            ScreenState.ArchiveScreen -> {
+                getArchivedNotes()
+            }
+            ScreenState.TrashCanScreen -> {
+                getDeletedNotes()
+            }
+        }
+    }
+
+    private fun getMainNotes() {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getNotesUseCase().onEach { notes ->
-            _notesUI.value = notesUI.value.copy(
-                notes = notes.filter { note -> !note.isArchived }
-            )
+            _notesUI.value = notesUI.value.copy(notes = notes)
         }.launchIn(viewModelScope)
     }
 
-    private fun deleteNotes() {
+    private  fun getArchivedNotes() {
+        getNotesJob?.cancel()
+        getNotesJob = noteUseCases.getArchivedNotesUseCase().onEach { notes ->
+            _notesUI.value = notesUI.value.copy(notes = notes)
+        }.launchIn(viewModelScope)
+    }
+
+    private  fun getDeletedNotes() {
+        getNotesJob?.cancel()
+        getNotesJob = noteUseCases.getArchivedNotesUseCase().onEach { notes ->
+            _notesUI.value = notesUI.value.copy(notes = notes)
+        }.launchIn(viewModelScope)
+    }
+
+    private fun deleteNotes(notes: List<Note>) {
         val context = MyNotesApp.getContext()!!
-        viewModelScope.launch {
-            noteUseCases.deleteNotesUseCase(selectedNotes().map { it.id })
-            _eventFlow.emit(
-                NotesEvents.ShowUndoSnackBar(
-                    text = context.getString(R.string.notes_list_notes_removed_message),
-                    label = context.getString(R.string.label_undo)
+        notes.forEach { note ->
+            viewModelScope.launch {
+                noteUseCases.updateNotesUseCase(note)
+                _eventFlow.emit(
+                    NotesEvents.ShowUndoSnackBar(
+                        text = context.getString(R.string.notes_list_notes_removed_message),
+                        label = context.getString(R.string.label_undo)
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -151,10 +189,6 @@ class HomeViewModel @Inject constructor(
             isInSelectedMode = selectedNotes.any { it.isSelected },
             isPinFilled = selectedNotes.all { it.isFixed }
         )
-    }
-
-    fun onItemLongClick(note: Note) {
-        onEvent(HomeEvent.SelectNote(note))
     }
 
     private fun toggleListView() {

@@ -9,8 +9,16 @@ class NoteRepositoryImpl(
     private val dao: NoteDao
 ) : NoteRepository {
 
-    override fun getNotes(): Flow<List<Note>> {
-        return dao.getNotes()
+    override fun getMainNotes(): Flow<List<Note>> {
+        return dao.getMainNotes()
+    }
+
+    override fun getArchivedNotes(): Flow<List<Note>> {
+        return dao.getArchivedNotes()
+    }
+
+    override fun getDeletedNotes(): Flow<List<Note>> {
+        return dao.getDeletedNotes()
     }
 
     override suspend fun getNoteById(id: Int): Note? {
@@ -23,10 +31,6 @@ class NoteRepositoryImpl(
 
     override suspend fun deleteNote(id: Int?) {
         dao.deleteNote(id)
-    }
-
-    override suspend fun deleteMultipleNotes(ids: List<Int?>) {
-        dao.deleteMultipleNotes(ids)
     }
 
 }

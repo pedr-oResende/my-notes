@@ -36,10 +36,12 @@ object AppModule {
     @Singleton
     fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
         return NoteUseCases(
-            getNotesUseCase = GetNotesUseCase(repository),
-            deleteNotesUseCase = DeleteNotesUseCase(repository),
+            getNotesUseCase = GetMainNotesUseCase(repository),
             updateNotesUseCase = AddNoteUseCase(repository),
-            getNoteByIdUseCase = GetNoteByIdUseCase(repository)
+            getNoteByIdUseCase = GetNoteByIdUseCase(repository),
+            unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
+            getArchivedNotesUseCase = GetArchivedNotesUseCase(repository),
+            getDeletedNotesUseCase = GetDeletedNotesUseCase(repository)
         )
     }
 
@@ -48,16 +50,8 @@ object AppModule {
     fun provideNoteDetailUseCases(repository: NoteRepository): NoteDetailUseCases {
         return NoteDetailUseCases(
             addNoteUseCase = AddNoteUseCase(repository),
-            deleteNoteUseCase = DeleteNoteUseCase(repository),
-            archiveNoteUseCase = ArchiveNoteUseCase(repository)
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun provideArchiveUseCases(repository: NoteRepository): ArchiveNoteUseCases {
-        return ArchiveNoteUseCases(
-            unarchiveNoteUseCase = UnarchiveNoteUseCase(repository)
+            archiveNoteUseCase = ArchiveNoteUseCase(repository),
+            deleteNoteUseCase = DeleteNoteUseCase(repository)
         )
     }
 }

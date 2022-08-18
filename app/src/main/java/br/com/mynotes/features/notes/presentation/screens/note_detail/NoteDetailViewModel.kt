@@ -38,8 +38,12 @@ class NoteDetailViewModel @Inject constructor(
             }
             is NoteDetailEvent.DeleteNote -> {
                 viewModelScope.launch {
-                    noteDetailUseCases.deleteNoteUseCase(getNote().id)
-                    _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                    try {
+                        noteDetailUseCases.deleteNoteUseCase(getNote())
+                        _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                    } catch (e: InvalidNoteException) {
+                        _eventFlow.emit(NotesDetailEvents.DiscardNote)
+                    }
                 }
             }
             is NoteDetailEvent.SaveNote -> {
@@ -98,7 +102,8 @@ class NoteDetailViewModel @Inject constructor(
             isFixed = state.isPinMarked,
             createAt = getCurrentDate(),
             timestamp = getTimeStamp(),
-            isSelected = false
+            isSelected = false,
+            isDeleted = false
         )
     }
 

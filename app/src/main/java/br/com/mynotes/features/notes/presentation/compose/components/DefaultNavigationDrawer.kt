@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.mynotes.features.notes.presentation.model.MenuItem
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.presentation.screens.home.ScreenState
+
 @Composable
 fun DrawerHeader() {
     Box(
@@ -34,11 +36,11 @@ fun DrawerHeader() {
 fun DrawerBody(
     items: List<MenuItem>,
     onItemClick: (MenuItem) -> Unit,
-    currentRoute: String
+    currentRoute: ScreenState
 ) {
     LazyColumn {
         items(items) { item ->
-            val isEnable = item.route != currentRoute
+            val isEnable = item.screen != currentRoute
             val contentColor = MaterialTheme.colors.let { color ->
                 if (isEnable) contentColorFor(color.background) else color.primary
             }

@@ -72,6 +72,9 @@ fun NoteDetailScreen(
                             argumentValue = context.getString(R.string.empty_nome_message)
                         )
                     }
+                    NotesDetailEvents.DiscardNote -> {
+                        Screens.Home.navigateUp(navHostController)
+                    }
                 }
             }
         }

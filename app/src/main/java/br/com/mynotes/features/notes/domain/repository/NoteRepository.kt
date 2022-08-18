@@ -5,7 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface NoteRepository {
 
-    fun getNotes(): Flow<List<Note>>
+    fun getMainNotes(): Flow<List<Note>>
+
+    fun getArchivedNotes(): Flow<List<Note>>
+
+    fun getDeletedNotes(): Flow<List<Note>>
 
     suspend fun getNoteById(id: Int): Note?
 
@@ -13,5 +17,4 @@ interface NoteRepository {
 
     suspend fun deleteNote(id: Int?)
 
-    suspend fun deleteMultipleNotes(ids: List<Int?>)
 }

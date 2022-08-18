@@ -39,16 +39,6 @@ sealed class Screens(val route: String, val argumentKey: String) {
         argumentKey = "home_argument"
     )
 
-    object Archive : Screens(
-        route = "archive",
-        argumentKey = "archive_argument"
-    )
-
-    object TrashCan : Screens(
-        route = "trash_can",
-        argumentKey = "trash_can_argument"
-    )
-
     object NoteDetail : Screens(
         route = "note_detail",
         argumentKey = "note_detail_argument"
