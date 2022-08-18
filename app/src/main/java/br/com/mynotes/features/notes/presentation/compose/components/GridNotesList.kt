@@ -24,7 +24,7 @@ fun GridNotesList(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        StaggeredVerticalGrid(modifier = modifier.padding(horizontal = 8.dp)) {
+        StaggeredVerticalGrid {
             notes.forEach { note ->
                 NoteItem(
                     modifier = Modifier.padding(all = 8.dp),

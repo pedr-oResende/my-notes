@@ -112,24 +112,6 @@ fun HomeScreen(
                         }
                     )
                 }
-            },
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-                        Screens.NoteDetail.navigate(navHostController)
-                    },
-                    backgroundColor = MaterialTheme.colors.surface,
-                    contentColor = MaterialTheme.colors.primary
-                ) {
-                    Icon(imageVector = Icons.Filled.Edit, contentDescription = null)
-                }
-            }
-        ) { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues = padding)
-            ) {
                 AnimatedVisibility(
                     visible = !notesUI.isInSelectedMode,
                     enter = fadeIn(),
@@ -137,7 +119,7 @@ fun HomeScreen(
                 ) {
                     CustomEditText(
                         modifier = Modifier
-                            .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                            .padding(top = 5.7.dp, start = 16.dp, end = 16.dp)
                             .clip(RoundedCornerShape(50)),
                         placeholder = stringResource(R.string.search_note_placeholder),
                         value = notesUI.searchNotesText,
@@ -169,6 +151,24 @@ fun HomeScreen(
                         }
                     )
                 }
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        Screens.NoteDetail.navigate(navHostController)
+                    },
+                    backgroundColor = MaterialTheme.colors.surface,
+                    contentColor = MaterialTheme.colors.primary
+                ) {
+                    Icon(imageVector = Icons.Filled.Edit, contentDescription = null)
+                }
+            }
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues = padding)
+            ) {
                 val notes = viewModel.getNotesListFiltered()
                 LaunchedEffect(key1 = true) {
                     viewModel.eventFlow.collectLatest { event ->
