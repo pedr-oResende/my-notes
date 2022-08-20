@@ -8,6 +8,7 @@
     <string name="title_empty_error_message">Completa el título</string>
     <string name="content_empty_error_message">Completa el cuerpo de la nota</string>
     <string name="dropdown_label_archive">Archivar</string>
+    <string name="dropdown_label_unarchive">Desarchivar</string>
     <string name="dropdown_label_delete">Borrar</string>
     <string name="save_note_error_message">No se pudo guardar tu tono</string>
     <string name="notes_list_fixed_label">Marcadas</string>

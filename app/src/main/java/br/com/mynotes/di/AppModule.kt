@@ -41,7 +41,8 @@ object AppModule {
             getNoteByIdUseCase = GetNoteByIdUseCase(repository),
             unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
             getArchivedNotesUseCase = GetArchivedNotesUseCase(repository),
-            getDeletedNotesUseCase = GetDeletedNotesUseCase(repository)
+            getDeletedNotesUseCase = GetDeletedNotesUseCase(repository),
+            deleteNoteUseCase = DeleteNoteUseCase(repository)
         )
     }
 

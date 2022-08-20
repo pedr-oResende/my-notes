@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
@@ -104,8 +105,11 @@ fun NoteDetailScreen(
                             imageVector = Icons.Outlined.Delete
                         )
                     },
-                    onBackPressed = {
-                        onBackPressedDispatcher.onBackPressed()
+                    navigationIcon = {
+                        TopBarIcon(
+                            onClick = { onBackPressedDispatcher.onBackPressed() },
+                            imageVector = Icons.Default.ArrowBack
+                        )
                     }
                 )
             },

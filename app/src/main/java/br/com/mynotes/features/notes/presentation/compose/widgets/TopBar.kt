@@ -8,11 +8,12 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
 fun TopBar(
     title: String? = null,
-    onBackPressed: (() -> Unit)? = null,
+    navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
@@ -20,12 +21,8 @@ fun TopBar(
             if (title != null)
                 Text(text = title)
         },
-        navigationIcon = if (onBackPressed != null) {
-            {
-                IconButton(onClick = onBackPressed) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = null)
-                }
-            }
+        navigationIcon = if (navigationIcon != null) {
+            { navigationIcon() }
         } else null,
         actions = actions
     )

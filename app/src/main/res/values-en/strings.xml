@@ -8,6 +8,7 @@
     <string name="title_empty_error_message">Fill the title</string>
     <string name="content_empty_error_message">Fill the note body</string>
     <string name="dropdown_label_archive">Archive</string>
+    <string name="dropdown_label_unarchive">Unarchive</string>
     <string name="dropdown_label_delete">Delete</string>
     <string name="save_note_error_message">Could not save your note</string>
     <string name="notes_list_fixed_label">Marked</string>

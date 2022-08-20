@@ -4,17 +4,19 @@ import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.outlined.Archive
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,10 +28,8 @@ import br.com.mynotes.features.notes.presentation.compose.components.DrawerBody
 import br.com.mynotes.features.notes.presentation.compose.components.DrawerHeader
 import br.com.mynotes.features.notes.presentation.compose.components.NotesList
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
-import br.com.mynotes.features.notes.presentation.compose.widgets.CustomEditText
-import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
-import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.presentation.model.MenuItem
+import br.com.mynotes.features.notes.presentation.screens.home.components.NotesListTopBar
 import br.com.mynotes.features.notes.presentation.util.HomeEvent
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -56,107 +56,7 @@ fun HomeScreen(
         Scaffold(
             scaffoldState = scaffoldState,
             topBar = {
-                AnimatedVisibility(
-                    visible = notesUI.isInSelectedMode,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    Column {
-                        TopBar(
-                            actions = {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    TopBarIcon(
-                                        onClick = {
-                                            viewModel.onEvent(HomeEvent.ToggleCloseSelection)
-                                        },
-                                        imageVector = Icons.Filled.Close
-                                    )
-                                    Row {
-                                        TopBarIcon(
-                                            onClick = {
-                                                viewModel.onEvent(HomeEvent.ToggleMarkPin)
-                                            },
-                                            imageVector = if (notesUI.isPinFilled) {
-                                                Icons.Filled.PushPin
-                                            } else {
-                                                Icons.Outlined.PushPin
-                                            }
-                                        )
-                                        TopBarIcon(
-                                            onClick = {
-                                                viewModel.onEvent(HomeEvent.ToggleMenuMore)
-                                            },
-                                            imageVector = Icons.Filled.MoreVert
-                                        )
-                                        DropdownMenu(
-                                            expanded = notesUI.showMenuMore,
-                                            onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
-                                            DropdownMenuItem(onClick = {
-                                                viewModel.onEvent(HomeEvent.ArchiveNote)
-                                            }) {
-                                                Text(
-                                                    text = stringResource(R.string.dropdown_label_archive),
-                                                    style = MaterialTheme.typography.body1
-                                                )
-                                            }
-                                            DropdownMenuItem(onClick = {
-                                                viewModel.onEvent(HomeEvent.DeleteNote)
-                                            }) {
-                                                Text(
-                                                    text = stringResource(R.string.dropdown_label_delete),
-                                                    style = MaterialTheme.typography.body1
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(12.3.dp))
-                    }
-                }
-                AnimatedVisibility(
-                    visible = !notesUI.isInSelectedMode,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    CustomEditText(
-                        modifier = Modifier
-                            .padding(top = 18.dp, start = 16.dp, end = 16.dp)
-                            .clip(RoundedCornerShape(50)),
-                        placeholder = stringResource(R.string.search_note_placeholder),
-                        value = notesUI.searchNotesText,
-                        onValueChange = { newText ->
-                            viewModel.onEvent(HomeEvent.SearchTextChanged(newText))
-                        },
-                        leadingIcon = {
-                            TopBarIcon(
-                                onClick = {
-                                    scope.launch {
-                                        scaffoldState.drawerState.open()
-                                    }
-                                },
-                                imageVector = Icons.Filled.Menu
-                            )
-                        },
-                        trailingIcon = {
-                            Row {
-                                TopBarIcon(
-                                    onClick = {
-                                        viewModel.onEvent(HomeEvent.ToggleListView)
-                                    },
-                                    imageVector = if (notesUI.isInGridMode)
-                                        Icons.Outlined.ViewAgenda
-                                    else
-                                        Icons.Outlined.GridView
-                                )
-                            }
-                        }
-                    )
-                }
+                NotesListTopBar(viewModel = viewModel, scaffoldState = scaffoldState)
             },
             floatingActionButton = {
                 AnimatedVisibility(
@@ -234,7 +134,7 @@ fun HomeScreen(
                         )
                     }
                     ScreenState.ArchiveScreen -> {
-                        ArchiveListScreen(
+                        CommomListScreen(
                             viewModel = viewModel,
                             scaffoldState = scaffoldState,
                             onItemClick = onItemClick,
@@ -242,7 +142,12 @@ fun HomeScreen(
                         )
                     }
                     ScreenState.TrashCanScreen -> {
-
+                        CommomListScreen(
+                            viewModel = viewModel,
+                            scaffoldState = scaffoldState,
+                            onItemClick = onItemClick,
+                            onItemLongClick = onItemLongClick
+                        )
                     }
                 }
             }
@@ -317,7 +222,7 @@ fun MainListScreen(
 }
 
 @Composable
-fun ArchiveListScreen(
+fun CommomListScreen(
     viewModel: HomeViewModel,
     scaffoldState: ScaffoldState,
     onItemClick: (Note) -> Unit,
@@ -351,5 +256,4 @@ fun ArchiveListScreen(
         onItemClick = onItemClick,
         onItemLongClick = onItemLongClick
     )
-
 }

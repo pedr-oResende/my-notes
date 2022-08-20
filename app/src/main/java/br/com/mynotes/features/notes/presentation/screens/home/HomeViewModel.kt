@@ -46,11 +46,12 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.DeleteNote -> {
+            is HomeEvent.MoveNoteToTrashCan -> {
                 recentlyDeletedNotes.addAll(selectedNotes())
-                deleteNotes(selectedNotes().map { note ->
+                moveToTrashCan(selectedNotes().map { note ->
                     note.copy(
-                        isDeleted = true
+                        isDeleted = true,
+                        isArchived = false
                     )
                 })
                 disableSelectedMode()
@@ -72,7 +73,8 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.ArchiveNote -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
-                        isArchived = true
+                        isArchived = event.archive,
+                        isDeleted = false
                     )
                 })
                 disableSelectedMode()
@@ -81,7 +83,8 @@ class HomeViewModel @Inject constructor(
                 selectedNotes().let { notes ->
                     editNotes(notes.map { note ->
                         note.copy(
-                            isFixed = !notes.all { it.isFixed }
+                            isFixed = !notes.all { it.isFixed },
+                            isArchived = if (note.isArchived) false else note.isArchived
                         )
                     })
                 }
@@ -102,15 +105,32 @@ class HomeViewModel @Inject constructor(
             }
             is HomeEvent.ChangeScreen -> {
                 _notesUI.value = notesUI.value.copy(
-                    screenState = event.screen
+                    screenState = event.screen,
+                    showMenuMore = false
                 )
                 getNotes(event.screen)
+            }
+            is HomeEvent.DeleteNotes -> {
+                deleteNotes(selectedNotes())
+                disableSelectedMode()
+            }
+            is HomeEvent.ClearTrashCan -> {
+                deleteNotes(notesUI.value.notes)
+            }
+            is HomeEvent.RestoreFromTrashCan -> {
+                editNotes(selectedNotes().map { note ->
+                    note.copy(
+                        isDeleted = false,
+                        isArchived = false
+                    )
+                })
+                disableSelectedMode()
             }
         }
     }
 
     private fun getNotes(screenState: ScreenState) {
-        when(screenState) {
+        when (screenState) {
             ScreenState.HomeScreen -> {
                 getMainNotes()
             }
@@ -130,21 +150,21 @@ class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private  fun getArchivedNotes() {
+    private fun getArchivedNotes() {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getArchivedNotesUseCase().onEach { notes ->
             _notesUI.value = notesUI.value.copy(notes = notes)
         }.launchIn(viewModelScope)
     }
 
-    private  fun getDeletedNotes() {
+    private fun getDeletedNotes() {
         getNotesJob?.cancel()
-        getNotesJob = noteUseCases.getArchivedNotesUseCase().onEach { notes ->
+        getNotesJob = noteUseCases.getDeletedNotesUseCase().onEach { notes ->
             _notesUI.value = notesUI.value.copy(notes = notes)
         }.launchIn(viewModelScope)
     }
 
-    private fun deleteNotes(notes: List<Note>) {
+    private fun moveToTrashCan(notes: List<Note>) {
         val context = MyNotesApp.getContext()!!
         notes.forEach { note ->
             viewModelScope.launch {
@@ -155,6 +175,14 @@ class HomeViewModel @Inject constructor(
                         label = context.getString(R.string.label_undo)
                     )
                 )
+            }
+        }
+    }
+
+    private fun deleteNotes(notes: List<Note>) {
+        notes.forEach { note ->
+            viewModelScope.launch {
+                noteUseCases.deleteNoteUseCase(note)
             }
         }
     }
@@ -223,7 +251,7 @@ class HomeViewModel @Inject constructor(
     fun getNotesListFiltered(): List<Note> {
         return notesUI.value.notes.filter { note ->
             note.title.contains(notesUI.value.searchNotesText, ignoreCase = true) ||
-            note.content.contains(notesUI.value.searchNotesText, ignoreCase = true)
+                    note.content.contains(notesUI.value.searchNotesText, ignoreCase = true)
         }
     }
 
@@ -234,4 +262,6 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun selectedNotes(): List<Note> = notesUI.value.notes.filter { it.isSelected }
+
+    fun selectedNotesSize(): Int = selectedNotes().size
 }
