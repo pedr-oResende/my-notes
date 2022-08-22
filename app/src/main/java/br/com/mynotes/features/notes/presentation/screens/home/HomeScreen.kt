@@ -134,7 +134,7 @@ fun HomeScreen(
                         )
                     }
                     ScreenState.ArchiveScreen -> {
-                        CommomListScreen(
+                        CommonListScreen(
                             viewModel = viewModel,
                             scaffoldState = scaffoldState,
                             onItemClick = onItemClick,
@@ -142,7 +142,7 @@ fun HomeScreen(
                         )
                     }
                     ScreenState.TrashCanScreen -> {
-                        CommomListScreen(
+                        CommonListScreen(
                             viewModel = viewModel,
                             scaffoldState = scaffoldState,
                             onItemClick = onItemClick,
@@ -222,7 +222,7 @@ fun MainListScreen(
 }
 
 @Composable
-fun CommomListScreen(
+fun CommonListScreen(
     viewModel: HomeViewModel,
     scaffoldState: ScaffoldState,
     onItemClick: (Note) -> Unit,
