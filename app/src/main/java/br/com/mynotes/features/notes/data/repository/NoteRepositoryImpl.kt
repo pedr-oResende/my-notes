@@ -21,7 +21,7 @@ class NoteRepositoryImpl(
         return dao.getDeletedNotes()
     }
 
-    override suspend fun getNoteById(id: Int): Note? {
+    override suspend fun getNoteById(id: Int?): Note? {
         return dao.getNoteById(id)
     }
 

@@ -21,7 +21,7 @@ fun GridNotesList(
     onItemLongClick: (Note) -> Unit
 ) {
     Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier.verticalScroll(rememberScrollState()),
     ) {
         Spacer(modifier = Modifier.height(8.dp))
         StaggeredVerticalGrid {

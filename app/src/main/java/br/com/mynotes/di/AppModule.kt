@@ -6,6 +6,7 @@ import br.com.mynotes.features.notes.data.data_source.NoteDatabase
 import br.com.mynotes.features.notes.data.repository.NoteRepositoryImpl
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
 import br.com.mynotes.features.notes.domain.use_case.*
+import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,5 +58,18 @@ object AppModule {
             moveToTrashCanUseCase = MoveToTrashCanUseCase(repository),
             restoreNoteUseCase = RestoreNoteUseCase(repository)
         )
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideWorkManagerUseCases(repository: NoteRepository): DeleteNoteUseCase {
+        return DeleteNoteUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDeleteNoteScheduler(): DeleteNoteScheduler {
+        return DeleteNoteScheduler()
     }
 }

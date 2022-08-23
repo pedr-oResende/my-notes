@@ -16,7 +16,6 @@ import com.google.accompanist.navigation.animation.composable
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.home(
     navHostController: NavHostController,
-    onBackPressedDispatcher: OnBackPressedDispatcher,
     scaffoldState: ScaffoldState
 ) {
     composable(
@@ -31,8 +30,7 @@ fun NavGraphBuilder.home(
         HomeScreen(
             navHostController = navHostController,
             scaffoldState = scaffoldState,
-            snackBarMessage = snackBarMessage,
-            onBackPressedDispatcher = onBackPressedDispatcher
+            snackBarMessage = snackBarMessage
         )
     }
 }

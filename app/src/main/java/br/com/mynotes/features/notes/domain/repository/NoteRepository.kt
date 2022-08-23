@@ -11,7 +11,7 @@ interface NoteRepository {
 
     fun getDeletedNotes(): Flow<List<Note>>
 
-    suspend fun getNoteById(id: Int): Note?
+    suspend fun getNoteById(id: Int?): Note?
 
     suspend fun insertNote(note: Note)
 

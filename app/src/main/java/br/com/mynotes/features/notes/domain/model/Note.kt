@@ -36,7 +36,7 @@ data class Note(
         timestamp = timestamp,
         isArchived = isArchived,
         isFixed = isFixed,
-        isSelected = false,
-        isDeleted = isDeleted
+        isDeleted = isDeleted,
+        isSelected = false
     )
 }

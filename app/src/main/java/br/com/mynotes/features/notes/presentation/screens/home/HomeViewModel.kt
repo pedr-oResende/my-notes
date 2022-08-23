@@ -14,6 +14,7 @@ import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
+import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -26,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
+    private val deleteNoteScheduler: DeleteNoteScheduler,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -171,6 +173,10 @@ class HomeViewModel @Inject constructor(
         notes.forEach { note ->
             viewModelScope.launch {
                 noteUseCases.updateNotesUseCase(note)
+                deleteNoteScheduler.setupDeleteNoteWorker(
+                    context = getApplication<Application>().applicationContext,
+                    noteId = note.id
+                )
                 _eventFlow.emit(
                     NotesEvents.ShowUndoSnackBar(
                         text = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
@@ -184,7 +190,7 @@ class HomeViewModel @Inject constructor(
     private fun deleteNotes(notes: List<Note>) {
         notes.forEach { note ->
             viewModelScope.launch {
-                noteUseCases.deleteNoteUseCase(note)
+                noteUseCases.deleteNoteUseCase(note.id)
             }
         }
     }

@@ -10,6 +10,7 @@ import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
 import br.com.mynotes.features.notes.presentation.util.NoteDetailUIEvents
+import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
     private val noteDetailUseCases: NoteDetailUseCases,
+    private val deleteNoteScheduler: DeleteNoteScheduler,
     application: Application
 ) : AndroidViewModel(application) {
     private val _noteDetailUI = mutableStateOf(NoteDetailUI())
@@ -45,7 +47,12 @@ class NoteDetailViewModel @Inject constructor(
             is NoteDetailUIEvents.DeleteNote -> {
                 viewModelScope.launch {
                     try {
-                        noteDetailUseCases.moveToTrashCanUseCase(getNote())
+                        val note = getNote()
+                        noteDetailUseCases.moveToTrashCanUseCase(note)
+                        deleteNoteScheduler.setupDeleteNoteWorker(
+                            context = getApplication<Application>().applicationContext,
+                            noteId = note.id
+                        )
                         _eventFlow.emit(NotesDetailEvents.ProcessNote)
                     } catch (e: InvalidNoteException) {
                         _eventFlow.emit(NotesDetailEvents.DiscardNote)

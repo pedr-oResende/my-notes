@@ -21,7 +21,6 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
         builder = {
             home(
                 navHostController = navHostController,
-                onBackPressedDispatcher = onBackPressedDispatcher,
                 scaffoldState = scaffoldState
             )
             noteDetail(

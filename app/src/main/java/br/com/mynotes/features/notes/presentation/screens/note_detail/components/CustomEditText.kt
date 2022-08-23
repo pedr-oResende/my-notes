@@ -12,7 +12,6 @@ import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun CustomEditText(
-    modifier: Modifier = Modifier,
     text: String,
     placeholder: String,
     onValueChange: (value: String) -> Unit,

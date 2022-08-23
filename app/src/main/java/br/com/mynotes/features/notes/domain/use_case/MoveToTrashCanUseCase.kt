@@ -7,6 +7,11 @@ class MoveToTrashCanUseCase(
     private val repository: NoteRepository
 ) {
     suspend operator fun invoke(note: Note) {
-        repository.insertNote(note.copy(isDeleted = true, isArchived = false))
+        repository.insertNote(
+            note.copy(
+                isDeleted = true,
+                isArchived = false
+            )
+        )
     }
 }
