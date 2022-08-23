@@ -88,8 +88,8 @@ fun NoteDetailScreen(
         }
         val (showAlertDialog, setShowAlertDialog) = remember { mutableStateOf(false) }
         DefaultAlertDialog(
-            text = "Tem certeza que deseja excluir essa nota?",
-            buttonText = "Deletar",
+            text = stringResource(R.string.remove_note_alert_dialog_text),
+            buttonText = stringResource(R.string.label_delete),
             onClick = {
                 viewModel.onEvent(NoteDetailEvent.DeleteNote)
             },

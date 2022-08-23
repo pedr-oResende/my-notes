@@ -7,9 +7,6 @@
     <string name="note_content_placeholder">Note</string>
     <string name="title_empty_error_message">Completa el título</string>
     <string name="content_empty_error_message">Completa el cuerpo de la nota</string>
-    <string name="dropdown_label_archive">Archivar</string>
-    <string name="dropdown_label_unarchive">Desarchivar</string>
-    <string name="dropdown_label_delete">Borrar</string>
     <string name="save_note_error_message">No se pudo guardar tu tono</string>
     <string name="notes_list_fixed_label">Marcadas</string>
     <string name="notes_list_others_label">Otros</string>
@@ -20,5 +17,10 @@
     <string name="menu_item_trash_can">Bote de basura</string>
     <string name="empty_nome_message">Nota vacía descartada</string>
     <string name="search_note_placeholder">Busca tus notas</string>
+    <string name="remove_note_alert_dialog_text">¿Estás seguro que quieres eliminar esta nota?</string>
+
+    <string name="label_archive">Archivar</string>
+    <string name="label_unarchive">Desarchivar</string>
+    <string name="label_delete">Borrar</string>
 
 </resources>

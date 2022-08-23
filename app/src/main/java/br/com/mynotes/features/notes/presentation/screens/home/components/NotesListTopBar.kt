@@ -127,13 +127,13 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: HomeViewModel) {
                                 onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
                                 DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.ArchiveNote(archive = true)) }) {
                                     Text(
-                                        text = stringResource(R.string.dropdown_label_archive),
+                                        text = stringResource(R.string.label_archive),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
                                 DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.MoveNoteToTrashCan) }) {
                                     Text(
-                                        text = stringResource(R.string.dropdown_label_delete),
+                                        text = stringResource(R.string.label_delete),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
@@ -194,13 +194,13 @@ fun ArchiveTopBar(
                                 onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
                                 DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.ArchiveNote(false)) }) {
                                     Text(
-                                        text = stringResource(R.string.dropdown_label_unarchive),
+                                        text = stringResource(R.string.label_unarchive),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
                                 DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.MoveNoteToTrashCan) }) {
                                     Text(
-                                        text = stringResource(R.string.dropdown_label_delete),
+                                        text = stringResource(R.string.label_delete),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
