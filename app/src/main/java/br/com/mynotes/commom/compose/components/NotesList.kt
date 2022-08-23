@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.compose.components
+package br.com.mynotes.commom.compose.components
 
 import androidx.compose.runtime.Composable
 import br.com.mynotes.features.notes.domain.model.Note

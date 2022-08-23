@@ -12,7 +12,7 @@ import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
-import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
+import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

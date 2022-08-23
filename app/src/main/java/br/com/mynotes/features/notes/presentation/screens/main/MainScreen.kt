@@ -4,9 +4,9 @@ import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
-import br.com.mynotes.features.notes.presentation.compose.navigation.home
-import br.com.mynotes.features.notes.presentation.compose.navigation.noteDetail
+import br.com.mynotes.commom.compose.navigation.Screens
+import br.com.mynotes.commom.compose.navigation.home
+import br.com.mynotes.commom.compose.navigation.noteDetail
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 

@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.compose.navigation
+package br.com.mynotes.commom.compose.navigation
 
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.ExperimentalAnimationApi

@@ -32,8 +32,8 @@ import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.extensions.getActivity
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.compose.components.DefaultAlertDialog
-import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
+import br.com.mynotes.commom.compose.components.DefaultAlertDialog
+import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.presentation.screens.note_detail.components.CustomEditText

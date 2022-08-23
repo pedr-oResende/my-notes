@@ -24,10 +24,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.compose.components.DrawerBody
-import br.com.mynotes.features.notes.presentation.compose.components.DrawerHeader
-import br.com.mynotes.features.notes.presentation.compose.components.NotesList
-import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
+import br.com.mynotes.commom.compose.components.DrawerBody
+import br.com.mynotes.commom.compose.components.DrawerHeader
+import br.com.mynotes.commom.compose.components.NotesList
+import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.model.MenuItem
 import br.com.mynotes.features.notes.presentation.screens.home.components.NotesListTopBar
 import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
