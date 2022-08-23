@@ -4,8 +4,8 @@ import androidx.navigation.NavHostController
 
 sealed class Screens(val route: String, val argumentKey: String) {
 
-    fun navigateUp(navHostController: NavHostController) {
-        navHostController.navigateUp()
+    fun <T> passArgument(message: T?): String {
+        return this.route.replace(oldValue = "{$argumentKey}", newValue = message.toString())
     }
 
     fun navigate(navHostController: NavHostController) {
@@ -34,13 +34,14 @@ sealed class Screens(val route: String, val argumentKey: String) {
         navigate(navHostController)
     }
 
+
     object Home : Screens(
-        route = "home",
+        route = "home/{home_argument}",
         argumentKey = "home_argument"
     )
 
     object NoteDetail : Screens(
-        route = "note_detail",
+        route = "note_detail/{note_detail_argument}",
         argumentKey = "note_detail_argument"
     )
 

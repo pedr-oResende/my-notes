@@ -5,6 +5,8 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ScaffoldState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
@@ -19,11 +21,12 @@ fun NavGraphBuilder.home(
 ) {
     composable(
         route = Screens.Home.route,
-    ) {
+        arguments = listOf(navArgument(Screens.Home.argumentKey) {
+            type = NavType.StringType
+        })
+    ) { backStackEntry ->
         val snackBarMessage =
-            navHostController.previousBackStackEntry?.savedStateHandle?.getArgument(
-                key = Screens.Home.argumentKey
-            ) ?: ""
+            backStackEntry.arguments?.getString(Screens.Home.argumentKey) ?: ""
         HomeScreen(
             navHostController = navHostController,
             scaffoldState = scaffoldState,

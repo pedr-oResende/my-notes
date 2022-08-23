@@ -60,7 +60,7 @@ fun NoteDetailScreen(
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
                     is NotesDetailEvents.ProcessNote -> {
-                        Screens.Home.navigateUp(navHostController)
+                        navHostController.navigateUp()
                     }
                     is NotesDetailEvents.ShowSnackBar -> {
                         scaffoldState.snackbarHostState.showSnackbar(
@@ -68,13 +68,14 @@ fun NoteDetailScreen(
                         )
                     }
                     is NotesDetailEvents.EmptyNote -> {
-                        Screens.Home.navigateWithArgument(
-                            navHostController = navHostController,
-                            argumentValue = context.getString(R.string.empty_nome_message)
-                        )
+                        navHostController.navigate(Screens.Home.passArgument(
+                            message = context.getString(R.string.empty_nome_message)
+                        )) {
+                            popUpTo(0)
+                        }
                     }
-                    NotesDetailEvents.DiscardNote -> {
-                        Screens.Home.navigateUp(navHostController)
+                    is NotesDetailEvents.DiscardNote -> {
+                        navHostController.navigateUp()
                     }
                 }
             }

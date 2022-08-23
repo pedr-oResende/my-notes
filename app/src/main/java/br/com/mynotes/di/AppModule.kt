@@ -52,7 +52,8 @@ object AppModule {
         return NoteDetailUseCases(
             addNoteUseCase = AddNoteUseCase(repository),
             archiveNoteUseCase = ArchiveNoteUseCase(repository),
-            deleteNoteUseCase = DeleteNoteUseCase(repository)
+            deleteNoteUseCase = DeleteNoteUseCase(repository),
+            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository)
         )
     }
 }
