@@ -16,7 +16,8 @@ fun CustomEditText(
     text: String,
     placeholder: String,
     onValueChange: (value: String) -> Unit,
-    textStyle: TextStyle
+    textStyle: TextStyle,
+    readOnly: Boolean = false
 ) {
     TextField(
         modifier = Modifier.fillMaxWidth(),
@@ -35,6 +36,7 @@ fun CustomEditText(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
-        )
+        ),
+        readOnly = readOnly
     )
 }

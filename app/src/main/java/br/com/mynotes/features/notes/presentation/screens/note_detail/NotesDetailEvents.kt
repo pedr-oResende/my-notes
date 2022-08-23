@@ -4,5 +4,5 @@ sealed class NotesDetailEvents {
     object ProcessNote : NotesDetailEvents()
     object DiscardNote : NotesDetailEvents()
     object EmptyNote : NotesDetailEvents()
-    data class ShowSnackBar(val message: String): NotesDetailEvents()
+    data class ShowRestoreNoteSnackBar(val text: String, val label: String): NotesDetailEvents()
 }

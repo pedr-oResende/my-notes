@@ -26,7 +26,7 @@ import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.presentation.screens.home.HomeViewModel
 import br.com.mynotes.features.notes.presentation.screens.home.NotesUI
 import br.com.mynotes.features.notes.presentation.screens.home.ScreenState
-import br.com.mynotes.features.notes.presentation.util.HomeEvent
+import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -57,7 +57,7 @@ fun NotesListTopBar(
             placeholder = stringResource(R.string.search_note_placeholder),
             value = notesUI.searchNotesText,
             onValueChange = { newText ->
-                viewModel.onEvent(HomeEvent.SearchTextChanged(newText))
+                viewModel.onEvent(HomeUIEvents.SearchTextChanged(newText))
             },
             leadingIcon = {
                 TopBarIcon(
@@ -70,7 +70,7 @@ fun NotesListTopBar(
             trailingIcon = {
                 Row {
                     TopBarIcon(
-                        onClick = { viewModel.onEvent(HomeEvent.ToggleListView) },
+                        onClick = { viewModel.onEvent(HomeUIEvents.ToggleListView) },
                         imageVector = if (notesUI.isInGridMode)
                             Icons.Outlined.ViewAgenda
                         else
@@ -100,7 +100,7 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: HomeViewModel) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleCloseSelection) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleCloseSelection) },
                                 imageVector = Icons.Filled.Close
                             )
                             Text(
@@ -110,7 +110,7 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: HomeViewModel) {
                         }
                         Row {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleMarkPin) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleMarkPin) },
                                 imageVector = if (notesUI.isPinFilled)
                                     Icons.Filled.PushPin
                                  else
@@ -118,20 +118,20 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: HomeViewModel) {
                             )
                             TopBarIcon(
                                 onClick = {
-                                    viewModel.onEvent(HomeEvent.ToggleMenuMore)
+                                    viewModel.onEvent(HomeUIEvents.ToggleMenuMore)
                                 },
                                 imageVector = Icons.Filled.MoreVert
                             )
                             DropdownMenu(
                                 expanded = notesUI.showMenuMore,
-                                onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
-                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.ArchiveNote(archive = true)) }) {
+                                onDismissRequest = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) }) {
+                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeUIEvents.ArchiveNote(archive = true)) }) {
                                     Text(
                                         text = stringResource(R.string.label_archive),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
-                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.MoveNoteToTrashCan) }) {
+                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeUIEvents.MoveNoteToTrashCan) }) {
                                     Text(
                                         text = stringResource(R.string.label_delete),
                                         style = MaterialTheme.typography.body1
@@ -168,7 +168,7 @@ fun ArchiveTopBar(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleCloseSelection) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleCloseSelection) },
                                 imageVector = Icons.Filled.Close
                             )
                             Text(
@@ -178,7 +178,7 @@ fun ArchiveTopBar(
                         }
                         Row {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleMarkPin) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleMarkPin) },
                                 imageVector = if (notesUI.isPinFilled) {
                                     Icons.Filled.PushPin
                                 } else {
@@ -186,19 +186,19 @@ fun ArchiveTopBar(
                                 }
                             )
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleMenuMore) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) },
                                 imageVector = Icons.Filled.MoreVert
                             )
                             DropdownMenu(
                                 expanded = notesUI.showMenuMore,
-                                onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
-                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.ArchiveNote(false)) }) {
+                                onDismissRequest = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) }) {
+                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeUIEvents.ArchiveNote(false)) }) {
                                     Text(
                                         text = stringResource(R.string.label_unarchive),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
-                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.MoveNoteToTrashCan) }) {
+                                DropdownMenuItem(onClick = { viewModel.onEvent(HomeUIEvents.MoveNoteToTrashCan) }) {
                                     Text(
                                         text = stringResource(R.string.label_delete),
                                         style = MaterialTheme.typography.body1
@@ -240,13 +240,13 @@ fun TrashCanTopBar(
                 actions = {
                     Row {
                         TopBarIcon(
-                            onClick = { viewModel.onEvent(HomeEvent.ToggleMenuMore) },
+                            onClick = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) },
                             imageVector = Icons.Filled.MoreVert
                         )
                         DropdownMenu(
                             expanded = notesUI.showMenuMore,
-                            onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
-                            DropdownMenuItem(onClick = { viewModel.onEvent(HomeEvent.ClearTrashCan) }) {
+                            onDismissRequest = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) }) {
+                            DropdownMenuItem(onClick = { viewModel.onEvent(HomeUIEvents.ClearTrashCan) }) {
                                 Text(
                                     text = "Esvaziar lixeira",
                                     style = MaterialTheme.typography.body1
@@ -275,7 +275,7 @@ fun TrashCanTopBar(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleCloseSelection) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleCloseSelection) },
                                 imageVector = Icons.Filled.Close
                             )
                             Text(
@@ -285,18 +285,18 @@ fun TrashCanTopBar(
                         }
                         Row {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.RestoreFromTrashCan) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.RestoreFromTrashCan) },
                                 imageVector = Icons.Outlined.RestoreFromTrash
                             )
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(HomeEvent.ToggleMenuMore) },
+                                onClick = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) },
                                 imageVector = Icons.Filled.MoreVert
                             )
                             DropdownMenu(
                                 expanded = notesUI.showMenuMore,
-                                onDismissRequest = { viewModel.onEvent(HomeEvent.ToggleMenuMore) }) {
+                                onDismissRequest = { viewModel.onEvent(HomeUIEvents.ToggleMenuMore) }) {
                                 DropdownMenuItem(onClick = {
-                                    viewModel.onEvent(HomeEvent.DeleteNotes)
+                                    viewModel.onEvent(HomeUIEvents.DeleteNotes)
                                 }) {
                                     Text(
                                         text = "Excluir definitivamente",

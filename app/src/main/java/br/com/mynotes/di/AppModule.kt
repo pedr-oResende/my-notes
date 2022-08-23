@@ -37,11 +37,11 @@ object AppModule {
     fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
         return NoteUseCases(
             getNotesUseCase = GetMainNotesUseCase(repository),
+            getArchivedNotesUseCase = GetArchivedNotesUseCase(repository),
+            getDeletedNotesUseCase = GetDeletedNotesUseCase(repository),
             updateNotesUseCase = AddNoteUseCase(repository),
             getNoteByIdUseCase = GetNoteByIdUseCase(repository),
             unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
-            getArchivedNotesUseCase = GetArchivedNotesUseCase(repository),
-            getDeletedNotesUseCase = GetDeletedNotesUseCase(repository),
             deleteNoteUseCase = DeleteNoteUseCase(repository)
         )
     }
@@ -52,8 +52,10 @@ object AppModule {
         return NoteDetailUseCases(
             addNoteUseCase = AddNoteUseCase(repository),
             archiveNoteUseCase = ArchiveNoteUseCase(repository),
+            unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
             deleteNoteUseCase = DeleteNoteUseCase(repository),
-            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository)
+            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository),
+            restoreNoteUseCase = RestoreNoteUseCase(repository)
         )
     }
 }

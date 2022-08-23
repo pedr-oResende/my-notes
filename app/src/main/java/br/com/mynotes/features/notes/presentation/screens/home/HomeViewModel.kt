@@ -13,7 +13,7 @@ import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
-import br.com.mynotes.features.notes.presentation.util.HomeEvent
+import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -44,9 +44,9 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun onEvent(event: HomeEvent) {
+    fun onEvent(event: HomeUIEvents) {
         when (event) {
-            is HomeEvent.MoveNoteToTrashCan -> {
+            is HomeUIEvents.MoveNoteToTrashCan -> {
                 recentlyDeletedNotes.addAll(selectedNotes())
                 moveToTrashCan(selectedNotes().map { note ->
                     note.copy(
@@ -56,21 +56,21 @@ class HomeViewModel @Inject constructor(
                 })
                 disableSelectedMode()
             }
-            is HomeEvent.RestoreNotes -> {
+            is HomeUIEvents.RestoreNotes -> {
                 editNotes(recentlyDeletedNotes)
                 recentlyDeletedNotes.removeAll { true }
                 disableSelectedMode()
             }
-            is HomeEvent.SelectNote -> {
+            is HomeUIEvents.SelectNote -> {
                 selectNote(event.note)
             }
-            is HomeEvent.ToggleListView -> {
+            is HomeUIEvents.ToggleListView -> {
                 toggleListView()
             }
-            is HomeEvent.ToggleCloseSelection -> {
+            is HomeUIEvents.ToggleCloseSelection -> {
                 disableSelectedMode()
             }
-            is HomeEvent.ArchiveNote -> {
+            is HomeUIEvents.ArchiveNote -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
                         isArchived = event.archive,
@@ -79,7 +79,7 @@ class HomeViewModel @Inject constructor(
                 })
                 disableSelectedMode()
             }
-            is HomeEvent.ToggleMarkPin -> {
+            is HomeUIEvents.ToggleMarkPin -> {
                 selectedNotes().let { notes ->
                     editNotes(notes.map { note ->
                         note.copy(
@@ -90,36 +90,36 @@ class HomeViewModel @Inject constructor(
                 }
                 disableSelectedMode()
             }
-            is HomeEvent.OnNoteDeleted -> {
+            is HomeUIEvents.OnNoteDeleted -> {
                 onNoteDeleted()
             }
-            is HomeEvent.ToggleMenuMore -> {
+            is HomeUIEvents.ToggleMenuMore -> {
                 _notesUI.value = notesUI.value.copy(
                     showMenuMore = !notesUI.value.showMenuMore
                 )
             }
-            is HomeEvent.SearchTextChanged -> {
+            is HomeUIEvents.SearchTextChanged -> {
                 _notesUI.value = notesUI.value.copy(
                     searchNotesText = event.text
                 )
             }
-            is HomeEvent.ChangeScreen -> {
+            is HomeUIEvents.ChangeScreen -> {
                 _notesUI.value = notesUI.value.copy(
                     screenState = event.screen,
                     showMenuMore = false
                 )
                 getNotes(event.screen)
             }
-            is HomeEvent.DeleteNotes -> {
+            is HomeUIEvents.DeleteNotes -> {
                 deleteNotes(selectedNotes())
-                onEvent(HomeEvent.ToggleMenuMore)
+                onEvent(HomeUIEvents.ToggleMenuMore)
                 disableSelectedMode()
             }
-            is HomeEvent.ClearTrashCan -> {
+            is HomeUIEvents.ClearTrashCan -> {
                 deleteNotes(notesUI.value.notes)
-                onEvent(HomeEvent.ToggleMenuMore)
+                onEvent(HomeUIEvents.ToggleMenuMore)
             }
-            is HomeEvent.RestoreFromTrashCan -> {
+            is HomeUIEvents.RestoreFromTrashCan -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
                         isDeleted = false,

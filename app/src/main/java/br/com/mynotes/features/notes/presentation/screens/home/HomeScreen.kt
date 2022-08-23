@@ -30,7 +30,7 @@ import br.com.mynotes.features.notes.presentation.compose.components.NotesList
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.model.MenuItem
 import br.com.mynotes.features.notes.presentation.screens.home.components.NotesListTopBar
-import br.com.mynotes.features.notes.presentation.util.HomeEvent
+import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -100,7 +100,7 @@ fun HomeScreen(
                     onItemClick = { item ->
                         scope.launch {
                             scaffoldState.drawerState.close()
-                            viewModel.onEvent(HomeEvent.ChangeScreen(item.screen))
+                            viewModel.onEvent(HomeUIEvents.ChangeScreen(item.screen))
                         }
                     },
                     currentRoute = notesUI.screenState
@@ -109,7 +109,7 @@ fun HomeScreen(
         ) { padding ->
             val onItemClick: (Note) -> Unit = { note ->
                 if (notesUI.isInSelectedMode)
-                    viewModel.onEvent(HomeEvent.SelectNote(note))
+                    viewModel.onEvent(HomeUIEvents.SelectNote(note))
                 else
                     viewModel.goToDetail(
                         navHostController = navHostController,
@@ -117,7 +117,7 @@ fun HomeScreen(
                     )
             }
             val onItemLongClick: (Note) -> Unit = { note ->
-                viewModel.onEvent(HomeEvent.SelectNote(note))
+                viewModel.onEvent(HomeUIEvents.SelectNote(note))
             }
             Column(
                 modifier = Modifier
@@ -178,7 +178,7 @@ fun MainListScreen(
                         actionLabel = event.label
                     )
                     if (result == SnackbarResult.ActionPerformed) {
-                        viewModel.onEvent(HomeEvent.RestoreNotes)
+                        viewModel.onEvent(HomeUIEvents.RestoreNotes)
                     }
                 }
             }
@@ -244,7 +244,7 @@ fun CommonListScreen(
                         actionLabel = event.label
                     )
                     if (result == SnackbarResult.ActionPerformed) {
-                        viewModel.onEvent(HomeEvent.RestoreNotes)
+                        viewModel.onEvent(HomeUIEvents.RestoreNotes)
                     }
                 }
             }

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
-import br.com.mynotes.features.notes.presentation.util.NoteDetailEvent
+import br.com.mynotes.features.notes.presentation.util.NoteDetailUIEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -28,15 +28,18 @@ class NoteDetailViewModel @Inject constructor(
 
     private val timeInNote = System.currentTimeMillis()
 
-    fun onEvent(event: NoteDetailEvent) {
+    fun onEvent(event: NoteDetailUIEvents) {
         when (event) {
-            is NoteDetailEvent.ArchiveNote -> {
+            is NoteDetailUIEvents.ArchiveNote -> {
                 viewModelScope.launch {
-                    noteDetailUseCases.archiveNoteUseCase(getNote())
+                    if (noteDetailUI.value.note?.isArchived == true)
+                        noteDetailUseCases.unarchiveNoteUseCase(getNote())
+                    else
+                        noteDetailUseCases.archiveNoteUseCase(getNote())
                     _eventFlow.emit(NotesDetailEvents.ProcessNote)
                 }
             }
-            is NoteDetailEvent.DeleteNote -> {
+            is NoteDetailUIEvents.DeleteNote -> {
                 viewModelScope.launch {
                     try {
                         noteDetailUseCases.moveToTrashCanUseCase(getNote())
@@ -46,30 +49,51 @@ class NoteDetailViewModel @Inject constructor(
                     }
                 }
             }
-            is NoteDetailEvent.SaveNote -> {
+            is NoteDetailUIEvents.SaveNote -> {
                 viewModelScope.launch {
                     try {
-                        noteDetailUseCases.addNoteUseCase(getNote())
+                        val note =
+                            if (noteDetailUI.value.isPinMarked && noteDetailUI.value.note?.isArchived == true)
+                                getNote().copy(isArchived = false)
+                            else
+                                getNote()
+                        noteDetailUseCases.addNoteUseCase(note)
                         _eventFlow.emit(NotesDetailEvents.ProcessNote)
-                    } catch(e: InvalidNoteException) {
+                    } catch (e: InvalidNoteException) {
                         _eventFlow.emit(NotesDetailEvents.EmptyNote)
                     }
                 }
             }
-            is NoteDetailEvent.ToggleMarkPin -> {
+            is NoteDetailUIEvents.ToggleMarkPin -> {
                 _noteDetailUI.value = noteDetailUI.value.copy(
                     isPinMarked = !noteDetailUI.value.isPinMarked
                 )
             }
-            is NoteDetailEvent.TitleChanged -> {
+            is NoteDetailUIEvents.TitleChanged -> {
                 _noteDetailUI.value = noteDetailUI.value.copy(
                     title = event.title
                 )
             }
-            is NoteDetailEvent.ContentChanged -> {
+            is NoteDetailUIEvents.ContentChanged -> {
                 _noteDetailUI.value = noteDetailUI.value.copy(
                     content = event.content
                 )
+            }
+            is NoteDetailUIEvents.RestoreNote -> {
+                viewModelScope.launch {
+                    noteDetailUseCases.restoreNoteUseCase(getNote())
+                    _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                }
+            }
+            is NoteDetailUIEvents.TryToEditDeletedNote -> {
+                viewModelScope.launch {
+                    _eventFlow.emit(
+                        NotesDetailEvents.ShowRestoreNoteSnackBar(
+                            text = "Não é possível editar na lixeira",
+                            label = "Restaurar"
+                        )
+                    )
+                }
             }
         }
     }
@@ -98,12 +122,12 @@ class NoteDetailViewModel @Inject constructor(
             id = state.note?.id,
             title = state.title,
             content = state.content,
-            isArchived = state.note?.isArchived ?: false,
             isFixed = state.isPinMarked,
             createAt = getCurrentDate(),
             timestamp = getTimeStamp(),
-            isSelected = false,
-            isDeleted = false
+            isSelected = state.note?.isSelected ?: false,
+            isDeleted = state.note?.isDeleted ?: false,
+            isArchived = state.note?.isArchived ?: false
         )
     }
 
