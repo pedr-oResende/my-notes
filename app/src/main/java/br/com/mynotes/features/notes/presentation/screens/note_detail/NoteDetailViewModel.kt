@@ -39,7 +39,7 @@ class NoteDetailViewModel @Inject constructor(
             is NoteDetailEvent.DeleteNote -> {
                 viewModelScope.launch {
                     try {
-                        noteDetailUseCases.deleteNoteUseCase(getNote())
+                        noteDetailUseCases.moveToTrashCanUseCase(getNote())
                         _eventFlow.emit(NotesDetailEvents.ProcessNote)
                     } catch (e: InvalidNoteException) {
                         _eventFlow.emit(NotesDetailEvents.DiscardNote)

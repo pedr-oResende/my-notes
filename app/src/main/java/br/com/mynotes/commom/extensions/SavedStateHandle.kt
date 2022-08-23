@@ -7,3 +7,7 @@ fun <T> SavedStateHandle.getArgument(key: String): T? {
     remove<T>(key = key)
     return argument
 }
+
+fun <T> SavedStateHandle.putArgument(key: String, argument: T?) {
+    set(key = key, value = argument)
+}

@@ -66,7 +66,7 @@ fun HomeScreen(
                 ) {
                     FloatingActionButton(
                         onClick = {
-                            Screens.NoteDetail.navigate(navHostController)
+                            navHostController.navigate(Screens.NoteDetail.route)
                         },
                         backgroundColor = MaterialTheme.colors.surface,
                         contentColor = MaterialTheme.colors.primary

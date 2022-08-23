@@ -1,24 +1,27 @@
 package br.com.mynotes.features.notes.presentation.compose.navigation
 
 import androidx.navigation.NavHostController
+import br.com.mynotes.commom.extensions.putArgument
 
 sealed class Screens(val route: String, val argumentKey: String) {
 
-    fun <T> passArgument(message: T?): String {
-        return this.route.replace(oldValue = "{$argumentKey}", newValue = message.toString())
+    fun <T> passArgument(argument: T?): String {
+        return this.route.replace(oldValue = "{$argumentKey}", newValue = argument.toString())
     }
 
-    fun navigate(navHostController: NavHostController) {
-        navigateWithArgument(navHostController = navHostController, argumentValue = null)
+    fun backToHome(navHostController: NavHostController) {
+        navHostController.navigate(route = Home.route) {
+            popUpTo(0)
+        }
     }
 
     fun <T> navigateWithArgument(
         navHostController: NavHostController,
         argumentValue: T?
     ) {
-        navHostController.currentBackStackEntry?.savedStateHandle?.set(
+        navHostController.currentBackStackEntry?.savedStateHandle?.putArgument(
             key = argumentKey,
-            value = argumentValue
+            argument = argumentValue
         )
         navHostController.navigate(route)
     }
@@ -31,17 +34,17 @@ sealed class Screens(val route: String, val argumentKey: String) {
             key = argumentKey,
             value = argumentValue
         )
-        navigate(navHostController)
+        navHostController.navigate(route)
     }
 
 
     object Home : Screens(
-        route = "home/{home_argument}",
+        route = "home?home_argument={home_argument}",
         argumentKey = "home_argument"
     )
 
     object NoteDetail : Screens(
-        route = "note_detail/{note_detail_argument}",
+        route = "note_detail",
         argumentKey = "note_detail_argument"
     )
 

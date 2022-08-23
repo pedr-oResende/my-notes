@@ -23,6 +23,7 @@ fun NavGraphBuilder.home(
         route = Screens.Home.route,
         arguments = listOf(navArgument(Screens.Home.argumentKey) {
             type = NavType.StringType
+            nullable = true
         })
     ) { backStackEntry ->
         val snackBarMessage =
