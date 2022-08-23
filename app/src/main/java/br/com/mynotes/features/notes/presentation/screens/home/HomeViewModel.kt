@@ -1,11 +1,11 @@
 package br.com.mynotes.features.notes.presentation.screens.home
 
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import br.com.mynotes.MyNotesApp
 import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.commom.util.PreferencesKey
@@ -25,8 +25,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val noteUseCases: NoteUseCases
-) : ViewModel() {
+    private val noteUseCases: NoteUseCases,
+    application: Application
+) : AndroidViewModel(application) {
 
     private val recentlyDeletedNotes = mutableListOf<Note>()
     private var getNotesJob: Job? = null
@@ -167,14 +168,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun moveToTrashCan(notes: List<Note>) {
-        val context = MyNotesApp.getContext()!!
         notes.forEach { note ->
             viewModelScope.launch {
                 noteUseCases.updateNotesUseCase(note)
                 _eventFlow.emit(
                     NotesEvents.ShowUndoSnackBar(
-                        text = context.getString(R.string.notes_list_notes_removed_message),
-                        label = context.getString(R.string.label_undo)
+                        text = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
+                        label = getApplication<Application>().applicationContext.getString(R.string.label_undo)
                     )
                 )
             }
@@ -197,8 +197,8 @@ class HomeViewModel @Inject constructor(
                 } catch (e: InvalidNoteException) {
                     _eventFlow.emit(
                         NotesEvents.ShowSnackBar(
-                            message = e.message ?: MyNotesApp.getContext()
-                                ?.getString(R.string.save_note_error_message) ?: ""
+                            message = e.message
+                                ?: getApplication<Application>().applicationContext.getString(R.string.save_note_error_message)
                         )
                     )
                 }

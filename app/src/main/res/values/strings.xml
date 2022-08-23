@@ -18,9 +18,11 @@
     <string name="empty_nome_message">Nota vazia descartada</string>
     <string name="search_note_placeholder">Pesquise suas notas</string>
     <string name="remove_note_alert_dialog_text">Tem certeza que deseja excluir essa nota?</string>
+    <string name="note_detail_disabled_text">Não é possível editar na lixeira</string>
 
     <string name="label_archive">Arquivar</string>
     <string name="label_unarchive">Desarquivar</string>
     <string name="label_delete">Deletar</string>
+    <string name="label_restore">Restaurar</string>
 
 </resources>

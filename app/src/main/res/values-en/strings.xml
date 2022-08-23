@@ -11,16 +11,18 @@
     <string name="notes_list_fixed_label">Marked</string>
     <string name="notes_list_others_label">Others</string>
     <string name="notes_list_notes_removed_message">Notes moved to trash can</string>
-    <string name="label_undo">Undo</string>
     <string name="menu_item_home">Home</string>
     <string name="menu_item_archive">Archive</string>
     <string name="menu_item_trash_can">Trash can</string>
     <string name="empty_nome_message">Empty note descarted</string>
     <string name="search_note_placeholder">Search your notes</string>
     <string name="remove_note_alert_dialog_text">Are you sure you want to delete this note?</string>
+    <string name="note_detail_disabled_text">Cannot edit in trash can</string>
 
     <string name="label_archive">Archive</string>
     <string name="label_unarchive">Unarchive</string>
     <string name="label_delete">Delete</string>
+    <string name="label_restore">Restaurar</string>
+    <string name="label_undo">Undo</string>
 
 </resources>

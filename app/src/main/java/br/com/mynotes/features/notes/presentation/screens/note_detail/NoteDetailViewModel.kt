@@ -1,9 +1,11 @@
 package br.com.mynotes.features.notes.presentation.screens.note_detail
 
+import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
@@ -18,8 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteDetailViewModel @Inject constructor(
-    private val noteDetailUseCases: NoteDetailUseCases
-) : ViewModel() {
+    private val noteDetailUseCases: NoteDetailUseCases,
+    application: Application
+) : AndroidViewModel(application) {
     private val _noteDetailUI = mutableStateOf(NoteDetailUI())
     val noteDetailUI: State<NoteDetailUI> = _noteDetailUI
 
@@ -89,8 +92,8 @@ class NoteDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     _eventFlow.emit(
                         NotesDetailEvents.ShowRestoreNoteSnackBar(
-                            text = "Não é possível editar na lixeira",
-                            label = "Restaurar"
+                            text = getApplication<Application>().applicationContext.getString(R.string.note_detail_disabled_text),
+                            label = getApplication<Application>().applicationContext.getString(R.string.label_restore)
                         )
                     )
                 }
