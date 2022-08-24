@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home
+package br.com.mynotes.features.notes.presentation.screens.main
 
 import br.com.mynotes.features.notes.domain.model.Note
 
@@ -10,5 +10,6 @@ data class NotesUI(
     val aNoteHasBeenDeleted: Boolean = false,
     val showMenuMore: Boolean = false,
     val isPinFilled: Boolean = true,
-    val screenState: ScreenState = ScreenState.HomeScreen
+    val screenState: ScreenState = ScreenState.HomeScreen,
+    val showAutoDeleteMessage: Boolean = true
 )

@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home
+package br.com.mynotes.features.notes.presentation.screens.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -18,26 +18,26 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.compose.components.DrawerBody
 import br.com.mynotes.commom.compose.components.DrawerHeader
-import br.com.mynotes.commom.compose.components.NotesList
 import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.model.MenuItem
-import br.com.mynotes.features.notes.presentation.screens.home.components.NotesListTopBar
-import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
+import br.com.mynotes.features.notes.presentation.screens.archive.ArchiveListScreen
+import br.com.mynotes.features.notes.presentation.screens.home.HomeList
+import br.com.mynotes.features.notes.presentation.screens.main.components.NotesListTopBar
+import br.com.mynotes.features.notes.presentation.screens.trash_can.TrashCanListScreen
+import br.com.mynotes.features.notes.presentation.util.MainUIEvents
 import br.com.mynotes.ui.theme.MyNotesTheme
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(
+fun MainNoteListScreen(
     navHostController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: MainViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState,
     snackBarMessage: String
 ) {
@@ -98,7 +98,7 @@ fun HomeScreen(
                     onItemClick = { item ->
                         scope.launch {
                             scaffoldState.drawerState.close()
-                            viewModel.onEvent(HomeUIEvents.ChangeScreen(item.screen))
+                            viewModel.onEvent(MainUIEvents.ChangeScreen(item.screen))
                         }
                     },
                     currentRoute = notesUI.screenState
@@ -107,7 +107,7 @@ fun HomeScreen(
         ) { padding ->
             val onItemClick: (Note) -> Unit = { note ->
                 if (notesUI.isInSelectedMode)
-                    viewModel.onEvent(HomeUIEvents.SelectNote(note))
+                    viewModel.onEvent(MainUIEvents.SelectNote(note))
                 else
                     viewModel.goToDetail(
                         navHostController = navHostController,
@@ -115,7 +115,7 @@ fun HomeScreen(
                     )
             }
             val onItemLongClick: (Note) -> Unit = { note ->
-                viewModel.onEvent(HomeUIEvents.SelectNote(note))
+                viewModel.onEvent(MainUIEvents.SelectNote(note))
             }
             Column(
                 modifier = Modifier
@@ -124,7 +124,7 @@ fun HomeScreen(
             ) {
                 when (notesUI.screenState) {
                     ScreenState.HomeScreen -> {
-                        MainListScreen(
+                        HomeList(
                             viewModel = viewModel,
                             scaffoldState = scaffoldState,
                             onItemClick = onItemClick,
@@ -132,7 +132,7 @@ fun HomeScreen(
                         )
                     }
                     ScreenState.ArchiveScreen -> {
-                        CommonListScreen(
+                        ArchiveListScreen(
                             viewModel = viewModel,
                             scaffoldState = scaffoldState,
                             onItemClick = onItemClick,
@@ -140,9 +140,9 @@ fun HomeScreen(
                         )
                     }
                     ScreenState.TrashCanScreen -> {
-                        CommonListScreen(
+                        TrashCanListScreen(
                             viewModel = viewModel,
-                            scaffoldState = scaffoldState,
+                            notesUI = notesUI,
                             onItemClick = onItemClick,
                             onItemLongClick = onItemLongClick
                         )
@@ -151,107 +151,4 @@ fun HomeScreen(
             }
         }
     }
-}
-
-@Composable
-fun MainListScreen(
-    viewModel: HomeViewModel,
-    scaffoldState: ScaffoldState,
-    onItemClick: (Note) -> Unit,
-    onItemLongClick: (Note) -> Unit
-) {
-    val notesUI = viewModel.notesUI.value
-    val notes = viewModel.getNotesListFiltered()
-    LaunchedEffect(key1 = true) {
-        viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is NotesEvents.ShowSnackBar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message
-                    )
-                }
-                is NotesEvents.ShowUndoSnackBar -> {
-                    val result = scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.text,
-                        actionLabel = event.label
-                    )
-                    if (result == SnackbarResult.ActionPerformed) {
-                        viewModel.onEvent(HomeUIEvents.RestoreNotes)
-                    }
-                }
-            }
-        }
-    }
-    val fixedNotes = notes.filter { it.isFixed }
-    val otherNotes = notes.filter { !it.isFixed }
-    if (fixedNotes.isNotEmpty()) {
-        Text(
-            text = stringResource(R.string.notes_list_fixed_label),
-            style = MaterialTheme.typography.body2,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
-        )
-        NotesList(
-            isInGridMode = notesUI.isInGridMode,
-            notes = fixedNotes,
-            onItemClick = onItemClick,
-            onItemLongClick = onItemLongClick
-        )
-        if (otherNotes.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.notes_list_others_label),
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(start = 16.dp)
-            )
-            NotesList(
-                isInGridMode = notesUI.isInGridMode,
-                notes = otherNotes,
-                onItemClick = onItemClick,
-                onItemLongClick = onItemLongClick
-            )
-        }
-    } else {
-        NotesList(
-            isInGridMode = notesUI.isInGridMode,
-            notes = notes,
-            onItemClick = onItemClick,
-            onItemLongClick = onItemLongClick
-        )
-    }
-}
-
-@Composable
-fun CommonListScreen(
-    viewModel: HomeViewModel,
-    scaffoldState: ScaffoldState,
-    onItemClick: (Note) -> Unit,
-    onItemLongClick: (Note) -> Unit
-) {
-    val notesUI = viewModel.notesUI.value
-    val notes = viewModel.getNotesListFiltered()
-    LaunchedEffect(key1 = true) {
-        viewModel.eventFlow.collectLatest { event ->
-            when (event) {
-                is NotesEvents.ShowSnackBar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.message
-                    )
-                }
-                is NotesEvents.ShowUndoSnackBar -> {
-                    val result = scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.text,
-                        actionLabel = event.label
-                    )
-                    if (result == SnackbarResult.ActionPerformed) {
-                        viewModel.onEvent(HomeUIEvents.RestoreNotes)
-                    }
-                }
-            }
-        }
-    }
-    NotesList(
-        isInGridMode = notesUI.isInGridMode,
-        notes = notes,
-        onItemClick = onItemClick,
-        onItemLongClick = onItemLongClick
-    )
 }

@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home.components
+package br.com.mynotes.features.notes.presentation.screens.main.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

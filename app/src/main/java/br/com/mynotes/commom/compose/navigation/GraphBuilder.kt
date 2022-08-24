@@ -9,12 +9,12 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.screens.home.HomeScreen
+import br.com.mynotes.features.notes.presentation.screens.main.MainNoteListScreen
 import br.com.mynotes.features.notes.presentation.screens.note_detail.NoteDetailScreen
 import com.google.accompanist.navigation.animation.composable
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.home(
+fun NavGraphBuilder.main(
     navHostController: NavHostController,
     scaffoldState: ScaffoldState
 ) {
@@ -27,7 +27,7 @@ fun NavGraphBuilder.home(
     ) { backStackEntry ->
         val snackBarMessage =
             backStackEntry.arguments?.getString(Screens.Home.argumentKey) ?: ""
-        HomeScreen(
+        MainNoteListScreen(
             navHostController = navHostController,
             scaffoldState = scaffoldState,
             snackBarMessage = snackBarMessage

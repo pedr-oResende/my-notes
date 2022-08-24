@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.mynotes.features.notes.presentation.model.MenuItem
 import br.com.mynotes.R
-import br.com.mynotes.features.notes.presentation.screens.home.ScreenState
+import br.com.mynotes.features.notes.presentation.screens.main.ScreenState
 
 @Composable
 fun DrawerHeader() {

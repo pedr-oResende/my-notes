@@ -2,6 +2,7 @@ package br.com.mynotes.commom.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import br.com.mynotes.features.notes.presentation.screens.main.ScreenState
 
 /**
  * Created by Fernando on 01/10/2016.
@@ -64,11 +65,10 @@ class PreferencesWrapper private constructor(context: Context) {
     }
 
     fun clearPreferences() {
-        putBoolean(PreferencesKey.LAYOUT_STATE_KEY, true)
+        putString(key = PreferencesKey.SCREEN_STATE_KEY, value = ScreenState.HomeScreen.value)
     }
 
     companion object {
-        private const val LAYOUT_STATE_KEY = "LAYOUT_STATE_KEY"
         private var sPreferencesWrapper: PreferencesWrapper? = null
         private var sSharedPreferences: SharedPreferences? = null
         fun initPreferences(context: Context) {

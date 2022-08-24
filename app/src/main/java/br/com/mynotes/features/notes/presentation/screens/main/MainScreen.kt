@@ -5,7 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import br.com.mynotes.commom.compose.navigation.Screens
-import br.com.mynotes.commom.compose.navigation.home
+import br.com.mynotes.commom.compose.navigation.main
 import br.com.mynotes.commom.compose.navigation.noteDetail
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -19,7 +19,7 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
         navController = navHostController,
         startDestination = Screens.Home.route,
         builder = {
-            home(
+            main(
                 navHostController = navHostController,
                 scaffoldState = scaffoldState
             )

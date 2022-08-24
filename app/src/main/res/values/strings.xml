@@ -19,10 +19,10 @@
     <string name="search_note_placeholder">Pesquise suas notas</string>
     <string name="remove_note_alert_dialog_text">Tem certeza que deseja excluir essa nota?</string>
     <string name="note_detail_disabled_text">Não é possível editar na lixeira</string>
-
     <string name="label_archive">Arquivar</string>
     <string name="label_unarchive">Desarquivar</string>
     <string name="label_delete">Deletar</string>
     <string name="label_restore">Restaurar</string>
+    <string name="trash_can_auto_delete_message">As notas na lixeira serão excluídas automaticamente após 7 dias.</string>
 
 </resources>

@@ -1,58 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    Light colors-->
-    <color name="primary_light">#FBC02D</color>
-    <color name="primary_variant_light">#CCFBC02D</color>
-    <color name="on_primary_light">#000000</color>
+    <color name="primary">#FBC02D</color>
+    <color name="primary_variant">#CCFBC02D</color>
+    <color name="on_primary">#000000</color>
 
-    <color name="secondary_light">#F99327</color>
-    <color name="secondary_variant_light">#CCF99327</color>
-    <color name="on_secondary_light">#000000</color>
+    <color name="secondary">#F99327</color>
+    <color name="secondary_variant">#CCF99327</color>
+    <color name="on_secondary">#000000</color>
 
-    <color name="light_status_bar">#C49000</color>
+    <color name="status_bar">#C49000</color>
 
-    <color name="background_light">#FFFFFF</color>
-    <color name="background_secondary_light">#CCFFFFFF</color>
-    <color name="on_background_light">#1C1C1C</color>
-    <color name="on_background_variant_light">#CC1C1C1C</color>
+    <color name="background">#FFFFFF</color>
+    <color name="background_secondary">#CCFFFFFF</color>
+    <color name="on_background">#1C1C1C</color>
+    <color name="on_background_variant">#CC1C1C1C</color>
 
-    <color name="surface_light">#E0E0E0</color>
-    <color name="on_surface_light">#010101</color>
-    <color name="on_surface_variant_light">#CC010101</color>
+    <color name="surface">#E0E0E0</color>
+    <color name="on_surface">#010101</color>
+    <color name="on_surface_variant">#CC010101</color>
 
-<!--    Dark colors-->
-
-    <color name="primary_dark">#FBC02D</color>
-    <color name="primary_variant_dark">#CCFBC02D</color>
-    <color name="on_primary_dark">#000000</color>
-
-    <color name="secondary_dark">#4e342e</color>
-    <color name="secondary_variant_dark">#CC4e342e</color>
-    <color name="on_secondary_dark">#000000</color>
-
-    <color name="dark_status_bar">#000000</color>
-
-    <color name="background_dark">#1C1C1C</color>
-    <color name="background_secondary_dark">#020202</color>
-    <color name="on_background_dark">#F4F4F4</color>
-    <color name="on_background_variant_dark">#CCF4F4F4</color>
-
-    <color name="surface_dark">#2C2C2C</color>
-    <color name="on_surface_dark">#DCDCDC</color>
-    <color name="on_surface_variant_dark">#D1D1D1</color>
-
-<!--    Others-->
 
     <color name="error">#B00020</color>
     <color name="on_error">#FFF</color>
-
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
 </resources>

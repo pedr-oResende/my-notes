@@ -19,10 +19,10 @@
     <string name="search_note_placeholder">Busca tus notas</string>
     <string name="remove_note_alert_dialog_text">¿Estás seguro que quieres eliminar esta nota?</string>
     <string name="note_detail_disabled_text">No se puede editar en la papelera</string>
-
     <string name="label_archive">Archivar</string>
     <string name="label_unarchive">Desarchivar</string>
     <string name="label_delete">Borrar</string>
     <string name="label_restore">Restaurar</string>
+    <string name="trash_can_auto_delete_message">Las notas en la papelera se eliminarán automáticamente después de 7 días.</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home
+package br.com.mynotes.features.notes.presentation.screens.main
 
 import android.app.Application
 import androidx.compose.runtime.State
@@ -13,7 +13,7 @@ import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.commom.compose.navigation.Screens
-import br.com.mynotes.features.notes.presentation.util.HomeUIEvents
+import br.com.mynotes.features.notes.presentation.util.MainUIEvents
 import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
     private val deleteNoteScheduler: DeleteNoteScheduler,
     application: Application
@@ -40,16 +40,24 @@ class HomeViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
-        getNotes(ScreenState.HomeScreen)
-        _notesUI.value = notesUI.value.copy(
-            isInGridMode = PreferencesWrapper.instance?.getBoolean(PreferencesKey.LAYOUT_STATE_KEY)
-                ?: true
+        val screenState = ScreenState.getScreenStateEnum(
+            value = PreferencesWrapper.instance?.getString(PreferencesKey.SCREEN_STATE_KEY)
         )
+        _notesUI.value = notesUI.value.copy(
+            isInGridMode = PreferencesWrapper.instance?.getBoolean(
+                key = PreferencesKey.LAYOUT_STATE_KEY
+            ) ?: true,
+            showAutoDeleteMessage = PreferencesWrapper.instance?.getBoolean(
+                key = PreferencesKey.SHOW_AUTO_DELETE_MESSAGE_KEY
+            ) ?: true,
+            screenState = screenState
+        )
+        getNotes(screenState)
     }
 
-    fun onEvent(event: HomeUIEvents) {
+    fun onEvent(event: MainUIEvents) {
         when (event) {
-            is HomeUIEvents.MoveNoteToTrashCan -> {
+            is MainUIEvents.MoveNoteToTrashCan -> {
                 recentlyDeletedNotes.addAll(selectedNotes())
                 moveToTrashCan(selectedNotes().map { note ->
                     note.copy(
@@ -59,21 +67,21 @@ class HomeViewModel @Inject constructor(
                 })
                 disableSelectedMode()
             }
-            is HomeUIEvents.RestoreNotes -> {
+            is MainUIEvents.RestoreNotes -> {
                 editNotes(recentlyDeletedNotes)
                 recentlyDeletedNotes.removeAll { true }
                 disableSelectedMode()
             }
-            is HomeUIEvents.SelectNote -> {
+            is MainUIEvents.SelectNote -> {
                 selectNote(event.note)
             }
-            is HomeUIEvents.ToggleListView -> {
+            is MainUIEvents.ToggleListView -> {
                 toggleListView()
             }
-            is HomeUIEvents.ToggleCloseSelection -> {
+            is MainUIEvents.ToggleCloseSelection -> {
                 disableSelectedMode()
             }
-            is HomeUIEvents.ArchiveNote -> {
+            is MainUIEvents.ArchiveNote -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
                         isArchived = event.archive,
@@ -82,7 +90,7 @@ class HomeViewModel @Inject constructor(
                 })
                 disableSelectedMode()
             }
-            is HomeUIEvents.ToggleMarkPin -> {
+            is MainUIEvents.ToggleMarkPin -> {
                 selectedNotes().let { notes ->
                     editNotes(notes.map { note ->
                         note.copy(
@@ -93,36 +101,40 @@ class HomeViewModel @Inject constructor(
                 }
                 disableSelectedMode()
             }
-            is HomeUIEvents.OnNoteDeleted -> {
+            is MainUIEvents.OnNoteDeleted -> {
                 onNoteDeleted()
             }
-            is HomeUIEvents.ToggleMenuMore -> {
+            is MainUIEvents.ToggleMenuMore -> {
                 _notesUI.value = notesUI.value.copy(
                     showMenuMore = !notesUI.value.showMenuMore
                 )
             }
-            is HomeUIEvents.SearchTextChanged -> {
+            is MainUIEvents.SearchTextChanged -> {
                 _notesUI.value = notesUI.value.copy(
                     searchNotesText = event.text
                 )
             }
-            is HomeUIEvents.ChangeScreen -> {
+            is MainUIEvents.ChangeScreen -> {
+                PreferencesWrapper.instance?.putString(
+                    key = PreferencesKey.SCREEN_STATE_KEY,
+                    value = event.screen.value
+                )
                 _notesUI.value = notesUI.value.copy(
                     screenState = event.screen,
                     showMenuMore = false
                 )
                 getNotes(event.screen)
             }
-            is HomeUIEvents.DeleteNotes -> {
+            is MainUIEvents.DeleteNotes -> {
                 deleteNotes(selectedNotes())
-                onEvent(HomeUIEvents.ToggleMenuMore)
+                onEvent(MainUIEvents.ToggleMenuMore)
                 disableSelectedMode()
             }
-            is HomeUIEvents.ClearTrashCan -> {
+            is MainUIEvents.ClearTrashCan -> {
                 deleteNotes(notesUI.value.notes)
-                onEvent(HomeUIEvents.ToggleMenuMore)
+                onEvent(MainUIEvents.ToggleMenuMore)
             }
-            is HomeUIEvents.RestoreFromTrashCan -> {
+            is MainUIEvents.RestoreFromTrashCan -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
                         isDeleted = false,
@@ -130,6 +142,15 @@ class HomeViewModel @Inject constructor(
                     )
                 })
                 disableSelectedMode()
+            }
+            is MainUIEvents.CloseAutoDeleteMessage -> {
+                _notesUI.value = notesUI.value.copy(
+                    showAutoDeleteMessage = false
+                )
+                PreferencesWrapper.instance?.putBoolean(
+                    key = PreferencesKey.SHOW_AUTO_DELETE_MESSAGE_KEY,
+                    value = false
+                )
             }
         }
     }

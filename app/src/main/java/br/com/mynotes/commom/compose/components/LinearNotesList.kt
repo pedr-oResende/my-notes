@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.screens.home.components.NoteItem
+import br.com.mynotes.features.notes.presentation.screens.main.components.NoteItem
 
 @Composable
 fun LinearNotesList(

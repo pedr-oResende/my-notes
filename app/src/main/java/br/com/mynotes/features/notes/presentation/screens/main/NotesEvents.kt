@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.home
+package br.com.mynotes.features.notes.presentation.screens.main
 
 sealed class NotesEvents {
     data class ShowSnackBar(val message: String): NotesEvents()
