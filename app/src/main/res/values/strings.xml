@@ -24,5 +24,6 @@
     <string name="label_delete">Deletar</string>
     <string name="label_restore">Restaurar</string>
     <string name="trash_can_auto_delete_message">As notas na lixeira serão excluídas automaticamente após 7 dias.</string>
+    <string name="created_at_label">Criada em %1$s</string>
 
 </resources>

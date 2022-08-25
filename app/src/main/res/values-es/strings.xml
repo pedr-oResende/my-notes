@@ -24,5 +24,6 @@
     <string name="label_delete">Borrar</string>
     <string name="label_restore">Restaurar</string>
     <string name="trash_can_auto_delete_message">Las notas en la papelera se eliminarán automáticamente después de 7 días.</string>
+    <string name="created_at_label">Creado en %1$s</string>
 
 </resources>

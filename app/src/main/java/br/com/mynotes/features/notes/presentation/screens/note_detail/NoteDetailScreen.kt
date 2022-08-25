@@ -5,14 +5,8 @@ import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarResult
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PushPin
@@ -182,6 +176,19 @@ fun NoteDetailScreen(
                         textStyle = MaterialTheme.typography.body1,
                         readOnly = isInTrashCan
                     )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(
+                                id = R.string.created_at_label,
+                                noteDetailUI.note?.createAt ?: ""
+                            ),
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                 }
             }
         }
