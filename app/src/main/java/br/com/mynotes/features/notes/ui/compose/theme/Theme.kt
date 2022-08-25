@@ -11,15 +11,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun MyNotesTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val systemUiController = rememberSystemUiController()
     val colors = if (darkTheme) {
-        systemUiController.apply {
-            setStatusBarColor(color = colorResource(id = R.color.status_bar))
-            setSystemBarsColor(color = MaterialTheme.colors.background)
-        }
+        systemUiController.setSystemBarsColor(color = darkColors().background)
         darkColors()
     } else {
-        systemUiController.apply {
-            setStatusBarColor(color = colorResource(id = R.color.status_bar))
-        }
+        systemUiController.setStatusBarColor(color = colorResource(id = R.color.status_bar))
         lightColors()
     }
 

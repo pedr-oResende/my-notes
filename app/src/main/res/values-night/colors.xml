@@ -9,7 +9,7 @@
     <color name="secondary_variant">#CC4e342e</color>
     <color name="on_secondary">#000000</color>
 
-    <color name="status_bar">#000000</color>
+    <color name="status_bar">@color/background</color>
 
     <color name="background">#1C1C1C</color>
     <color name="background_secondary">#020202</color>
