@@ -37,7 +37,8 @@ import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBar
 import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.presentation.screens.note_detail.components.CustomEditText
-import br.com.mynotes.features.notes.presentation.util.NoteDetailUIEvents
+import br.com.mynotes.features.notes.presentation.screens.note_detail.state.NoteDetailUIEvents
+import br.com.mynotes.features.notes.presentation.screens.note_detail.state.NotesDetailActions
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.flow.collectLatest
 
@@ -67,10 +68,10 @@ fun NoteDetailScreen(
             onBackPressedDispatcher.addCallback(lifecycleOwner, callback)
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
-                    is NotesDetailEvents.ProcessNote -> {
+                    is NotesDetailActions.ProcessNote -> {
                         Screens.NoteDetail.backToHome(navHostController)
                     }
-                    is NotesDetailEvents.ShowRestoreNoteSnackBar -> {
+                    is NotesDetailActions.ShowRestoreNoteSnackBar -> {
                         val result = scaffoldState.snackbarHostState.showSnackbar(
                             message = event.text,
                             actionLabel = event.label
@@ -79,7 +80,7 @@ fun NoteDetailScreen(
                             viewModel.onEvent(NoteDetailUIEvents.RestoreNote)
                         }
                     }
-                    is NotesDetailEvents.EmptyNote -> {
+                    is NotesDetailActions.EmptyNote -> {
                         navHostController.navigate(
                             Screens.Home.passArgument(
                                 argument = context.getString(R.string.empty_nome_message)
@@ -88,7 +89,7 @@ fun NoteDetailScreen(
                             popUpTo(0)
                         }
                     }
-                    is NotesDetailEvents.DiscardNote -> {
+                    is NotesDetailActions.DiscardNote -> {
                         Screens.NoteDetail.backToHome(navHostController)
                     }
                 }

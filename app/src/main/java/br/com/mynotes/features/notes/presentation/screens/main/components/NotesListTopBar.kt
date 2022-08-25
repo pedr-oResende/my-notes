@@ -23,9 +23,9 @@ import br.com.mynotes.features.notes.presentation.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.presentation.screens.archive.ArchiveTopBar
 import br.com.mynotes.features.notes.presentation.screens.home.HomeTopBar
 import br.com.mynotes.features.notes.presentation.screens.main.MainViewModel
-import br.com.mynotes.features.notes.presentation.screens.main.ScreenState
+import br.com.mynotes.features.notes.presentation.screens.main.state.ScreenState
 import br.com.mynotes.features.notes.presentation.screens.trash_can.TrashCanTopBar
-import br.com.mynotes.features.notes.presentation.util.MainUIEvents
+import br.com.mynotes.features.notes.presentation.screens.main.state.MainUIEvents
 import kotlinx.coroutines.launch
 
 @Composable

@@ -13,7 +13,10 @@ import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
 import br.com.mynotes.commom.compose.navigation.Screens
-import br.com.mynotes.features.notes.presentation.util.MainUIEvents
+import br.com.mynotes.features.notes.presentation.screens.main.state.MainUIEvents
+import br.com.mynotes.features.notes.presentation.screens.main.state.NotesActions
+import br.com.mynotes.features.notes.presentation.screens.main.state.NotesUI
+import br.com.mynotes.features.notes.presentation.screens.main.state.ScreenState
 import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -36,7 +39,7 @@ class MainViewModel @Inject constructor(
     private val _notesUI = mutableStateOf(NotesUI())
     val notesUI: State<NotesUI> = _notesUI
 
-    private val _eventFlow = MutableSharedFlow<NotesEvents>()
+    private val _eventFlow = MutableSharedFlow<NotesActions>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
@@ -199,7 +202,7 @@ class MainViewModel @Inject constructor(
                     noteId = note.id
                 )
                 _eventFlow.emit(
-                    NotesEvents.ShowUndoSnackBar(
+                    NotesActions.ShowUndoSnackBar(
                         text = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
                         label = getApplication<Application>().applicationContext.getString(R.string.label_undo)
                     )
@@ -223,7 +226,7 @@ class MainViewModel @Inject constructor(
                     noteUseCases.updateNotesUseCase(note)
                 } catch (e: InvalidNoteException) {
                     _eventFlow.emit(
-                        NotesEvents.ShowSnackBar(
+                        NotesActions.ShowSnackBar(
                             message = e.message
                                 ?: getApplication<Application>().applicationContext.getString(R.string.save_note_error_message)
                         )

@@ -14,8 +14,8 @@ import br.com.mynotes.R
 import br.com.mynotes.commom.compose.components.NotesList
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.main.MainViewModel
-import br.com.mynotes.features.notes.presentation.screens.main.NotesUI
-import br.com.mynotes.features.notes.presentation.util.MainUIEvents
+import br.com.mynotes.features.notes.presentation.screens.main.state.NotesUI
+import br.com.mynotes.features.notes.presentation.screens.main.state.MainUIEvents
 
 @Composable
 fun TrashCanListScreen(

@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.main
+package br.com.mynotes.features.notes.presentation.screens.main.state
 
 enum class ScreenState(val value: String) {
     HomeScreen(value = "home"),
@@ -7,8 +7,8 @@ enum class ScreenState(val value: String) {
 
     companion object {
         fun getScreenStateEnum(value: String?): ScreenState {
-            return values().find { gender ->
-                gender.value == value
+            return values().find { screen ->
+                screen.value == value
             } ?: HomeScreen
         }
     }

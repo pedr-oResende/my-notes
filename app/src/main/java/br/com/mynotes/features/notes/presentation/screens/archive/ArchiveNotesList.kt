@@ -7,8 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import br.com.mynotes.commom.compose.components.NotesList
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.presentation.screens.main.MainViewModel
-import br.com.mynotes.features.notes.presentation.screens.main.NotesEvents
-import br.com.mynotes.features.notes.presentation.util.MainUIEvents
+import br.com.mynotes.features.notes.presentation.screens.main.state.NotesActions
+import br.com.mynotes.features.notes.presentation.screens.main.state.MainUIEvents
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -23,12 +23,12 @@ fun ArchiveListScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is NotesEvents.ShowSnackBar -> {
+                is NotesActions.ShowSnackBar -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
-                is NotesEvents.ShowUndoSnackBar -> {
+                is NotesActions.ShowUndoSnackBar -> {
                     val result = scaffoldState.snackbarHostState.showSnackbar(
                         message = event.text,
                         actionLabel = event.label

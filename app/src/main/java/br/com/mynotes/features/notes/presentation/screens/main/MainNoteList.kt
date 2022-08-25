@@ -29,8 +29,9 @@ import br.com.mynotes.features.notes.presentation.model.MenuItem
 import br.com.mynotes.features.notes.presentation.screens.archive.ArchiveListScreen
 import br.com.mynotes.features.notes.presentation.screens.home.HomeList
 import br.com.mynotes.features.notes.presentation.screens.main.components.NotesListTopBar
+import br.com.mynotes.features.notes.presentation.screens.main.state.MainUIEvents
+import br.com.mynotes.features.notes.presentation.screens.main.state.ScreenState
 import br.com.mynotes.features.notes.presentation.screens.trash_can.TrashCanListScreen
-import br.com.mynotes.features.notes.presentation.util.MainUIEvents
 import br.com.mynotes.ui.theme.MyNotesTheme
 import kotlinx.coroutines.launch
 

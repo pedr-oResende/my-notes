@@ -9,7 +9,9 @@ import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
-import br.com.mynotes.features.notes.presentation.util.NoteDetailUIEvents
+import br.com.mynotes.features.notes.presentation.screens.note_detail.state.NoteDetailUI
+import br.com.mynotes.features.notes.presentation.screens.note_detail.state.NoteDetailUIEvents
+import br.com.mynotes.features.notes.presentation.screens.note_detail.state.NotesDetailActions
 import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,7 +30,7 @@ class NoteDetailViewModel @Inject constructor(
     private val _noteDetailUI = mutableStateOf(NoteDetailUI())
     val noteDetailUI: State<NoteDetailUI> = _noteDetailUI
 
-    private val _eventFlow = MutableSharedFlow<NotesDetailEvents>()
+    private val _eventFlow = MutableSharedFlow<NotesDetailActions>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     private val timeInNote = System.currentTimeMillis()
@@ -41,7 +43,7 @@ class NoteDetailViewModel @Inject constructor(
                         noteDetailUseCases.unarchiveNoteUseCase(getNote())
                     else
                         noteDetailUseCases.archiveNoteUseCase(getNote())
-                    _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                    _eventFlow.emit(NotesDetailActions.ProcessNote)
                 }
             }
             is NoteDetailUIEvents.DeleteNote -> {
@@ -53,9 +55,9 @@ class NoteDetailViewModel @Inject constructor(
                             context = getApplication<Application>().applicationContext,
                             noteId = note.id
                         )
-                        _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                        _eventFlow.emit(NotesDetailActions.ProcessNote)
                     } catch (e: InvalidNoteException) {
-                        _eventFlow.emit(NotesDetailEvents.DiscardNote)
+                        _eventFlow.emit(NotesDetailActions.DiscardNote)
                     }
                 }
             }
@@ -68,9 +70,9 @@ class NoteDetailViewModel @Inject constructor(
                             else
                                 getNote()
                         noteDetailUseCases.addNoteUseCase(note)
-                        _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                        _eventFlow.emit(NotesDetailActions.ProcessNote)
                     } catch (e: InvalidNoteException) {
-                        _eventFlow.emit(NotesDetailEvents.EmptyNote)
+                        _eventFlow.emit(NotesDetailActions.EmptyNote)
                     }
                 }
             }
@@ -92,13 +94,13 @@ class NoteDetailViewModel @Inject constructor(
             is NoteDetailUIEvents.RestoreNote -> {
                 viewModelScope.launch {
                     noteDetailUseCases.restoreNoteUseCase(getNote())
-                    _eventFlow.emit(NotesDetailEvents.ProcessNote)
+                    _eventFlow.emit(NotesDetailActions.ProcessNote)
                 }
             }
             is NoteDetailUIEvents.TryToEditDeletedNote -> {
                 viewModelScope.launch {
                     _eventFlow.emit(
-                        NotesDetailEvents.ShowRestoreNoteSnackBar(
+                        NotesDetailActions.ShowRestoreNoteSnackBar(
                             text = getApplication<Application>().applicationContext.getString(R.string.note_detail_disabled_text),
                             label = getApplication<Application>().applicationContext.getString(R.string.label_restore)
                         )

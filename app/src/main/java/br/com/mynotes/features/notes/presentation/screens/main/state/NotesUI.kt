@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.screens.main
+package br.com.mynotes.features.notes.presentation.screens.main.state
 
 import br.com.mynotes.features.notes.domain.model.Note
 

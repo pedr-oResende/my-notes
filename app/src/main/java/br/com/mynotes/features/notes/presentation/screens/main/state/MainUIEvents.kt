@@ -1,7 +1,6 @@
-package br.com.mynotes.features.notes.presentation.util
+package br.com.mynotes.features.notes.presentation.screens.main.state
 
 import br.com.mynotes.features.notes.domain.model.Note
-import br.com.mynotes.features.notes.presentation.screens.main.ScreenState
 
 sealed class MainUIEvents {
     data class SelectNote(val note: Note) : MainUIEvents()

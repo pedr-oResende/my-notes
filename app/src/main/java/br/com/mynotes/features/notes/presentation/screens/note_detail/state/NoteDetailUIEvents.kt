@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.presentation.util
+package br.com.mynotes.features.notes.presentation.screens.note_detail.state
 
 
 sealed class NoteDetailUIEvents {
