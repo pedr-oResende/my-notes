@@ -8,16 +8,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
+import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteUseCases
-import br.com.mynotes.commom.compose.navigation.Screens
 import br.com.mynotes.features.notes.presentation.screens.main.state.MainUIEvents
 import br.com.mynotes.features.notes.presentation.screens.main.state.NotesActions
 import br.com.mynotes.features.notes.presentation.screens.main.state.NotesUI
 import br.com.mynotes.features.notes.presentation.screens.main.state.ScreenState
-import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,7 +29,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
-    private val deleteNoteScheduler: DeleteNoteScheduler,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -196,10 +194,9 @@ class MainViewModel @Inject constructor(
     private fun moveToTrashCan(notes: List<Note>) {
         notes.forEach { note ->
             viewModelScope.launch {
-                noteUseCases.updateNotesUseCase(note)
-                deleteNoteScheduler.setupDeleteNoteWorker(
-                    context = getApplication<Application>().applicationContext,
-                    noteId = note.id
+                noteUseCases.moveToTrashCanUseCase(
+                    note = note,
+                    context = getApplication<Application>().applicationContext
                 )
                 _eventFlow.emit(
                     NotesActions.ShowUndoSnackBar(

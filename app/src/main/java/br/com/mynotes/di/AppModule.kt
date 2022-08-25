@@ -43,7 +43,8 @@ object AppModule {
             updateNotesUseCase = AddNoteUseCase(repository),
             getNoteByIdUseCase = GetNoteByIdUseCase(repository),
             unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
-            deleteNoteUseCase = DeleteNoteUseCase(repository)
+            deleteNoteUseCase = DeleteNoteUseCase(repository),
+            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository, DeleteNoteScheduler())
         )
     }
 
@@ -55,21 +56,14 @@ object AppModule {
             archiveNoteUseCase = ArchiveNoteUseCase(repository),
             unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
             deleteNoteUseCase = DeleteNoteUseCase(repository),
-            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository),
+            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository, DeleteNoteScheduler()),
             restoreNoteUseCase = RestoreNoteUseCase(repository)
         )
     }
-
 
     @Provides
     @Singleton
     fun provideWorkManagerUseCases(repository: NoteRepository): DeleteNoteUseCase {
         return DeleteNoteUseCase(repository)
-    }
-
-    @Provides
-    @Singleton
-    fun provideDeleteNoteScheduler(): DeleteNoteScheduler {
-        return DeleteNoteScheduler()
     }
 }
