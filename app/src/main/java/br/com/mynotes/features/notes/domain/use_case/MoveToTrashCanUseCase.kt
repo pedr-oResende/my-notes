@@ -3,7 +3,7 @@ package br.com.mynotes.features.notes.domain.use_case
 import android.content.Context
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
-import br.com.mynotes.features.notes.work_manager.DeleteNoteScheduler
+import br.com.mynotes.features.notes.ui.work_manager.DeleteNoteScheduler
 
 class MoveToTrashCanUseCase(
     private val repository: NoteRepository,

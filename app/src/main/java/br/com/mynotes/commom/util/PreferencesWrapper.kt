@@ -2,7 +2,7 @@ package br.com.mynotes.commom.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import br.com.mynotes.features.notes.presentation.screens.main.state.ScreenState
+import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
 
 /**
  * Created by Fernando on 01/10/2016.
