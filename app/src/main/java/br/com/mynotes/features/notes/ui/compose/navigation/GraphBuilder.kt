@@ -7,8 +7,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import br.com.mynotes.commom.extensions.getArgument
-import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.screens.main.MainNoteListScreen
 import br.com.mynotes.features.notes.ui.screens.note_detail.NoteDetailScreen
 import com.google.accompanist.navigation.animation.composable
@@ -44,13 +42,9 @@ fun NavGraphBuilder.noteDetail(
     composable(
         route = Screens.NoteDetail.route
     ) {
-        val note = navHostController.previousBackStackEntry?.savedStateHandle?.getArgument<Note>(
-            key = Screens.NoteDetail.argumentKey
-        )
         NoteDetailScreen(
             navHostController = navHostController,
             onBackPressedDispatcher = onBackPressedDispatcher,
-            note = note,
             scaffoldState = scaffoldState
         )
     }

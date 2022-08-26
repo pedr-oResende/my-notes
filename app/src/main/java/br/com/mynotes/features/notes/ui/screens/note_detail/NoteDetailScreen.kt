@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.extensions.getActivity
+import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.commom.extensions.noRippleClickable
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.DefaultAlertDialog
@@ -42,7 +43,6 @@ import kotlinx.coroutines.flow.collectLatest
 fun NoteDetailScreen(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,
-    note: Note?,
     viewModel: NoteDetailViewModel = hiltViewModel(),
     scaffoldState: ScaffoldState
 ) {
@@ -51,7 +51,11 @@ fun NoteDetailScreen(
         val context = LocalContext.current
         val lifecycleOwner = LocalLifecycleOwner.current
         LaunchedEffect(key1 = true) {
-            viewModel.loadNote(note)
+            viewModel.loadNote(
+                note = navHostController.previousBackStackEntry?.savedStateHandle?.getArgument<Note>(
+                    key = Screens.NoteDetail.argumentKey
+                )
+            )
             val callback = object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     viewModel.onEvent(NoteDetailUIEvents.SaveNote)
