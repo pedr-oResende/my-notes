@@ -3,8 +3,6 @@ package br.com.mynotes.features.notes.ui.screens.note_detail
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -28,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.extensions.getActivity
+import br.com.mynotes.commom.extensions.noRippleClickable
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.DefaultAlertDialog
 import br.com.mynotes.features.notes.ui.compose.navigation.Screens
@@ -152,10 +151,7 @@ fun NoteDetailScreen(
                         modifier = Modifier
                             .background(Color.Transparent)
                             .fillMaxSize()
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = null
-                            ) {
+                            .noRippleClickable {
                                 viewModel.onEvent(NoteDetailUIEvents.TryToEditDeletedNote)
                             }
                     )
