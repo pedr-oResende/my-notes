@@ -31,24 +31,44 @@ import br.com.mynotes.features.notes.ui.screens.archive.ArchiveListScreen
 import br.com.mynotes.features.notes.ui.screens.home.HomeList
 import br.com.mynotes.features.notes.ui.screens.main.components.NotesListTopBar
 import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.state.NotesActions
 import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
 import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanListScreen
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
 fun MainNoteListScreen(
     navHostController: NavHostController,
     viewModel: MainViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState,
-    snackBarMessage: String
+    scaffoldState: ScaffoldState
 ) {
     val notesUI = viewModel.notesUI.value
     val scope = rememberCoroutineScope()
     LaunchedEffect(key1 = true) {
-        if (snackBarMessage.isNotBlank()) {
+        val emptyNoteMessage = viewModel.getSnackBarMessage()
+        if (emptyNoteMessage.isNotBlank()) {
             scaffoldState.snackbarHostState.showSnackbar(
-                message = snackBarMessage
+                message = emptyNoteMessage
             )
+        }
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is NotesActions.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+                is NotesActions.ShowUndoSnackBar -> {
+                    val result = scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.text,
+                        actionLabel = event.label
+                    )
+                    if (result == SnackbarResult.ActionPerformed) {
+                        viewModel.onEvent(MainUIEvents.RestoreNotes)
+                    }
+                }
+            }
         }
     }
     MyNotesTheme {
@@ -127,7 +147,6 @@ fun MainNoteListScreen(
                     ScreenState.HomeScreen -> {
                         HomeList(
                             viewModel = viewModel,
-                            scaffoldState = scaffoldState,
                             onItemClick = onItemClick,
                             onItemLongClick = onItemLongClick
                         )

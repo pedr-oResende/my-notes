@@ -22,13 +22,10 @@ fun NavGraphBuilder.main(
             type = NavType.StringType
             nullable = true
         })
-    ) { backStackEntry ->
-        val snackBarMessage =
-            backStackEntry.arguments?.getString(Screens.Home.argumentKey) ?: ""
+    ) {
         MainNoteListScreen(
             navHostController = navHostController,
-            scaffoldState = scaffoldState,
-            snackBarMessage = snackBarMessage
+            scaffoldState = scaffoldState
         )
     }
 }

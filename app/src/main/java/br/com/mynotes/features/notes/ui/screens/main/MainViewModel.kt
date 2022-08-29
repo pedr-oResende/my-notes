@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
@@ -29,6 +30,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
+    private val savedStateHandle: SavedStateHandle,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -155,6 +157,8 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun getSnackBarMessage() = savedStateHandle.get<String>(Screens.Home.argumentKey) ?: ""
 
     private fun getNotes(screenState: ScreenState) {
         when (screenState) {
