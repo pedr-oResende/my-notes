@@ -8,6 +8,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
+import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
@@ -152,7 +153,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getSnackBarMessage() = savedStateHandle.get<String>(Screens.Home.argumentKey) ?: ""
+    fun getSnackBarMessage() = savedStateHandle.getArgument<String>(Screens.Home.argumentKey) ?: ""
 
     private fun getNotes(screenState: ScreenState) {
         when (screenState) {

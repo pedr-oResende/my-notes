@@ -185,22 +185,24 @@ fun NoteDetailScreen(
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(32.dp)
-                        .align(Alignment.BottomCenter)
-                        .background(color = MaterialTheme.colors.surface),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(
-                            id = R.string.created_at_label,
-                            noteDetailUI.note?.createAt ?: ""
-                        ),
-                        style = MaterialTheme.typography.body2
-                    )
+                if (noteDetailUI.note != null) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(32.dp)
+                            .align(Alignment.BottomCenter)
+                            .background(color = MaterialTheme.colors.surface),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(
+                                id = R.string.created_at_label,
+                                noteDetailUI.note.createAt
+                            ),
+                            style = MaterialTheme.typography.body2
+                        )
+                    }
                 }
             }
         }
