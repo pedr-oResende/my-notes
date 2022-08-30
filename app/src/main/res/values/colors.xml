@@ -24,4 +24,6 @@
     <color name="error">#B00020</color>
     <color name="on_error">#FFF</color>
 
+    <color name="ic_launcher_background">#FBC02D</color>
+
 </resources>
