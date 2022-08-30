@@ -17,7 +17,7 @@ class MoveToTrashCanUseCase(
         )
         repository.insertNote(
             note.copy(
-                isDeleted = true,
+                isInTrashCan = true,
                 isArchived = false
             )
         )

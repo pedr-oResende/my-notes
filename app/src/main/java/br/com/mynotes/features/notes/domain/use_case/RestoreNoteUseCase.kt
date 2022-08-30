@@ -7,6 +7,6 @@ class RestoreNoteUseCase(
     private val repository: NoteRepository
 ) {
     suspend operator fun invoke(note: Note) {
-        repository.insertNote(note.copy(isDeleted = false, isArchived = false))
+        repository.insertNote(note.copy(isInTrashCan = false, isArchived = false))
     }
 }

@@ -108,7 +108,7 @@ fun NoteDetailScreen(
             topBar = {
                 TopBar(
                     actions = {
-                        if (noteDetailUI.note?.isDeleted != true) {
+                        if (noteDetailUI.note?.isInTrashCan != true) {
                             TopBarIcon(
                                 onClick = {
                                     viewModel.onEvent(NoteDetailUIEvents.ToggleMarkPin)
@@ -148,7 +148,7 @@ fun NoteDetailScreen(
                     .fillMaxSize()
                     .padding(paddingValues = padding)
             ) {
-                val isInTrashCan = noteDetailUI.note?.isDeleted ?: false
+                val isInTrashCan = noteDetailUI.note?.isInTrashCan ?: false
                 if (isInTrashCan) {
                     Box(
                         modifier = Modifier

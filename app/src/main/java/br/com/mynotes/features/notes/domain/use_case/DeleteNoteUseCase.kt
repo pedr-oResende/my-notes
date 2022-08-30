@@ -7,7 +7,7 @@ class DeleteNoteUseCase(
 ) {
     suspend operator fun invoke(noteId: Int?) {
         val note = repository.getNoteById(noteId)
-        if (note?.isDeleted == true)
+        if (note?.isInTrashCan == true)
             repository.deleteNote(noteId)
     }
 }

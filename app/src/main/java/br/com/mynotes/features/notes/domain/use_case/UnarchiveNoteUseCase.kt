@@ -7,6 +7,6 @@ class UnarchiveNoteUseCase(
     private val repository: NoteRepository
 ) {
     suspend operator fun invoke(note: Note) {
-        repository.insertNote(note.copy(isArchived = false, isDeleted = false))
+        repository.insertNote(note.copy(isArchived = false, isInTrashCan = false))
     }
 }

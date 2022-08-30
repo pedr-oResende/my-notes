@@ -63,7 +63,7 @@ class MainViewModel @Inject constructor(
                 recentlyDeletedNotes.addAll(selectedNotes())
                 moveToTrashCan(selectedNotes().map { note ->
                     note.copy(
-                        isDeleted = true,
+                        isInTrashCan = true,
                         isArchived = false
                     )
                 })
@@ -87,7 +87,7 @@ class MainViewModel @Inject constructor(
                 editNotes(selectedNotes().map { note ->
                     note.copy(
                         isArchived = event.archive,
-                        isDeleted = false
+                        isInTrashCan = false
                     )
                 })
                 disableSelectedMode()
@@ -134,7 +134,7 @@ class MainViewModel @Inject constructor(
             is MainUIEvents.RestoreFromTrashCan -> {
                 editNotes(selectedNotes().map { note ->
                     note.copy(
-                        isDeleted = false,
+                        isInTrashCan = false,
                         isArchived = false
                     )
                 })

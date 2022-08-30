@@ -15,7 +15,7 @@ data class Note(
     val createAt: String,
     val timestamp: Long,
     val isArchived: Boolean,
-    val isDeleted: Boolean,
+    val isInTrashCan: Boolean,
     val isFixed: Boolean,
     @Ignore val isSelected: Boolean
 ) : Parcelable {
@@ -27,7 +27,7 @@ data class Note(
         timestamp: Long,
         isArchived: Boolean,
         isFixed: Boolean,
-        isDeleted: Boolean
+        isInTrashCan: Boolean
     ) : this(
         id = id,
         title = title,
@@ -36,7 +36,7 @@ data class Note(
         timestamp = timestamp,
         isArchived = isArchived,
         isFixed = isFixed,
-        isDeleted = isDeleted,
+        isInTrashCan = isInTrashCan,
         isSelected = false
     )
 }

@@ -134,7 +134,7 @@ class NoteDetailViewModel @Inject constructor(
             createAt = getCurrentDate(),
             timestamp = getTimeStamp(),
             isSelected = state.note?.isSelected ?: false,
-            isDeleted = state.note?.isDeleted ?: false,
+            isInTrashCan = state.note?.isInTrashCan ?: false,
             isArchived = state.note?.isArchived ?: false
         )
     }
