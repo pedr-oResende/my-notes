@@ -130,12 +130,10 @@ class MainViewModel @Inject constructor(
             }
             is MainUIEvents.DeleteNotes -> {
                 deleteNotes(selectedNotes())
-                onEvent(MainUIEvents.ToggleMenuMore)
                 disableSelectedMode()
             }
             is MainUIEvents.ClearTrashCan -> {
                 deleteNotes(notesUI.value.notes)
-                onEvent(MainUIEvents.ToggleMenuMore)
             }
             is MainUIEvents.RestoreFromTrashCan -> {
                 editNotes(selectedNotes().map { note ->

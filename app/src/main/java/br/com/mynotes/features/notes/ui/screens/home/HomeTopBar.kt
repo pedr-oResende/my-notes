@@ -69,13 +69,19 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
                             DropdownMenu(
                                 expanded = notesUI.showMenuMore,
                                 onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
-                                DropdownMenuItem(onClick = { viewModel.onEvent(MainUIEvents.ArchiveNote(archive = true)) }) {
+                                DropdownMenuItem(onClick = {
+                                    viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                    viewModel.onEvent(MainUIEvents.ArchiveNote(archive = true))
+                                }) {
                                     Text(
                                         text = stringResource(R.string.label_archive),
                                         style = MaterialTheme.typography.body1
                                     )
                                 }
-                                DropdownMenuItem(onClick = { viewModel.onEvent(MainUIEvents.MoveNoteToTrashCan) }) {
+                                DropdownMenuItem(onClick = {
+                                    viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                    viewModel.onEvent(MainUIEvents.MoveNoteToTrashCan)
+                                }) {
                                     Text(
                                         text = stringResource(R.string.label_delete),
                                         style = MaterialTheme.typography.body1

@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
-import br.com.mynotes.commom.extensions.getActivity
 import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.commom.extensions.noRippleClickable
 import br.com.mynotes.features.notes.domain.model.Note
@@ -61,7 +60,7 @@ fun NoteDetailScreen(
                     viewModel.onEvent(NoteDetailUIEvents.SaveNote)
                     if (isEnabled) {
                         isEnabled = false
-                        context.getActivity()?.onBackPressed()
+                        navHostController.navigateUp()
                     }
                 }
             }
