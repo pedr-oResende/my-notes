@@ -36,7 +36,7 @@ class DeleteNoteWorker @AssistedInject constructor(
             ForegroundInfo(
                 Random.nextInt(),
                 NotificationCompat.Builder(context, "delete_note_channel")
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("Deleting note...")
                     .build()
             )
