@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.InvalidNoteException
 import br.com.mynotes.commom.util.PreferencesKey
@@ -103,9 +102,6 @@ class MainViewModel @Inject constructor(
                     })
                 }
                 disableSelectedMode()
-            }
-            is MainUIEvents.OnNoteDeleted -> {
-                onNoteDeleted()
             }
             is MainUIEvents.ToggleMenuMore -> {
                 _notesUI.value = notesUI.value.copy(
@@ -272,24 +268,11 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    fun goToDetail(navHostController: NavHostController, note: Note) {
-        Screens.NoteDetail.navigateWithArgument(
-            navHostController = navHostController,
-            argumentValue = note
-        )
-    }
-
     fun getNotesListFiltered(): List<Note> {
         return notesUI.value.notes.filter { note ->
             note.title.contains(notesUI.value.searchNotesText, ignoreCase = true) ||
                     note.content.contains(notesUI.value.searchNotesText, ignoreCase = true)
         }
-    }
-
-    private fun onNoteDeleted() {
-        _notesUI.value = notesUI.value.copy(
-            aNoteHasBeenDeleted = true
-        )
     }
 
     private fun selectedNotes(): List<Note> = notesUI.value.notes.filter { it.isSelected }

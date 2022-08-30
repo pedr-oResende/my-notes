@@ -16,6 +16,5 @@ sealed class MainUIEvents {
     object ToggleCloseSelection : MainUIEvents()
     object ToggleMarkPin : MainUIEvents()
     object ToggleMenuMore : MainUIEvents()
-    object OnNoteDeleted : MainUIEvents()
     object CloseAutoDeleteMessage : MainUIEvents()
 }

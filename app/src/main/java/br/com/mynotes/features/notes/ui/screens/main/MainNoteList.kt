@@ -130,9 +130,9 @@ fun MainNoteListScreen(
                 if (notesUI.isInSelectedMode)
                     viewModel.onEvent(MainUIEvents.SelectNote(note))
                 else
-                    viewModel.goToDetail(
+                    Screens.NoteDetail.navigateWithArgument(
                         navHostController = navHostController,
-                        note = note
+                        argumentValue = note
                     )
             }
             val onItemLongClick: (Note) -> Unit = { note ->

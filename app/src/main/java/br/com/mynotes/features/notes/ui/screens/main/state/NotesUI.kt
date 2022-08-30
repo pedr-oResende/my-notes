@@ -7,7 +7,6 @@ data class NotesUI(
     val searchNotesText: String = "",
     val isInGridMode: Boolean = true,
     val isInSelectedMode: Boolean = false,
-    val aNoteHasBeenDeleted: Boolean = false,
     val showMenuMore: Boolean = false,
     val isPinFilled: Boolean = true,
     val screenState: ScreenState = ScreenState.HomeScreen,
