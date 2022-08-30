@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -159,7 +160,11 @@ fun NoteDetailScreen(
                             }
                     )
                 }
-                Column(modifier = Modifier.padding(all = 16.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                ) {
                     CustomEditText(
                         text = noteDetailUI.title,
                         placeholder = stringResource(id = R.string.note_title_placeholder),
@@ -178,19 +183,24 @@ fun NoteDetailScreen(
                         textStyle = MaterialTheme.typography.body1,
                         readOnly = isInTrashCan
                     )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = stringResource(
-                                id = R.string.created_at_label,
-                                noteDetailUI.note?.createAt ?: ""
-                            ),
-                            style = MaterialTheme.typography.body2
-                        )
-                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(32.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(color = MaterialTheme.colors.surface),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(
+                            id = R.string.created_at_label,
+                            noteDetailUI.note?.createAt ?: ""
+                        ),
+                        style = MaterialTheme.typography.body2
+                    )
                 }
             }
         }
