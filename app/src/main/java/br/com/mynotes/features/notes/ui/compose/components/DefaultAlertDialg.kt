@@ -1,9 +1,9 @@
 package br.com.mynotes.features.notes.ui.compose.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +26,7 @@ fun DefaultAlertDialog(
             onDismissRequest = { setShowDialog(false) },
         ) {
             Surface(
-                color = MaterialTheme.colors.surface,
+                color = MaterialTheme.colorScheme.surface,
                 shape = MaterialTheme.shapes.medium
             ) {
                 Column(
@@ -48,7 +48,7 @@ fun DefaultAlertDialog(
                             onClick()
                             setShowDialog(false)
                         },
-                        color = MaterialTheme.colors.primary
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }

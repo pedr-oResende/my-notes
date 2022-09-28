@@ -44,7 +44,7 @@ class MainViewModel @Inject constructor(
 
     init {
         val screenState = ScreenState.getScreenStateEnum(
-            value = PreferencesWrapper.instance?.getString(PreferencesKey.SCREEN_STATE_KEY)
+            route = PreferencesWrapper.instance?.getString(PreferencesKey.SCREEN_STATE_KEY)
         )
         _notesUI.value = notesUI.value.copy(
             isInGridMode = PreferencesWrapper.instance?.getBoolean(
@@ -117,7 +117,7 @@ class MainViewModel @Inject constructor(
             is MainUIEvents.ChangeScreen -> {
                 PreferencesWrapper.instance?.putString(
                     key = PreferencesKey.SCREEN_STATE_KEY,
-                    value = event.screen.value
+                    value = event.screen.route
                 )
                 _notesUI.value = notesUI.value.copy(
                     screenState = event.screen,

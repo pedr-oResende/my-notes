@@ -2,7 +2,7 @@ package br.com.mynotes.features.notes.ui.screens.trash_can
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
@@ -41,7 +41,7 @@ fun TrashCanListScreen(
                 Text(
                     modifier = Modifier.weight(0.9f),
                     text = stringResource(R.string.trash_can_auto_delete_message),
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 IconButton(
                     modifier = Modifier.weight(0.1f),
@@ -49,7 +49,7 @@ fun TrashCanListScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        tint = MaterialTheme.colors.onSurface,
+                        tint = MaterialTheme.colorScheme.onSurface,
                         contentDescription = null
                     )
                 }

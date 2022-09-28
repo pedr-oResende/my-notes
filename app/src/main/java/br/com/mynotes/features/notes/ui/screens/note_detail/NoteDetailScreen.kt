@@ -4,7 +4,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.PushPin
@@ -12,6 +11,7 @@ import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.PushPin
 import androidx.compose.material.icons.outlined.Unarchive
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -39,12 +39,13 @@ import br.com.mynotes.features.notes.ui.screens.note_detail.state.NoteDetailUIEv
 import br.com.mynotes.features.notes.ui.screens.note_detail.state.NotesDetailActions
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,
     viewModel: NoteDetailViewModel = hiltViewModel(),
-    scaffoldState: ScaffoldState
+    snackbarHostState: SnackbarHostState
 ) {
     MyNotesTheme {
         val noteDetailUI = viewModel.noteDetailUI.value
@@ -72,7 +73,7 @@ fun NoteDetailScreen(
                         Screens.NoteDetail.backToHome(navHostController)
                     }
                     is NotesDetailActions.ShowRestoreNoteSnackBar -> {
-                        val result = scaffoldState.snackbarHostState.showSnackbar(
+                        val result = snackbarHostState.showSnackbar(
                             message = event.text,
                             actionLabel = event.label
                         )
@@ -141,8 +142,7 @@ fun NoteDetailScreen(
                         )
                     }
                 )
-            },
-            scaffoldState = scaffoldState
+            }
         ) { padding ->
             Box(
                 modifier = Modifier
@@ -163,6 +163,7 @@ fun NoteDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.background)
                         .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                 ) {
                     CustomEditText(
@@ -171,7 +172,7 @@ fun NoteDetailScreen(
                         onValueChange = {
                             viewModel.onEvent(NoteDetailUIEvents.TitleChanged(it))
                         },
-                        textStyle = MaterialTheme.typography.h6,
+                        textStyle = MaterialTheme.typography.headlineSmall,
                         readOnly = isInTrashCan
                     )
                     CustomEditText(
@@ -180,7 +181,7 @@ fun NoteDetailScreen(
                         onValueChange = {
                             viewModel.onEvent(NoteDetailUIEvents.ContentChanged(it))
                         },
-                        textStyle = MaterialTheme.typography.body1,
+                        textStyle = MaterialTheme.typography.bodyLarge,
                         readOnly = isInTrashCan
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -191,7 +192,7 @@ fun NoteDetailScreen(
                             .fillMaxWidth()
                             .height(32.dp)
                             .align(Alignment.BottomCenter)
-                            .background(color = MaterialTheme.colors.surface),
+                            .background(color = MaterialTheme.colorScheme.surface),
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -200,7 +201,7 @@ fun NoteDetailScreen(
                                 id = R.string.created_at_label,
                                 noteDetailUI.note.createAt
                             ),
-                            style = MaterialTheme.typography.body2
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }

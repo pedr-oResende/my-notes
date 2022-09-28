@@ -4,12 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.RestoreFromTrash
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,12 +23,13 @@ import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrashCanTopBar(
     notesUI: NotesUI,
     viewModel: MainViewModel,
     scope: CoroutineScope,
-    scaffoldState: ScaffoldState
+    drawerStateHost: DrawerState,
 ) {
     AnimatedVisibility(
         visible = !notesUI.isInSelectedMode && notesUI.screenState == ScreenState.TrashCanScreen,
@@ -41,7 +42,7 @@ fun TrashCanTopBar(
                 navigationIcon = {
                     TopBarIcon(
                         onClick = {
-                            scope.launch { scaffoldState.drawerState.open() }
+                            scope.launch { drawerStateHost.open() }
                         },
                         imageVector = Icons.Filled.Menu
                     )
@@ -55,12 +56,17 @@ fun TrashCanTopBar(
                         DropdownMenu(
                             expanded = notesUI.showMenuMore,
                             onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
-                            DropdownMenuItem(onClick = { viewModel.onEvent(MainUIEvents.ClearTrashCan) }) {
-                                Text(
-                                    text = "Esvaziar lixeira",
-                                    style = MaterialTheme.typography.body1
-                                )
-                            }
+                            DropdownMenuItem(
+                                onClick = {
+                                    viewModel.onEvent(MainUIEvents.ClearTrashCan)
+                                },
+                                text = {
+                                    Text(
+                                        text = "Esvaziar lixeira",
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
+                                }
+                            )
                         }
                     }
                 }
@@ -89,7 +95,7 @@ fun TrashCanTopBar(
                             )
                             Text(
                                 text = viewModel.selectedNotesSize().toString(),
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.headlineSmall
                             )
                         }
                         Row {
@@ -104,14 +110,17 @@ fun TrashCanTopBar(
                             DropdownMenu(
                                 expanded = notesUI.showMenuMore,
                                 onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
-                                DropdownMenuItem(onClick = {
-                                    viewModel.onEvent(MainUIEvents.DeleteNotes)
-                                }) {
-                                    Text(
-                                        text = "Excluir definitivamente",
-                                        style = MaterialTheme.typography.body1
-                                    )
-                                }
+                                DropdownMenuItem(
+                                    onClick = {
+                                        viewModel.onEvent(MainUIEvents.DeleteNotes)
+                                    },
+                                    text = {
+                                        Text(
+                                            text = "Excluir definitivamente",
+                                            style = MaterialTheme.typography.bodyLarge
+                                        )
+                                    }
+                                )
                             }
                         }
                     }

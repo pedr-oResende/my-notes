@@ -62,7 +62,7 @@ class PreferencesWrapper private constructor(context: Context) {
     }
 
     fun clearPreferences() {
-        putString(key = PreferencesKey.SCREEN_STATE_KEY, value = ScreenState.HomeScreen.value)
+        putString(key = PreferencesKey.SCREEN_STATE_KEY, value = ScreenState.HomeScreen.route)
     }
 
     companion object {

@@ -3,14 +3,17 @@ package br.com.mynotes.features.notes.ui.screens.main.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.ViewAgenda
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -28,10 +31,11 @@ import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
 import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanTopBar
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesListTopBar(
     viewModel: MainViewModel,
-    scaffoldState: ScaffoldState
+    drawerStateHost: DrawerState,
 ) {
     val notesUI = viewModel.notesUI.value
     val scope = rememberCoroutineScope()
@@ -47,7 +51,7 @@ fun NotesListTopBar(
         notesUI = notesUI,
         viewModel = viewModel,
         scope = scope,
-        scaffoldState = scaffoldState
+        drawerStateHost = drawerStateHost
     )
     AnimatedVisibility(
         visible = !notesUI.isInSelectedMode && notesUI.screenState != ScreenState.TrashCanScreen,
@@ -66,7 +70,7 @@ fun NotesListTopBar(
             leadingIcon = {
                 TopBarIcon(
                     onClick = {
-                        scope.launch { scaffoldState.drawerState.open() }
+                        scope.launch { drawerStateHost.open() }
                     },
                     imageVector = Icons.Filled.Menu
                 )

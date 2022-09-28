@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "br.com.mynotes"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -52,6 +52,9 @@ dependencies {
 
     implementation fileTree(include: '*.jar', dir: 'libs')
 
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
     // Compose
     implementation "androidx.activity:activity-compose:$activity_compose_version"
     implementation "androidx.compose.material:material:$compose_version"
@@ -62,12 +65,16 @@ dependencies {
     implementation "com.google.accompanist:accompanist-appcompat-theme:$accompanist_compose_version"
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_compose_version"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_compose_version"
-    implementation "io.coil-kt:coil-compose:$coil_compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    implementation "androidx.constraintlayout:constraintlayout-compose:$constraintlayout_compose_version"
-    implementation "com.google.accompanist:accompanist-pager:$compose_pager_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
@@ -98,4 +105,8 @@ dependencies {
 
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'androidx.hilt:hilt-work:1.0.0'
+
+    // Material 3
+    implementation "androidx.compose.material3:material3:1.0.0-alpha15"
+
 }

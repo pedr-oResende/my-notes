@@ -4,15 +4,15 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.PushPin
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +49,7 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
                             )
                             Text(
                                 text = viewModel.selectedNotesSize().toString(),
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.headlineSmall
                             )
                         }
                         Row {
@@ -69,24 +69,30 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
                             DropdownMenu(
                                 expanded = notesUI.showMenuMore,
                                 onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
-                                DropdownMenuItem(onClick = {
-                                    viewModel.onEvent(MainUIEvents.ToggleMenuMore)
-                                    viewModel.onEvent(MainUIEvents.ArchiveNote(archive = true))
-                                }) {
-                                    Text(
-                                        text = stringResource(R.string.label_archive),
-                                        style = MaterialTheme.typography.body1
-                                    )
-                                }
-                                DropdownMenuItem(onClick = {
-                                    viewModel.onEvent(MainUIEvents.ToggleMenuMore)
-                                    viewModel.onEvent(MainUIEvents.MoveNoteToTrashCan)
-                                }) {
-                                    Text(
-                                        text = stringResource(R.string.label_delete),
-                                        style = MaterialTheme.typography.body1
-                                    )
-                                }
+                                DropdownMenuItem(
+                                    onClick = {
+                                        viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                        viewModel.onEvent(MainUIEvents.ArchiveNote(archive = true))
+                                    },
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.label_archive),
+                                            style = MaterialTheme.typography.bodyLarge
+                                        )
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    onClick = {
+                                        viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                        viewModel.onEvent(MainUIEvents.MoveNoteToTrashCan)
+                                    },
+                                    text = {
+                                        Text(
+                                            text = stringResource(R.string.label_delete),
+                                            style = MaterialTheme.typography.bodyLarge
+                                        )
+                                    }
+                                )
                             }
                         }
                     }

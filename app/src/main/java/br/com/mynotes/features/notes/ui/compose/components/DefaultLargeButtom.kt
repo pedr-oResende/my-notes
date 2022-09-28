@@ -3,10 +3,10 @@ package br.com.mynotes.features.notes.ui.compose.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +26,7 @@ fun CustomLargeButton(
     shape: Shape = MaterialTheme.shapes.large,
     outlined: Boolean = false,
     enabled: Boolean = true,
-    style: TextStyle = MaterialTheme.typography.button
+    style: TextStyle = MaterialTheme.typography.labelMedium
 ) {
     Button(
         modifier = modifier
@@ -36,7 +36,7 @@ fun CustomLargeButton(
         colors = if (outlined)
             ButtonDefaults.outlinedButtonColors(contentColor = color, disabledContentColor = color)
         else
-            ButtonDefaults.buttonColors(backgroundColor = color, disabledContentColor = color),
+            ButtonDefaults.buttonColors(containerColor = color, disabledContentColor = color),
         border = if (outlined)
             BorderStroke(
                 width = borderStroke,
@@ -45,7 +45,7 @@ fun CustomLargeButton(
         else
             null,
         shape = shape,
-        elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
+        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
         enabled = enabled
     ) {
         Text(text = text, style = style)

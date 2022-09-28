@@ -1,15 +1,13 @@
 package br.com.mynotes.features.notes.ui.screens.note_detail.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomEditText(
     text: String,
@@ -26,12 +24,16 @@ fun CustomEditText(
             onValueChange(newText)
         },
         placeholder = {
-            Text(text = placeholder, style = textStyle)
+            Text(
+                text = placeholder,
+                style = textStyle,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         },
         colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colors.onBackground,
+            textColor = MaterialTheme.colorScheme.onBackground,
             disabledTextColor = Color.Transparent,
-            backgroundColor = Color.Transparent,
+            containerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
