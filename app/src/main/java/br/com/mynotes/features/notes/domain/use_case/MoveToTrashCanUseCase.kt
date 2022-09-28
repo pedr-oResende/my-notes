@@ -8,7 +8,6 @@ import br.com.mynotes.features.notes.ui.work_manager.DeleteNoteScheduler
 class MoveToTrashCanUseCase(
     private val repository: NoteRepository,
     private val deleteNoteScheduler: DeleteNoteScheduler
-
 ) {
     suspend operator fun invoke(note: Note, context: Context) {
         deleteNoteScheduler.setupDeleteNoteWorker(

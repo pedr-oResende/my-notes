@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.widgets.StaggeredVerticalGrid
-import br.com.mynotes.features.notes.ui.screens.main.components.NoteItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

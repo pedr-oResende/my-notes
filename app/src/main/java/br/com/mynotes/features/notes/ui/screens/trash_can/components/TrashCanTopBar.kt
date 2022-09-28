@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.ui.screens.trash_can
+package br.com.mynotes.features.notes.ui.screens.trash_can.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -11,34 +11,36 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.RestoreFromTrash
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import br.com.mynotes.R
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.ui.screens.main.MainViewModel
 import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
 import br.com.mynotes.features.notes.ui.screens.main.state.NotesUI
-import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
-import kotlinx.coroutines.CoroutineScope
+import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanViewModel
+import br.com.mynotes.features.notes.ui.screens.trash_can.ui.TrashCanEvents
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrashCanTopBar(
     notesUI: NotesUI,
-    viewModel: MainViewModel,
-    scope: CoroutineScope,
+    viewModel: TrashCanViewModel,
     drawerStateHost: DrawerState,
 ) {
+    val scope = rememberCoroutineScope()
     AnimatedVisibility(
-        visible = !notesUI.isInSelectedMode && notesUI.screenState == ScreenState.TrashCanScreen,
+        visible = !notesUI.isInSelectedMode,
         enter = fadeIn(),
         exit = fadeOut()
     ) {
         Column {
             TopBar(
-                title = "Lixeira",
+                title = stringResource(id = R.string.menu_item_trash_can),
                 navigationIcon = {
                     TopBarIcon(
                         onClick = {
@@ -58,11 +60,11 @@ fun TrashCanTopBar(
                             onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
                             DropdownMenuItem(
                                 onClick = {
-                                    viewModel.onEvent(MainUIEvents.ClearTrashCan)
+                                    viewModel.onEvent(TrashCanEvents.ClearTrashCan)
                                 },
                                 text = {
                                     Text(
-                                        text = "Esvaziar lixeira",
+                                        text = stringResource(id = R.string.clear_trash_can_label),
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
@@ -75,7 +77,7 @@ fun TrashCanTopBar(
         }
     }
     AnimatedVisibility(
-        visible = notesUI.isInSelectedMode && notesUI.screenState == ScreenState.TrashCanScreen,
+        visible = notesUI.isInSelectedMode,
         enter = fadeIn(),
         exit = fadeOut()
     ) {
@@ -100,7 +102,7 @@ fun TrashCanTopBar(
                         }
                         Row {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(MainUIEvents.RestoreFromTrashCan) },
+                                onClick = { viewModel.onEvent(TrashCanEvents.RestoreFromTrashCan) },
                                 imageVector = Icons.Outlined.RestoreFromTrash
                             )
                             TopBarIcon(
@@ -112,11 +114,11 @@ fun TrashCanTopBar(
                                 onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
                                 DropdownMenuItem(
                                     onClick = {
-                                        viewModel.onEvent(MainUIEvents.DeleteNotes)
+                                        viewModel.onEvent(TrashCanEvents.DeleteNotes)
                                     },
                                     text = {
                                         Text(
-                                            text = "Excluir definitivamente",
+                                            text = stringResource(id = R.string.delete_note_label),
                                             style = MaterialTheme.typography.bodyLarge
                                         )
                                     }

@@ -2,7 +2,6 @@ package br.com.mynotes.commom.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
 
 class PreferencesWrapper private constructor(context: Context) {
     fun putString(key: String, value: String?) {
@@ -59,10 +58,6 @@ class PreferencesWrapper private constructor(context: Context) {
     private fun save(key: String, value: Long) {
         val editor = sharedPreferences?.edit()
         editor?.putLong(key, value)?.apply()
-    }
-
-    fun clearPreferences() {
-        putString(key = PreferencesKey.SCREEN_STATE_KEY, value = ScreenState.HomeScreen.route)
     }
 
     companion object {

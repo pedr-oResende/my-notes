@@ -1,6 +1,6 @@
 package br.com.mynotes.features.notes.ui.compose.widgets
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -11,8 +11,8 @@ import com.google.accompanist.swiperefresh.SwipeRefreshState
 fun CustomSwipeRefresh(
     swipeRefreshState: SwipeRefreshState,
     onRefresh: () -> Unit,
-    indicatorBackgroundColor: Color = MaterialTheme.colors.surface,
-    indicatorContentColor: Color = MaterialTheme.colors.primary,
+    indicatorBackgroundColor: Color = MaterialTheme.colorScheme.surface,
+    indicatorContentColor: Color = MaterialTheme.colorScheme.primary,
     indicatorScale: Boolean = true,
     content: @Composable () -> Unit
 

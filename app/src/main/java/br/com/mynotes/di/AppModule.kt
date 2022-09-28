@@ -6,6 +6,9 @@ import br.com.mynotes.features.notes.data.data_source.NoteDatabase
 import br.com.mynotes.features.notes.data.repository.NoteRepositoryImpl
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
 import br.com.mynotes.features.notes.domain.use_case.*
+import br.com.mynotes.features.notes.domain.use_case.wrapper.ArchiveUseCases
+import br.com.mynotes.features.notes.domain.use_case.wrapper.HomeUseCases
+import br.com.mynotes.features.notes.domain.use_case.wrapper.TrashCanUseCases
 import br.com.mynotes.features.notes.ui.work_manager.DeleteNoteScheduler
 import dagger.Module
 import dagger.Provides
@@ -35,16 +38,35 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideNoteUseCases(repository: NoteRepository): NoteUseCases {
-        return NoteUseCases(
-            getNotesUseCase = GetMainNotesUseCase(repository),
-            getArchivedNotesUseCase = GetArchivedNotesUseCase(repository),
+    fun providesTrashCanUseCases(repository: NoteRepository): TrashCanUseCases {
+        return TrashCanUseCases(
             getDeletedNotesUseCase = GetDeletedNotesUseCase(repository),
-            updateNotesUseCase = AddNoteUseCase(repository),
-            getNoteByIdUseCase = GetNoteByIdUseCase(repository),
-            unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
             deleteNoteUseCase = DeleteNoteUseCase(repository),
-            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository, DeleteNoteScheduler())
+            restoreNoteUseCase = RestoreNoteUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providesArchiveUseCases(repository: NoteRepository): ArchiveUseCases {
+        return ArchiveUseCases(
+            getArchivedNotesUseCase = GetArchivedNotesUseCase(repository),
+            unarchiveNoteUseCase = UnarchiveNoteUseCase(repository),
+            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository, DeleteNoteScheduler()),
+            restoreNoteUseCase = RestoreNoteUseCase(repository),
+            markPinUseCase = MarkPinUseCase(repository)
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun providesHomeUseCases(repository: NoteRepository): HomeUseCases {
+        return HomeUseCases(
+            getMainNotesUseCase = GetMainNotesUseCase(repository),
+            moveToTrashCanUseCase = MoveToTrashCanUseCase(repository, DeleteNoteScheduler()),
+            archiveNoteUseCase = ArchiveNoteUseCase(repository),
+            restoreNoteUseCase = RestoreNoteUseCase(repository),
+            markPinUseCase = MarkPinUseCase(repository)
         )
     }
 

@@ -16,8 +16,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CustomEditText(
     modifier: Modifier = Modifier,
-    placeholder: String,
+    placeholder: @Composable (() -> Unit)? = null,
     value: String,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     onValueChange: (value: String) -> Unit,
     visualTransformation: VisualTransformation? = null,
     keyboardType: KeyboardType? = null,
@@ -31,13 +32,7 @@ fun CustomEditText(
         onValueChange = { newText ->
             onValueChange(newText)
         },
-        placeholder = {
-            Text(
-                text = placeholder,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
+        placeholder = placeholder,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType ?: KeyboardType.Text,
@@ -46,7 +41,7 @@ fun CustomEditText(
         colors = TextFieldDefaults.textFieldColors(
             focusedLabelColor = Color.Transparent,
             cursorColor = MaterialTheme.colorScheme.onSurface,
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = backgroundColor,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
         ),

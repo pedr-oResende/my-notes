@@ -19,15 +19,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import br.com.mynotes.R
-import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.compose.components.DrawerBody
 import br.com.mynotes.features.notes.ui.compose.components.DrawerHeader
-import br.com.mynotes.features.notes.ui.compose.navigation.Screens
-import br.com.mynotes.features.notes.ui.compose.navigation.main
-import br.com.mynotes.features.notes.ui.compose.navigation.noteDetail
+import br.com.mynotes.features.notes.ui.compose.navigation.*
 import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.model.MenuItem
-import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,11 +39,6 @@ class MainActivity : ComponentActivity() {
                 MainScreen(onBackPressedDispatcher = onBackPressedDispatcher)
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        PreferencesWrapper.instance?.clearPreferences()
     }
 }
 
@@ -71,17 +62,17 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
                 DrawerBody(
                     items = listOf(
                         MenuItem(
-                            screen = ScreenState.HomeScreen,
+                            route = Screens.Home.route,
                             title = stringResource(R.string.menu_item_home),
                             icon = Icons.Outlined.Home
                         ),
                         MenuItem(
-                            screen = ScreenState.ArchiveScreen,
+                            route = Screens.Archive.route,
                             title = stringResource(R.string.menu_item_archive),
                             icon = Icons.Outlined.Archive
                         ),
                         MenuItem(
-                            screen = ScreenState.TrashCanScreen,
+                            route = Screens.TrashCan.route,
                             title = stringResource(R.string.menu_item_trash_can),
                             icon = Icons.Outlined.Delete
                         ),
@@ -89,10 +80,10 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
                     onItemClick = { item ->
                         scope.launch {
                             drawerStateHost.close()
-                            navHostController.navigate(item.screen.route)
+                            navHostController.navigate(item.route)
                         }
                     },
-                    currentRoute = ScreenState.getScreenStateEnum(navHostController.currentDestination?.route)
+                    currentRoute = navHostController.currentDestination?.route
                 )
             }
         }
@@ -101,9 +92,18 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
             navController = navHostController,
             startDestination = Screens.Home.route,
             builder = {
-                main(
+                home(
                     navHostController = navHostController,
                     snackbarHostState = snackbarHostState,
+                    drawerStateHost = drawerStateHost
+                )
+                archive(
+                    navHostController = navHostController,
+                    snackbarHostState = snackbarHostState,
+                    drawerStateHost = drawerStateHost
+                )
+                trashCan(
+                    navHostController = navHostController,
                     drawerStateHost = drawerStateHost
                 )
                 noteDetail(

@@ -1,4 +1,3 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 
 package br.com.mynotes.features.notes.ui.compose.navigation
 
@@ -11,11 +10,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import br.com.mynotes.features.notes.ui.screens.main.MainNoteListScreen
+import br.com.mynotes.features.notes.ui.screens.archive.ArchiveListScreen
+import br.com.mynotes.features.notes.ui.screens.home.HomeListScreen
 import br.com.mynotes.features.notes.ui.screens.note_detail.NoteDetailScreen
+import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanListScreen
 import com.google.accompanist.navigation.animation.composable
 
-fun NavGraphBuilder.main(
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+fun NavGraphBuilder.home(
     navHostController: NavHostController,
     snackbarHostState: SnackbarHostState,
     drawerStateHost: DrawerState
@@ -27,7 +29,7 @@ fun NavGraphBuilder.main(
             nullable = true
         })
     ) {
-        MainNoteListScreen(
+        HomeListScreen(
             navHostController = navHostController,
             snackbarHostState = snackbarHostState,
             drawerStateHost = drawerStateHost
@@ -35,6 +37,47 @@ fun NavGraphBuilder.main(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+fun NavGraphBuilder.archive(
+    navHostController: NavHostController,
+    snackbarHostState: SnackbarHostState,
+    drawerStateHost: DrawerState
+) {
+    composable(
+        route = Screens.Archive.route,
+        arguments = listOf(navArgument(Screens.Archive.argumentKey) {
+            type = NavType.StringType
+            nullable = true
+        })
+    ) {
+        ArchiveListScreen(
+            navHostController = navHostController,
+            snackbarHostState = snackbarHostState,
+            drawerStateHost = drawerStateHost
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+fun NavGraphBuilder.trashCan(
+    navHostController: NavHostController,
+    drawerStateHost: DrawerState
+) {
+    composable(
+        route = Screens.TrashCan.route,
+        arguments = listOf(navArgument(Screens.TrashCan.argumentKey) {
+            type = NavType.StringType
+            nullable = true
+        })
+    ) {
+        TrashCanListScreen(
+            navHostController = navHostController,
+            drawerStateHost = drawerStateHost
+        )
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.noteDetail(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,

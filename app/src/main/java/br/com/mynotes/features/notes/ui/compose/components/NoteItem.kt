@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.ui.screens.main.components
+package br.com.mynotes.features.notes.ui.compose.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

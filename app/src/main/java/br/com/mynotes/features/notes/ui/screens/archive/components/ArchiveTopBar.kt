@@ -1,35 +1,44 @@
-package br.com.mynotes.features.notes.ui.screens.home
+package br.com.mynotes.features.notes.ui.screens.archive.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.PushPin
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.outlined.ViewAgenda
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.ui.compose.components.SearchNotesTopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.ui.screens.main.MainViewModel
+import br.com.mynotes.features.notes.ui.screens.archive.ArchiveViewModel
+import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
 import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
 import br.com.mynotes.features.notes.ui.screens.main.state.NotesUI
-import br.com.mynotes.features.notes.ui.screens.main.state.ScreenState
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
+fun ArchiveTopBar(
+    notesUI: NotesUI,
+    viewModel: ArchiveViewModel,
+    drawerStateHost: DrawerState
+) {
+    val scope = rememberCoroutineScope()
     AnimatedVisibility(
-        visible = notesUI.isInSelectedMode && notesUI.screenState == ScreenState.HomeScreen,
+        visible = notesUI.isInSelectedMode,
         enter = fadeIn(),
         exit = fadeOut()
     ) {
@@ -54,16 +63,15 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
                         }
                         Row {
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(MainUIEvents.ToggleMarkPin) },
-                                imageVector = if (notesUI.isPinFilled)
+                                onClick = { viewModel.onEvent(ArchiveEvents.ToggleMarkPin) },
+                                imageVector = if (notesUI.isPinFilled) {
                                     Icons.Filled.PushPin
-                                else
+                                } else {
                                     Icons.Outlined.PushPin
+                                }
                             )
                             TopBarIcon(
-                                onClick = {
-                                    viewModel.onEvent(MainUIEvents.ToggleMenuMore)
-                                },
+                                onClick = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) },
                                 imageVector = Icons.Filled.MoreVert
                             )
                             DropdownMenu(
@@ -71,20 +79,18 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
                                 onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
                                 DropdownMenuItem(
                                     onClick = {
-                                        viewModel.onEvent(MainUIEvents.ToggleMenuMore)
-                                        viewModel.onEvent(MainUIEvents.ArchiveNote(archive = true))
+                                        viewModel.onEvent(ArchiveEvents.UnArchiveNote)
                                     },
                                     text = {
                                         Text(
-                                            text = stringResource(R.string.label_archive),
+                                            text = stringResource(R.string.label_unarchive),
                                             style = MaterialTheme.typography.bodyLarge
                                         )
                                     }
                                 )
                                 DropdownMenuItem(
                                     onClick = {
-                                        viewModel.onEvent(MainUIEvents.ToggleMenuMore)
-                                        viewModel.onEvent(MainUIEvents.MoveNoteToTrashCan)
+                                        viewModel.onEvent(ArchiveEvents.MoveNoteToTrashCan)
                                     },
                                     text = {
                                         Text(
@@ -100,5 +106,40 @@ fun HomeTopBar(notesUI: NotesUI, viewModel: MainViewModel) {
             )
             Spacer(modifier = Modifier.height(12.3.dp))
         }
+    }
+    AnimatedVisibility(
+        visible = !notesUI.isInSelectedMode,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        SearchNotesTopBar(
+            modifier = Modifier
+                .padding(top = 18.dp, start = 16.dp, end = 16.dp),
+            placeholder = stringResource(R.string.search_note_placeholder),
+            value = notesUI.searchNotesText,
+            screenName = stringResource(id = R.string.menu_item_archive),
+            onValueChange = { newText ->
+                viewModel.onEvent(MainUIEvents.SearchTextChanged(newText))
+            },
+            leadingIcon = {
+                TopBarIcon(
+                    onClick = {
+                        scope.launch { drawerStateHost.open() }
+                    },
+                    imageVector = Icons.Filled.Menu
+                )
+            },
+            trailingIcon = {
+                Row {
+                    TopBarIcon(
+                        onClick = { viewModel.onEvent(MainUIEvents.ToggleListView) },
+                        imageVector = if (notesUI.isInGridMode)
+                            Icons.Outlined.ViewAgenda
+                        else
+                            Icons.Outlined.GridView
+                    )
+                }
+            }
+        )
     }
 }
