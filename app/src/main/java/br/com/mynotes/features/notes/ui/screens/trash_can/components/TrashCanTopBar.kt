@@ -73,7 +73,6 @@ fun TrashCanTopBar(
                     }
                 }
             )
-            Spacer(modifier = Modifier.height(12.3.dp))
         }
     }
     AnimatedVisibility(
@@ -128,7 +127,6 @@ fun TrashCanTopBar(
                     }
                 }
             )
-            Spacer(modifier = Modifier.height(12.3.dp))
         }
     }
 }

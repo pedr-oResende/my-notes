@@ -106,7 +106,7 @@ fun HomeTopBar(
                     }
                 }
             )
-            Spacer(modifier = Modifier.height(12.3.dp))
+            Spacer(modifier = Modifier.height(4.5.dp))
         }
     }
     AnimatedVisibility(
