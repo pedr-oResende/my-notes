@@ -15,13 +15,13 @@ class DeleteNoteScheduler {
     )  {
         val request = OneTimeWorkRequestBuilder<DeleteNoteWorker>()
             .setInputData(workDataOf(WorkerKeys.NOTE_ID to noteId))
-            .setInitialDelay(DAYS_FOR_DELETE_NOTE, TimeUnit.DAYS)
+            .setInitialDelay(DAYS_FOR_DELETE_NOTE, TimeUnit.MILLISECONDS)
             .build()
         WorkManager.getInstance(context).enqueue(request)
     }
 
     companion object {
-        const val DAYS_FOR_DELETE_NOTE = 7L
+        const val DAYS_FOR_DELETE_NOTE = 7L * 24 * 60 * 60 * 1000L
     }
 
 }
