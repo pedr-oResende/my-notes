@@ -82,8 +82,8 @@ fun HomeListScreen(
             }
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
                     .padding(paddingValues = padding)
+                    .fillMaxSize()
             ) {
                 HomeList(
                     viewModel = viewModel,

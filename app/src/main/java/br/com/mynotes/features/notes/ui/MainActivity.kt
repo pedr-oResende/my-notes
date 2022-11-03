@@ -5,9 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
@@ -47,17 +45,13 @@ class MainActivity : ComponentActivity() {
 fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
     val navHostController = rememberAnimatedNavController()
     val snackbarHostState = remember { SnackbarHostState() }
-    val drawerStateHost = rememberDrawerState(DrawerValue.Closed)
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     ModalNavigationDrawer(
-        drawerState = drawerStateHost,
-        gesturesEnabled = drawerStateHost.isOpen,
+        drawerState = drawerState,
+        gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .background(color = MaterialTheme.colorScheme.background)
-            ) {
+            ModalDrawerSheet {
                 DrawerHeader()
                 DrawerBody(
                     items = listOf(
@@ -79,7 +73,7 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
                     ),
                     onItemClick = { item ->
                         scope.launch {
-                            drawerStateHost.close()
+                            drawerState.close()
                             navHostController.navigate(item.route)
                         }
                     },
@@ -89,22 +83,23 @@ fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
         }
     ) {
         AnimatedNavHost(
+            modifier = Modifier.fillMaxSize(),
             navController = navHostController,
             startDestination = Screens.Home.route,
             builder = {
                 home(
                     navHostController = navHostController,
                     snackbarHostState = snackbarHostState,
-                    drawerStateHost = drawerStateHost
+                    drawerStateHost = drawerState
                 )
                 archive(
                     navHostController = navHostController,
                     snackbarHostState = snackbarHostState,
-                    drawerStateHost = drawerStateHost
+                    drawerStateHost = drawerState
                 )
                 trashCan(
                     navHostController = navHostController,
-                    drawerStateHost = drawerStateHost
+                    drawerStateHost = drawerState
                 )
                 noteDetail(
                     navHostController = navHostController,
