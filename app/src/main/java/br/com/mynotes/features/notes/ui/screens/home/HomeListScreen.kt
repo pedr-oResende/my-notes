@@ -72,7 +72,8 @@ fun HomeListScreen(
                 ) {
                     Icon(imageVector = Icons.Filled.Edit, contentDescription = null)
                 }
-            }
+            },
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
         ) { padding ->
             val onItemClick: (Note) -> Unit = { note ->
                 viewModel.onItemClick(note, navHostController)
