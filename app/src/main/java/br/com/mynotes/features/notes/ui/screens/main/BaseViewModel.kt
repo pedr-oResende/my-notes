@@ -18,7 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
-abstract class BaseViewModel (
+open class BaseViewModel (
     private val savedStateHandle: SavedStateHandle,
     application: Application
 ) : AndroidViewModel(application) {

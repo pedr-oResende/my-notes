@@ -9,7 +9,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveNoteList
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
@@ -62,12 +61,6 @@ fun ArchiveListScreen(
                 )
             }
         ) { padding ->
-            val onItemClick: (Note) -> Unit = { note ->
-                viewModel.onItemClick(note, navHostController)
-            }
-            val onItemLongClick: (Note) -> Unit = { note ->
-                viewModel.onItemLongClick(note)
-            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -75,8 +68,7 @@ fun ArchiveListScreen(
             ) {
                 ArchiveNoteList(
                     viewModel = viewModel,
-                    onItemClick = onItemClick,
-                    onItemLongClick = onItemLongClick
+                    navHostController = navHostController
                 )
             }
         }

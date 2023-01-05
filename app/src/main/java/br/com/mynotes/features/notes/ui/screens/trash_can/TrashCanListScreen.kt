@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.screens.trash_can.components.TrashCanNoteList
 import br.com.mynotes.features.notes.ui.screens.trash_can.components.TrashCanTopBar
@@ -37,12 +36,6 @@ fun TrashCanListScreen(
                 )
             }
         ) { paddingValues ->
-            val onItemClick: (Note) -> Unit = { note ->
-                viewModel.onItemClick(note, navHostController)
-            }
-            val onItemLongClick: (Note) -> Unit = { note ->
-                viewModel.onItemLongClick(note)
-            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -80,9 +73,9 @@ fun TrashCanListScreen(
                     }
                 }
                 TrashCanNoteList(
-                    onItemClick = onItemClick,
-                    onItemLongClick = onItemLongClick,
-                    notes = notesUI.notes
+                    notes = notesUI.notes,
+                    navHostController = navHostController,
+                    viewModel = viewModel
                 )
             }
         }

@@ -7,16 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import br.com.mynotes.R
-import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.NotesList
 import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
 
 @Composable
 fun HomeList(
     viewModel: HomeViewModel,
-    onItemClick: (Note) -> Unit,
-    onItemLongClick: (Note) -> Unit
+    navHostController: NavHostController
 ) {
     val notesUI = viewModel.notesUI.value
     val notes = viewModel.getNotesListFilteredByText()
@@ -31,8 +30,12 @@ fun HomeList(
         NotesList(
             isInGridMode = notesUI.isInGridMode,
             notes = fixedNotes,
-            onItemClick = onItemClick,
-            onItemLongClick = onItemLongClick
+            onItemClick = { note ->
+                viewModel.onItemClick(note, navHostController)
+            },
+            onItemLongClick = { note ->
+                viewModel.onItemLongClick(note)
+            }
         )
         if (otherNotes.isNotEmpty()) {
             Text(
@@ -43,16 +46,24 @@ fun HomeList(
             NotesList(
                 isInGridMode = notesUI.isInGridMode,
                 notes = otherNotes,
-                onItemClick = onItemClick,
-                onItemLongClick = onItemLongClick
+                onItemClick = { note ->
+                    viewModel.onItemClick(note, navHostController)
+                },
+                onItemLongClick = { note ->
+                    viewModel.onItemLongClick(note)
+                }
             )
         }
     } else {
         NotesList(
             isInGridMode = notesUI.isInGridMode,
             notes = notes,
-            onItemClick = onItemClick,
-            onItemLongClick = onItemLongClick
+            onItemClick = { note ->
+                viewModel.onItemClick(note, navHostController)
+            },
+            onItemLongClick = { note ->
+                viewModel.onItemLongClick(note)
+            }
         )
     }
 }

@@ -1,6 +1,5 @@
 package br.com.mynotes.features.notes.ui.screens.note_detail
 
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,6 +28,7 @@ import br.com.mynotes.commom.extensions.getArgument
 import br.com.mynotes.commom.extensions.noRippleClickable
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.DefaultAlertDialog
+import br.com.mynotes.features.notes.ui.compose.navigation.BackHandler
 import br.com.mynotes.features.notes.ui.compose.navigation.Screens
 import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
@@ -50,23 +49,15 @@ fun NoteDetailScreen(
     MyNotesTheme {
         val noteDetailUI = viewModel.noteDetailUI.value
         val context = LocalContext.current
-        val lifecycleOwner = LocalLifecycleOwner.current
+        BackHandler(false) {
+            viewModel.onEvent(NoteDetailUIEvents.SaveNote)
+        }
         LaunchedEffect(key1 = true) {
             viewModel.loadNote(
                 note = navHostController.previousBackStackEntry?.savedStateHandle?.getArgument<Note>(
                     key = Screens.NoteDetail.argumentKey
                 )
             )
-            val callback = object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    viewModel.onEvent(NoteDetailUIEvents.SaveNote)
-                    if (isEnabled) {
-                        isEnabled = false
-                        navHostController.navigateUp()
-                    }
-                }
-            }
-            onBackPressedDispatcher.addCallback(lifecycleOwner, callback)
             viewModel.eventFlow.collectLatest { event ->
                 when (event) {
                     is NotesDetailActions.ProcessNote -> {
