@@ -11,9 +11,9 @@ import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.navigation.Screens
-import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
-import br.com.mynotes.features.notes.ui.screens.main.state.NotesActions
-import br.com.mynotes.features.notes.ui.screens.main.state.NotesUI
+import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NotesActions
+import br.com.mynotes.features.notes.ui.screens.main.ui.NotesUI
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

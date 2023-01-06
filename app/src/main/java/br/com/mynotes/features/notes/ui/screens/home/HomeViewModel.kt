@@ -8,7 +8,7 @@ import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.wrapper.HomeUseCases
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
 import br.com.mynotes.features.notes.ui.screens.main.BaseViewModel
-import br.com.mynotes.features.notes.ui.screens.main.state.NotesActions
+import br.com.mynotes.features.notes.ui.screens.main.ui.NotesActions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

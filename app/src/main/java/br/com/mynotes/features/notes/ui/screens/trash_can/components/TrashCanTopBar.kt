@@ -15,12 +15,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
-import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
-import br.com.mynotes.features.notes.ui.screens.main.state.NotesUI
+import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NotesUI
 import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanViewModel
 import br.com.mynotes.features.notes.ui.screens.trash_can.ui.TrashCanEvents
 import kotlinx.coroutines.launch

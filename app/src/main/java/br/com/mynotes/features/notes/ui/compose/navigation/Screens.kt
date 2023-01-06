@@ -37,20 +37,9 @@ sealed class Screens(val route: String, val argumentKey: String) {
         navHostController.navigate(route)
     }
 
-
     object Home : Screens(
         route = "home?home_argument={home_argument}",
         argumentKey = "home_argument"
-    )
-
-    object Archive : Screens(
-        route = "archive?archive_argument={archive_argument}",
-        argumentKey = "archive_argument"
-    )
-
-    object TrashCan : Screens(
-        route = "trash_can?trash_can_argument={trash_can_argument}",
-        argumentKey = "trash_can_argument"
     )
 
     object NoteDetail : Screens(

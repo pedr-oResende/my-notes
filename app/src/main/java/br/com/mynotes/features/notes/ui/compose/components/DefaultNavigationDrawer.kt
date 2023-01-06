@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.ui.model.MenuItem
+import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
 
 @Composable
 fun DrawerHeader() {
@@ -37,11 +38,11 @@ fun DrawerHeader() {
 fun DrawerBody(
     items: List<MenuItem>,
     onItemClick: (MenuItem) -> Unit,
-    currentRoute: String?
+    currentScreen: DrawerScreens
 ) {
     Spacer(modifier = Modifier.height(12.dp))
     items.forEach { item ->
-        val isSelected = item.route == currentRoute
+        val isSelected = item.screen == currentScreen
         NavigationDrawerItem(
             modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
             label = {

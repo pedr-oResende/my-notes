@@ -13,7 +13,7 @@ import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveNoteList
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
-import br.com.mynotes.features.notes.ui.screens.main.state.NotesActions
+import br.com.mynotes.features.notes.ui.screens.main.ui.NotesActions
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,7 +22,7 @@ fun ArchiveListScreen(
     navHostController: NavHostController,
     viewModel: ArchiveViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
-    drawerStateHost: DrawerState
+    drawerState: DrawerState
 ) {
     val notesUI = viewModel.notesUI.value
     LaunchedEffect(key1 = true) {
@@ -57,7 +57,7 @@ fun ArchiveListScreen(
                 ArchiveTopBar(
                     notesUI = notesUI,
                     viewModel = viewModel,
-                    drawerStateHost = drawerStateHost
+                    drawerState = drawerState
                 )
             }
         ) { padding ->

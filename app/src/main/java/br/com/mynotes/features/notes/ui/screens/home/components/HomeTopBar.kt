@@ -25,14 +25,14 @@ import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
-import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar(
     viewModel: HomeViewModel,
-    drawerStateHost: DrawerState,
+    drawerState: DrawerState,
 ) {
     val notesUI = viewModel.notesUI.value
     val scope = rememberCoroutineScope()
@@ -125,7 +125,7 @@ fun HomeTopBar(
             leadingIcon = {
                 TopBarIcon(
                     onClick = {
-                        scope.launch { drawerStateHost.open() }
+                        scope.launch { drawerState.open() }
                     },
                     imageVector = Icons.Filled.Menu
                 )

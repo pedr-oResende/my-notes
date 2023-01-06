@@ -25,8 +25,8 @@ import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.ui.screens.archive.ArchiveViewModel
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
-import br.com.mynotes.features.notes.ui.screens.main.state.MainUIEvents
-import br.com.mynotes.features.notes.ui.screens.main.state.NotesUI
+import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NotesUI
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 fun ArchiveTopBar(
     notesUI: NotesUI,
     viewModel: ArchiveViewModel,
-    drawerStateHost: DrawerState
+    drawerState: DrawerState
 ) {
     val scope = rememberCoroutineScope()
     AnimatedVisibility(
@@ -124,7 +124,7 @@ fun ArchiveTopBar(
             leadingIcon = {
                 TopBarIcon(
                     onClick = {
-                        scope.launch { drawerStateHost.open() }
+                        scope.launch { drawerState.open() }
                     },
                     imageVector = Icons.Filled.Menu
                 )

@@ -22,7 +22,7 @@ import br.com.mynotes.features.notes.ui.screens.trash_can.ui.TrashCanEvents
 fun TrashCanListScreen(
     navHostController: NavHostController,
     viewModel: TrashCanViewModel = hiltViewModel(),
-    drawerStateHost: DrawerState
+    drawerState: DrawerState
 ) {
     val notesUI = viewModel.notesUI.value
     val trashCanUI = viewModel.trashCanUI.value
@@ -32,7 +32,7 @@ fun TrashCanListScreen(
                 TrashCanTopBar(
                     notesUI = notesUI,
                     viewModel = viewModel,
-                    drawerStateHost = drawerStateHost
+                    drawerStateHost = drawerState
                 )
             }
         ) { paddingValues ->
