@@ -8,6 +8,6 @@ fun <T> SavedStateHandle.getArgument(key: String): T? {
     return argument
 }
 
-fun <T> SavedStateHandle.putArgument(key: String, argument: T?) {
-    set(key = key, value = argument)
+fun <T> SavedStateHandle.putArgument(key: String, value: T?) {
+    set(key = key, value = value)
 }

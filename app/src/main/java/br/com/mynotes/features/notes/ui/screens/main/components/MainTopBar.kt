@@ -3,8 +3,6 @@ package br.com.mynotes.features.notes.ui.screens.main.components
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
-import br.com.mynotes.commom.util.PreferencesKey
-import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
 import br.com.mynotes.features.notes.ui.screens.home.components.HomeTopBar
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
@@ -15,18 +13,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainTopBar(
     screen: DrawerScreens,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    isInGridMode: MutableState<Boolean>
 ) {
     val scope = rememberCoroutineScope()
     val openDrawer: () -> Unit = {
         scope.launch { drawerState.open() }
-    }
-    val isInGridMode = remember {
-        mutableStateOf(
-            value = PreferencesWrapper.instance?.getBoolean(
-                key = PreferencesKey.NOTE_LIST_TYPE_STATE_KEY
-            ) ?: true
-        )
     }
     when (screen) {
         DrawerScreens.Archive -> {
