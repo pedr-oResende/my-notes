@@ -9,11 +9,10 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PushPin
-import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.PushPin
-import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +32,7 @@ import kotlinx.coroutines.launch
 fun HomeTopBar(
     viewModel: HomeViewModel,
     drawerState: DrawerState,
+    isInGridMode: MutableState<Boolean>
 ) {
     val notesUI = viewModel.notesUI.value
     val scope = rememberCoroutineScope()
@@ -130,17 +130,7 @@ fun HomeTopBar(
                     imageVector = Icons.Filled.Menu
                 )
             },
-            trailingIcon = {
-                Row {
-                    TopBarIcon(
-                        onClick = { viewModel.onEvent(MainUIEvents.ToggleListView) },
-                        imageVector = if (notesUI.isInGridMode)
-                            Icons.Outlined.ViewAgenda
-                        else
-                            Icons.Outlined.GridView
-                    )
-                }
-            }
+            isInGridMode = isInGridMode
         )
     }
 }

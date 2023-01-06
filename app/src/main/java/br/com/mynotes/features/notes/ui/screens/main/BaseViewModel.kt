@@ -7,13 +7,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import br.com.mynotes.commom.extensions.getArgument
-import br.com.mynotes.commom.util.PreferencesKey
-import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.navigation.Screens
 import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
-import br.com.mynotes.features.notes.ui.screens.main.ui.NotesActions
 import br.com.mynotes.features.notes.ui.screens.main.ui.NotesUI
+import br.com.mynotes.features.notes.ui.screens.main.ui.SnackBarEvents
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -28,24 +26,13 @@ open class BaseViewModel (
     private val _notesUI = mutableStateOf(NotesUI())
     val notesUI: State<NotesUI> = _notesUI
 
-    private val _eventFlow = MutableSharedFlow<NotesActions>()
+    private val _eventFlow = MutableSharedFlow<SnackBarEvents>()
     val eventFlow = _eventFlow.asSharedFlow()
-
-    init {
-        _notesUI.value = notesUI.value.copy(
-            isInGridMode = PreferencesWrapper.instance?.getBoolean(
-                key = PreferencesKey.LAYOUT_STATE_KEY
-            ) ?: true
-        )
-    }
 
     fun onEvent(event: MainUIEvents) {
         when (event) {
             is MainUIEvents.SelectNote -> {
                 selectNote(event.note)
-            }
-            is MainUIEvents.ToggleListView -> {
-                toggleListView()
             }
             is MainUIEvents.ToggleCloseSelection -> {
                 disableSelectedMode()
@@ -77,17 +64,6 @@ open class BaseViewModel (
             notes = selectedNotes,
             isInSelectedMode = selectedNotes.any { it.isSelected },
             isPinFilled = selectedNotes.all { it.isFixed }
-        )
-    }
-
-    private fun toggleListView() {
-        val value = !notesUI.value.isInGridMode
-        _notesUI.value = notesUI.value.copy(
-            isInGridMode = value
-        )
-        PreferencesWrapper.instance?.putBoolean(
-            key = PreferencesKey.LAYOUT_STATE_KEY,
-            value = value
         )
     }
 
@@ -133,7 +109,7 @@ open class BaseViewModel (
         _notesUI.value = notesUI.value.copy(notes = notes)
     }
 
-    protected suspend fun emitNotesAction(action: NotesActions) {
-        _eventFlow.emit(action)
+    protected suspend fun emitSnackBarEvent(event: SnackBarEvents) {
+        _eventFlow.emit(event)
     }
 }

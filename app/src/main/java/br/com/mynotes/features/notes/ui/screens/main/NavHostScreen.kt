@@ -13,7 +13,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
+fun NavHostScreen(onBackPressedDispatcher: OnBackPressedDispatcher) {
     val navHostController = rememberAnimatedNavController()
     val snackbarHostState = remember { SnackbarHostState() }
     AnimatedNavHost(

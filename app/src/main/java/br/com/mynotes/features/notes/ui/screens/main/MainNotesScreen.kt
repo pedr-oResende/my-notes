@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
+import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.compose.components.DrawerBody
 import br.com.mynotes.features.notes.ui.compose.components.DrawerHeader
@@ -31,6 +32,11 @@ fun MainNotesScreen(
     val screenState: MutableState<DrawerScreens> = remember {
         mutableStateOf(PreferencesWrapper.instance?.getScreen() ?: DrawerScreens.Home)
     }
+    val isInGridMode = remember { mutableStateOf(
+        PreferencesWrapper.instance?.getBoolean(
+            key = PreferencesKey.NOTE_LIST_TYPE_STATE_KEY
+        ) ?: true
+    ) }
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
@@ -73,14 +79,16 @@ fun MainNotesScreen(
                     HomeListScreen(
                         navHostController = navHostController,
                         snackbarHostState = snackbarHostState,
-                        drawerState = drawerState
+                        drawerState = drawerState,
+                        isInGridMode = isInGridMode
                     )
                 }
                 DrawerScreens.Archive -> {
                     ArchiveListScreen(
                         navHostController = navHostController,
                         snackbarHostState = snackbarHostState,
-                        drawerState = drawerState
+                        drawerState = drawerState,
+                        isInGridMode = isInGridMode
                     )
                 }
                 DrawerScreens.TrashCan -> {

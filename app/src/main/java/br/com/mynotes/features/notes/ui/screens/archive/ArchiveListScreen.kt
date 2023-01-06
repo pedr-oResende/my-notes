@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -13,7 +14,7 @@ import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveNoteList
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
-import br.com.mynotes.features.notes.ui.screens.main.ui.NotesActions
+import br.com.mynotes.features.notes.ui.screens.main.ui.SnackBarEvents
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,7 +23,8 @@ fun ArchiveListScreen(
     navHostController: NavHostController,
     viewModel: ArchiveViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    isInGridMode: MutableState<Boolean>
 ) {
     val notesUI = viewModel.notesUI.value
     LaunchedEffect(key1 = true) {
@@ -34,14 +36,14 @@ fun ArchiveListScreen(
         }
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is NotesActions.ShowSnackBar -> {
+                is SnackBarEvents.ShowSnackBar -> {
                     snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
-                is NotesActions.ShowUndoSnackBar -> {
+                is SnackBarEvents.ShowUndoSnackBar -> {
                     val result = snackbarHostState.showSnackbar(
-                        message = event.text,
+                        message = event.message,
                         actionLabel = event.label
                     )
                     if (result == SnackbarResult.ActionPerformed) {
@@ -57,7 +59,8 @@ fun ArchiveListScreen(
                 ArchiveTopBar(
                     notesUI = notesUI,
                     viewModel = viewModel,
-                    drawerState = drawerState
+                    drawerState = drawerState,
+                    isInGridMode = isInGridMode
                 )
             }
         ) { padding ->
@@ -68,7 +71,8 @@ fun ArchiveListScreen(
             ) {
                 ArchiveNoteList(
                     viewModel = viewModel,
-                    navHostController = navHostController
+                    navHostController = navHostController,
+                    isInGridMode = isInGridMode.value
                 )
             }
         }

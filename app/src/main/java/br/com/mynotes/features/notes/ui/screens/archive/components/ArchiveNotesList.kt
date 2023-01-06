@@ -8,12 +8,12 @@ import br.com.mynotes.features.notes.ui.screens.archive.ArchiveViewModel
 @Composable
 fun ArchiveNoteList(
     viewModel: ArchiveViewModel,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    isInGridMode: Boolean
 ) {
-    val notesUI = viewModel.notesUI.value
     val notes = viewModel.getNotesListFilteredByText()
     NotesList(
-        isInGridMode = notesUI.isInGridMode,
+        isInGridMode = isInGridMode,
         notes = notes,
         onItemClick = { note ->
             viewModel.onItemClick(note, navHostController)

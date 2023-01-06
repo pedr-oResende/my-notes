@@ -8,7 +8,7 @@ import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.wrapper.HomeUseCases
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
 import br.com.mynotes.features.notes.ui.screens.main.BaseViewModel
-import br.com.mynotes.features.notes.ui.screens.main.ui.NotesActions
+import br.com.mynotes.features.notes.ui.screens.main.ui.SnackBarEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -79,9 +79,9 @@ class HomeViewModel @Inject constructor(
                     note = note,
                     context = getApplication<Application>().applicationContext
                 )
-                emitNotesAction(
-                    NotesActions.ShowUndoSnackBar(
-                        text = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
+                emitSnackBarEvent(
+                    SnackBarEvents.ShowUndoSnackBar(
+                        message = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
                         label = getApplication<Application>().applicationContext.getString(R.string.label_undo)
                     )
                 )
