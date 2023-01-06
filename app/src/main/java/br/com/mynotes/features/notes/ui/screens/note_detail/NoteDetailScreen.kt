@@ -49,7 +49,7 @@ fun NoteDetailScreen(
     MyNotesTheme {
         val noteDetailUI = viewModel.noteDetailUI.value
         val context = LocalContext.current
-        BackHandler(false) {
+        BackHandler(true) {
             viewModel.onEvent(NoteDetailUIEvents.SaveNote)
         }
         LaunchedEffect(key1 = true) {
