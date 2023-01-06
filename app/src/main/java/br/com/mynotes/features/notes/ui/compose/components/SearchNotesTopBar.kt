@@ -48,7 +48,7 @@ fun SearchNotesTopBar(
             ) {
                 Text(
                     text = screenName,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -59,7 +59,7 @@ fun SearchNotesTopBar(
             ) {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
