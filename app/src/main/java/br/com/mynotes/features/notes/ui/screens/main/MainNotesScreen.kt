@@ -3,21 +3,14 @@ package br.com.mynotes.features.notes.ui.screens.main
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.outlined.Archive
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
-import br.com.mynotes.R
 import br.com.mynotes.commom.util.PreferencesWrapper
-import br.com.mynotes.features.notes.ui.compose.components.DrawerBody
-import br.com.mynotes.features.notes.ui.compose.components.DrawerHeader
+import br.com.mynotes.features.notes.ui.compose.components.DefaultNavigationDrawer
 import br.com.mynotes.features.notes.ui.compose.navigation.Screens
 import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
-import br.com.mynotes.features.notes.ui.model.MenuItem
 import br.com.mynotes.features.notes.ui.screens.main.components.MainNotes
 import br.com.mynotes.features.notes.ui.screens.main.components.MainTopBar
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
@@ -39,25 +32,7 @@ fun MainNotesScreen(
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerHeader()
-                DrawerBody(
-                    items = listOf(
-                        MenuItem(
-                            screen = DrawerScreens.Home,
-                            title = stringResource(R.string.menu_item_home),
-                            icon = Icons.Outlined.Home
-                        ),
-                        MenuItem(
-                            screen = DrawerScreens.Archive,
-                            title = stringResource(R.string.menu_item_archive),
-                            icon = Icons.Outlined.Archive
-                        ),
-                        MenuItem(
-                            screen = DrawerScreens.TrashCan,
-                            title = stringResource(R.string.menu_item_trash_can),
-                            icon = Icons.Outlined.Delete
-                        ),
-                    ),
+                DefaultNavigationDrawer(
                     onItemClick = { item ->
                         scope.launch {
                             drawerState.close()

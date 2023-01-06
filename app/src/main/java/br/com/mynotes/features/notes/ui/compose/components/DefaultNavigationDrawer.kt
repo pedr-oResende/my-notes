@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Archive
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +22,37 @@ import br.com.mynotes.features.notes.ui.model.MenuItem
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
 
 @Composable
-fun DrawerHeader() {
+fun DefaultNavigationDrawer(
+    onItemClick: (MenuItem) -> Unit,
+    currentScreen: DrawerScreens
+) {
+    val items = listOf(
+        MenuItem(
+            screen = DrawerScreens.Home,
+            title = stringResource(R.string.menu_item_home),
+            icon = Icons.Outlined.Home
+        ),
+        MenuItem(
+            screen = DrawerScreens.Archive,
+            title = stringResource(R.string.menu_item_archive),
+            icon = Icons.Outlined.Archive
+        ),
+        MenuItem(
+            screen = DrawerScreens.TrashCan,
+            title = stringResource(R.string.menu_item_trash_can),
+            icon = Icons.Outlined.Delete
+        ),
+    )
+    DrawerHeader()
+    DrawerBody(
+        items = items,
+        onItemClick = onItemClick,
+        currentScreen = currentScreen
+    )
+}
+
+@Composable
+private fun DrawerHeader() {
     Box(
         modifier = Modifier
             .padding(vertical = 64.dp, horizontal = 16.dp),
@@ -35,7 +69,7 @@ fun DrawerHeader() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DrawerBody(
+private fun DrawerBody(
     items: List<MenuItem>,
     onItemClick: (MenuItem) -> Unit,
     currentScreen: DrawerScreens
