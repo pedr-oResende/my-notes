@@ -10,14 +10,16 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.PushPin
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.ui.compose.components.SearchNotesTopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
@@ -25,15 +27,14 @@ import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
 import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBar(
-    viewModel: HomeViewModel,
-    drawerState: DrawerState,
+    viewModel: HomeViewModel = hiltViewModel(),
+    openDrawer: () -> Unit,
     isInGridMode: MutableState<Boolean>
 ) {
+    val showMenuMore = remember { mutableStateOf(false) }
     val notesUI = viewModel.notesUI.value
     val scope = rememberCoroutineScope()
     AnimatedVisibility(
@@ -70,16 +71,16 @@ fun HomeTopBar(
                             )
                             TopBarIcon(
                                 onClick = {
-                                    viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                    toggleMenuMore(showMenuMore)
                                 },
                                 imageVector = Icons.Filled.MoreVert
                             )
                             DropdownMenu(
-                                expanded = notesUI.showMenuMore,
-                                onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
+                                expanded = showMenuMore.value,
+                                onDismissRequest = { toggleMenuMore(showMenuMore) }) {
                                 DropdownMenuItem(
                                     onClick = {
-                                        viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                        toggleMenuMore(showMenuMore)
                                         viewModel.onEvent(HomeEvents.ArchiveNote)
                                     },
                                     text = {
@@ -91,7 +92,7 @@ fun HomeTopBar(
                                 )
                                 DropdownMenuItem(
                                     onClick = {
-                                        viewModel.onEvent(MainUIEvents.ToggleMenuMore)
+                                        toggleMenuMore(showMenuMore)
                                         viewModel.onEvent(HomeEvents.MoveNoteToTrashCan)
                                     },
                                     text = {
@@ -124,13 +125,15 @@ fun HomeTopBar(
             },
             leadingIcon = {
                 TopBarIcon(
-                    onClick = {
-                        scope.launch { drawerState.open() }
-                    },
+                    onClick = openDrawer,
                     imageVector = Icons.Filled.Menu
                 )
             },
             isInGridMode = isInGridMode
         )
     }
+}
+
+fun toggleMenuMore(showMenuMore: MutableState<Boolean>) {
+    showMenuMore.value = !showMenuMore.value
 }

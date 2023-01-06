@@ -1,24 +1,26 @@
 package br.com.mynotes.features.notes.ui.screens.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
-import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.compose.components.DrawerBody
 import br.com.mynotes.features.notes.ui.compose.components.DrawerHeader
+import br.com.mynotes.features.notes.ui.compose.navigation.Screens
 import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.model.MenuItem
-import br.com.mynotes.features.notes.ui.screens.archive.ArchiveListScreen
-import br.com.mynotes.features.notes.ui.screens.home.HomeListScreen
+import br.com.mynotes.features.notes.ui.screens.main.components.MainNotes
+import br.com.mynotes.features.notes.ui.screens.main.components.MainTopBar
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
-import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanListScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,11 +34,6 @@ fun MainNotesScreen(
     val screenState: MutableState<DrawerScreens> = remember {
         mutableStateOf(PreferencesWrapper.instance?.getScreen() ?: DrawerScreens.Home)
     }
-    val isInGridMode = remember { mutableStateOf(
-        PreferencesWrapper.instance?.getBoolean(
-            key = PreferencesKey.NOTE_LIST_TYPE_STATE_KEY
-        ) ?: true
-    ) }
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
@@ -74,30 +71,36 @@ fun MainNotesScreen(
         }
     ) {
         MyNotesTheme {
-            when (screenState.value) {
-                DrawerScreens.Home -> {
-                    HomeListScreen(
-                        navHostController = navHostController,
-                        snackbarHostState = snackbarHostState,
-                        drawerState = drawerState,
-                        isInGridMode = isInGridMode
-                    )
-                }
-                DrawerScreens.Archive -> {
-                    ArchiveListScreen(
-                        navHostController = navHostController,
-                        snackbarHostState = snackbarHostState,
-                        drawerState = drawerState,
-                        isInGridMode = isInGridMode
-                    )
-                }
-                DrawerScreens.TrashCan -> {
-                    TrashCanListScreen(
-                        navHostController = navHostController,
+            Scaffold(
+                topBar = {
+                    MainTopBar(
+                        screen = screenState.value,
                         drawerState = drawerState
                     )
-                }
+                },
+                floatingActionButton = {
+                    if (screenState.value is DrawerScreens.Home) {
+                        FloatingActionButton(
+                            onClick = {
+                                navHostController.navigate(Screens.NoteDetail.route)
+                            },
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.secondary
+                        ) {
+                            Icon(imageVector = Icons.Filled.Edit, contentDescription = null)
+                        }
+                    }
+                },
+                snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+            ) { paddingValues ->
+                MainNotes(
+                    modifier = Modifier.padding(paddingValues = paddingValues),
+                    screenState = screenState,
+                    navHostController = navHostController,
+                    snackbarHostState = snackbarHostState
+                )
             }
         }
     }
 }
+

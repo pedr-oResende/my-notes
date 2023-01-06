@@ -6,7 +6,7 @@ import br.com.mynotes.features.notes.ui.compose.components.NotesList
 import br.com.mynotes.features.notes.ui.screens.archive.ArchiveViewModel
 
 @Composable
-fun ArchiveNoteList(
+fun ArchiveNotesList(
     viewModel: ArchiveViewModel,
     navHostController: NavHostController,
     isInGridMode: Boolean

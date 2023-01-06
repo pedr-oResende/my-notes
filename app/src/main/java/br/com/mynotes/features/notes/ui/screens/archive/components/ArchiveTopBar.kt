@@ -10,33 +10,36 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PushPin
 import androidx.compose.material.icons.outlined.PushPin
-import androidx.compose.material3.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.ui.compose.components.SearchNotesTopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.ui.screens.archive.ArchiveViewModel
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
+import br.com.mynotes.features.notes.ui.screens.home.components.toggleMenuMore
 import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
-import br.com.mynotes.features.notes.ui.screens.main.ui.NotesUI
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArchiveTopBar(
-    notesUI: NotesUI,
-    viewModel: ArchiveViewModel,
-    drawerState: DrawerState,
+    viewModel: ArchiveViewModel = hiltViewModel(),
+    openDrawer: () -> Unit,
     isInGridMode: MutableState<Boolean>
 ) {
-    val scope = rememberCoroutineScope()
+    val showMenuMore = remember { mutableStateOf(false) }
+    val notesUI = viewModel.notesUI.value
     AnimatedVisibility(
         visible = notesUI.isInSelectedMode,
         enter = fadeIn(),
@@ -71,12 +74,12 @@ fun ArchiveTopBar(
                                 }
                             )
                             TopBarIcon(
-                                onClick = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) },
+                                onClick = { toggleMenuMore(showMenuMore) },
                                 imageVector = Icons.Filled.MoreVert
                             )
                             DropdownMenu(
-                                expanded = notesUI.showMenuMore,
-                                onDismissRequest = { viewModel.onEvent(MainUIEvents.ToggleMenuMore) }) {
+                                expanded = showMenuMore.value,
+                                onDismissRequest = { toggleMenuMore(showMenuMore) }) {
                                 DropdownMenuItem(
                                     onClick = {
                                         viewModel.onEvent(ArchiveEvents.UnArchiveNote)
@@ -123,9 +126,7 @@ fun ArchiveTopBar(
             },
             leadingIcon = {
                 TopBarIcon(
-                    onClick = {
-                        scope.launch { drawerState.open() }
-                    },
+                    onClick = openDrawer,
                     imageVector = Icons.Filled.Menu
                 )
             },

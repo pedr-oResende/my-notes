@@ -1,32 +1,21 @@
 package br.com.mynotes.features.notes.ui.screens.archive
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
-import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveNoteList
-import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
+import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveNotesList
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
 import br.com.mynotes.features.notes.ui.screens.main.ui.SnackBarEvents
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArchiveListScreen(
+fun ArchiveNotesScreen(
     navHostController: NavHostController,
     viewModel: ArchiveViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
-    drawerState: DrawerState,
-    isInGridMode: MutableState<Boolean>
+    isInGridMode: Boolean
 ) {
-    val notesUI = viewModel.notesUI.value
     LaunchedEffect(key1 = true) {
         val emptyNoteMessage = viewModel.getSnackBarMessage()
         if (emptyNoteMessage.isNotBlank()) {
@@ -53,28 +42,9 @@ fun ArchiveListScreen(
             }
         }
     }
-    MyNotesTheme {
-        Scaffold(
-            topBar = {
-                ArchiveTopBar(
-                    notesUI = notesUI,
-                    viewModel = viewModel,
-                    drawerState = drawerState,
-                    isInGridMode = isInGridMode
-                )
-            }
-        ) { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues = padding)
-            ) {
-                ArchiveNoteList(
-                    viewModel = viewModel,
-                    navHostController = navHostController,
-                    isInGridMode = isInGridMode.value
-                )
-            }
-        }
-    }
+    ArchiveNotesList(
+        viewModel = viewModel,
+        navHostController = navHostController,
+        isInGridMode = isInGridMode
+    )
 }

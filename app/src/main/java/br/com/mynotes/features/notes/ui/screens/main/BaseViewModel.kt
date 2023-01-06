@@ -37,11 +37,6 @@ open class BaseViewModel (
             is MainUIEvents.ToggleCloseSelection -> {
                 disableSelectedMode()
             }
-            is MainUIEvents.ToggleMenuMore -> {
-                _notesUI.value = notesUI.value.copy(
-                    showMenuMore = !notesUI.value.showMenuMore
-                )
-            }
             is MainUIEvents.SearchTextChanged -> {
                 _notesUI.value = notesUI.value.copy(
                     searchNotesText = event.text
