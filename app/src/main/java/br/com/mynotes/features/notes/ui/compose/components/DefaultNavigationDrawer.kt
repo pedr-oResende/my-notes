@@ -1,22 +1,15 @@
 package br.com.mynotes.features.notes.ui.compose.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import br.com.mynotes.R
 import br.com.mynotes.features.notes.ui.model.MenuItem
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
@@ -53,16 +46,11 @@ fun DefaultNavigationDrawer(
 
 @Composable
 private fun DrawerHeader() {
-    Box(
-        modifier = Modifier
-            .padding(vertical = 64.dp, horizontal = 16.dp),
-        contentAlignment = Alignment.Center
-    ) {
+    Box(modifier = Modifier.padding(all = 24.dp)) {
         Text(
             text = stringResource(id = R.string.app_name),
-            fontSize = 52.sp,
-            style = TextStyle(fontStyle = FontStyle.Italic),
-            color = MaterialTheme.colorScheme.onSurface
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -74,7 +62,6 @@ private fun DrawerBody(
     onItemClick: (MenuItem) -> Unit,
     currentScreen: DrawerScreens
 ) {
-    Spacer(modifier = Modifier.height(12.dp))
     items.forEach { item ->
         val isSelected = item.screen == currentScreen
         NavigationDrawerItem(
