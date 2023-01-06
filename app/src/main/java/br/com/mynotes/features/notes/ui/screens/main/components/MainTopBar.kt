@@ -3,6 +3,7 @@ package br.com.mynotes.features.notes.ui.screens.main.components
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
+import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
 import br.com.mynotes.features.notes.ui.screens.home.components.HomeTopBar
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
@@ -20,23 +21,21 @@ fun MainTopBar(
     val openDrawer: () -> Unit = {
         scope.launch { drawerState.open() }
     }
-    when (screen) {
-        DrawerScreens.Archive -> {
-            ArchiveTopBar(
-                openDrawer = openDrawer,
-                isInGridMode = isInGridMode
-            )
-        }
-        DrawerScreens.Home -> {
-            HomeTopBar(
-                openDrawer = openDrawer,
-                isInGridMode = isInGridMode
-            )
-        }
-        DrawerScreens.TrashCan -> {
-            TrashCanTopBar(
-                openDrawer = openDrawer
-            )
-        }
+    FadeTransition(visible = screen is DrawerScreens.Home) {
+        HomeTopBar(
+            openDrawer = openDrawer,
+            isInGridMode = isInGridMode
+        )
+    }
+    FadeTransition(visible = screen is DrawerScreens.Archive) {
+        ArchiveTopBar(
+            openDrawer = openDrawer,
+            isInGridMode = isInGridMode
+        )
+    }
+    FadeTransition(visible = screen is DrawerScreens.TrashCan) {
+        TrashCanTopBar(
+            openDrawer = openDrawer
+        )
     }
 }

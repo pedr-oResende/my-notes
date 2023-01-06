@@ -1,8 +1,5 @@
 package br.com.mynotes.features.notes.ui.screens.trash_can.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.ui.screens.home.components.toggleMenuMore
@@ -38,11 +36,7 @@ fun TrashCanTopBar(
 ) {
     val showMenuMore = remember { mutableStateOf(false) }
     val notesUI = viewModel.notesUI.value
-    AnimatedVisibility(
-        visible = !notesUI.isInSelectedMode,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
+    FadeTransition(visible = notesUI.isInSelectedMode.not()) {
         Column {
             TopBar(
                 title = stringResource(id = R.string.menu_item_trash_can),
@@ -78,11 +72,7 @@ fun TrashCanTopBar(
             )
         }
     }
-    AnimatedVisibility(
-        visible = notesUI.isInSelectedMode,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
+    FadeTransition(visible = notesUI.isInSelectedMode) {
         Column {
             TopBar(
                 actions = {

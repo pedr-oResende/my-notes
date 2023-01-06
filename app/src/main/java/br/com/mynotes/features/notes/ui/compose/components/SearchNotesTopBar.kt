@@ -1,8 +1,5 @@
 package br.com.mynotes.features.notes.ui.compose.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +16,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import br.com.mynotes.R
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
+import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.compose.widgets.CustomEditText
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import kotlinx.coroutines.delay
@@ -46,22 +44,14 @@ fun SearchNotesTopBar(
         modifier = modifier
             .clip(RoundedCornerShape(50)),
         placeholder = {
-            AnimatedVisibility(
-                visible = !showPlaceholder.value,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
+            FadeTransition(visible = showPlaceholder.value.not()) {
                 Text(
                     text = screenName,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
-            AnimatedVisibility(
-                visible = showPlaceholder.value,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
+            FadeTransition(visible = showPlaceholder.value) {
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.bodyMedium,

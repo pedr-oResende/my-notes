@@ -1,8 +1,5 @@
 package br.com.mynotes.features.notes.ui.screens.archive.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -24,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.compose.components.SearchNotesTopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBar
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
@@ -40,11 +38,7 @@ fun ArchiveTopBar(
 ) {
     val showMenuMore = remember { mutableStateOf(false) }
     val notesUI = viewModel.notesUI.value
-    AnimatedVisibility(
-        visible = notesUI.isInSelectedMode,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
+    FadeTransition(visible = notesUI.isInSelectedMode) {
         Column {
             TopBar(
                 actions = {
@@ -110,11 +104,7 @@ fun ArchiveTopBar(
             Spacer(modifier = Modifier.height(4.5.dp))
         }
     }
-    AnimatedVisibility(
-        visible = !notesUI.isInSelectedMode,
-        enter = fadeIn(),
-        exit = fadeOut()
-    ) {
+    FadeTransition(visible = notesUI.isInSelectedMode.not()) {
         SearchNotesTopBar(
             modifier = Modifier
                 .padding(top = 18.dp, start = 16.dp, end = 16.dp),

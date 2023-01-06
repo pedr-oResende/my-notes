@@ -1,6 +1,5 @@
 package br.com.mynotes.features.notes.ui.screens.trash_can
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -12,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.screens.trash_can.components.TrashCanNoteList
 import br.com.mynotes.features.notes.ui.screens.trash_can.ui.TrashCanEvents
 
@@ -22,7 +22,7 @@ fun TrashCanNotesScreen(
 ) {
     val notesUI = viewModel.notesUI.value
     val trashCanUI = viewModel.trashCanUI.value
-    AnimatedVisibility(visible = trashCanUI.showAutoDeleteMessage) {
+    FadeTransition(visible = trashCanUI.showAutoDeleteMessage) {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()

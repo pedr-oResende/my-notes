@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.screens.archive.ArchiveNotesScreen
 import br.com.mynotes.features.notes.ui.screens.home.HomeNotesScreen
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
@@ -23,26 +24,24 @@ fun MainNotes(
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        when (screenState.value) {
-            DrawerScreens.Home -> {
-                HomeNotesScreen(
-                    navHostController = navHostController,
-                    snackbarHostState = snackbarHostState,
-                    isInGridMode = isInGridMode.value
-                )
-            }
-            DrawerScreens.Archive -> {
-                ArchiveNotesScreen(
-                    navHostController = navHostController,
-                    snackbarHostState = snackbarHostState,
-                    isInGridMode = isInGridMode.value
-                )
-            }
-            DrawerScreens.TrashCan -> {
-                TrashCanNotesScreen(
-                    navHostController = navHostController
-                )
-            }
+        FadeTransition(visible = screenState.value is DrawerScreens.Home) {
+            HomeNotesScreen(
+                navHostController = navHostController,
+                snackbarHostState = snackbarHostState,
+                isInGridMode = isInGridMode.value
+            )
+        }
+        FadeTransition(visible = screenState.value is DrawerScreens.Archive) {
+            ArchiveNotesScreen(
+                navHostController = navHostController,
+                snackbarHostState = snackbarHostState,
+                isInGridMode = isInGridMode.value
+            )
+        }
+        FadeTransition(visible = screenState.value is DrawerScreens.TrashCan) {
+            TrashCanNotesScreen(
+                navHostController = navHostController
+            )
         }
     }
 }
