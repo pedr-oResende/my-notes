@@ -1,6 +1,6 @@
 package br.com.mynotes.features.notes.domain.use_case
 
-import br.com.mynotes.commom.InvalidNoteException
+import br.com.mynotes.commom.exceptions.InvalidNoteException
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
 

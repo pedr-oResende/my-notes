@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
 import br.com.mynotes.commom.extensions.getArgument
+import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.commom.extensions.noRippleClickable
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.DefaultAlertDialog
@@ -140,7 +141,7 @@ fun NoteDetailScreen(
                     .fillMaxSize()
                     .padding(paddingValues = padding)
             ) {
-                val isInTrashCan = noteDetailUI.note?.isInTrashCan ?: false
+                val isInTrashCan = noteDetailUI.note?.isInTrashCan ifNull false
                 if (isInTrashCan) {
                     Box(
                         modifier = Modifier

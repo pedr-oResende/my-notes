@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.domain.model.Note
@@ -35,7 +36,7 @@ class TrashCanViewModel @Inject constructor(
         _trashCanUI.value = trashCanUI.value.copy(
             showAutoDeleteMessage = PreferencesWrapper.instance?.getBoolean(
                 key = PreferencesKey.SHOW_AUTO_DELETE_MESSAGE_KEY
-            ) ?: true
+            ) ifNull true
         )
         getTrashCanNotes()
     }

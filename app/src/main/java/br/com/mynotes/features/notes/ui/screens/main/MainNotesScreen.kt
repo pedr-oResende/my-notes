@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.compose.components.DefaultNavigationDrawer
@@ -26,13 +27,13 @@ fun MainNotesScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val screenState: MutableState<DrawerScreens> = remember {
-        mutableStateOf(PreferencesWrapper.instance?.getScreen() ?: DrawerScreens.Home)
+        mutableStateOf(PreferencesWrapper.instance?.getScreen() ifNull DrawerScreens.Home)
     }
     val isInGridMode = remember {
         mutableStateOf(
             value = PreferencesWrapper.instance?.getBoolean(
                 key = PreferencesKey.NOTE_LIST_TYPE_STATE_KEY
-            ) ?: true
+            ) ifNull true
         )
     }
     ModalNavigationDrawer(

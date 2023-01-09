@@ -6,7 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mynotes.R
-import br.com.mynotes.commom.InvalidNoteException
+import br.com.mynotes.commom.exceptions.InvalidNoteException
+import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
 import br.com.mynotes.features.notes.ui.screens.note_detail.state.NoteDetailUI
@@ -109,16 +110,16 @@ class NoteDetailViewModel @Inject constructor(
     fun loadNote(note: Note?) {
         _noteDetailUI.value = noteDetailUI.value.copy(
             note = note,
-            title = note?.title ?: noteDetailUI.value.title,
-            content = note?.content ?: noteDetailUI.value.content,
-            isPinMarked = note?.isFixed ?: noteDetailUI.value.isPinMarked
+            title = note?.title ifNull noteDetailUI.value.title,
+            content = note?.content ifNull noteDetailUI.value.content,
+            isPinMarked = note?.isFixed ifNull noteDetailUI.value.isPinMarked
         )
     }
 
     private fun getTimeStamp() = System.currentTimeMillis() - timeInNote
 
     private fun getCurrentDate(): String {
-        val createdAt = noteDetailUI.value.note?.createAt ?: ""
+        val createdAt = noteDetailUI.value.note?.createAt ifNull ""
         if (createdAt.isNotBlank())
             return createdAt
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -133,9 +134,9 @@ class NoteDetailViewModel @Inject constructor(
             isFixed = state.isPinMarked,
             createAt = getCurrentDate(),
             timestamp = getTimeStamp(),
-            isSelected = state.note?.isSelected ?: false,
-            isInTrashCan = state.note?.isInTrashCan ?: false,
-            isArchived = state.note?.isArchived ?: false
+            isSelected = state.note?.isSelected ifNull false,
+            isInTrashCan = state.note?.isInTrashCan ifNull false,
+            isArchived = state.note?.isArchived ifNull false
         )
     }
 

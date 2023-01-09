@@ -11,6 +11,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import br.com.mynotes.commom.extensions.ifNull
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +36,7 @@ fun CustomEditText(
         placeholder = placeholder,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType ?: KeyboardType.Text,
+            keyboardType = keyboardType ifNull KeyboardType.Text,
             imeAction = ImeAction.Next
         ),
         colors = TextFieldDefaults.textFieldColors(
@@ -45,7 +46,7 @@ fun CustomEditText(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
         ),
-        visualTransformation = visualTransformation ?: VisualTransformation.None,
+        visualTransformation = visualTransformation ifNull VisualTransformation.None,
         isError = isError,
         leadingIcon = if (leadingIcon != null) {
             { leadingIcon() }
