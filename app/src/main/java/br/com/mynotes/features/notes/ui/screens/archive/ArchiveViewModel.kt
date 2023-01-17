@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.mynotes.R
+import br.com.mynotes.commom.extensions.getString
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.wrapper.ArchiveUseCases
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
@@ -81,8 +82,8 @@ class ArchiveViewModel @Inject constructor(
                 )
                 emitSnackBarEvent(
                     SnackBarEvents.ShowUndoSnackBar(
-                        message = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
-                        label = getApplication<Application>().applicationContext.getString(R.string.label_undo)
+                        message = getString(R.string.notes_list_notes_removed_message),
+                        label = getString(R.string.label_undo)
                     )
                 )
             }

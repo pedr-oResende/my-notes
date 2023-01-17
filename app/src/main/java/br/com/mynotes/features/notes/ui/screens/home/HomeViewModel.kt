@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import br.com.mynotes.R
+import br.com.mynotes.commom.extensions.getString
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.wrapper.HomeUseCases
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
@@ -65,10 +66,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun archiveNotes(notes: List<Note>) {
-        notes.forEach { note ->
-            viewModelScope.launch {
+        viewModelScope.launch {
+            notes.forEach { note ->
                 homeUseCases.archiveNoteUseCase(note)
             }
+            emitSnackBarEvent(
+                SnackBarEvents.ShowUndoSnackBar(
+                    message = getString(R.string.notes_list_notes_removed_message),
+                    label = getString(R.string.label_undo)
+                )
+            )
         }
     }
 
@@ -81,8 +88,8 @@ class HomeViewModel @Inject constructor(
                 )
                 emitSnackBarEvent(
                     SnackBarEvents.ShowUndoSnackBar(
-                        message = getApplication<Application>().applicationContext.getString(R.string.notes_list_notes_removed_message),
-                        label = getApplication<Application>().applicationContext.getString(R.string.label_undo)
+                        message = getString(R.string.notes_list_notes_removed_message),
+                        label = getString(R.string.label_undo)
                     )
                 )
             }

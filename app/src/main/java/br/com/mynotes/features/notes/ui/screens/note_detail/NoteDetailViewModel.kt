@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.mynotes.R
 import br.com.mynotes.commom.exceptions.InvalidNoteException
+import br.com.mynotes.commom.extensions.getString
 import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.use_case.NoteDetailUseCases
@@ -98,8 +99,8 @@ class NoteDetailViewModel @Inject constructor(
                 viewModelScope.launch {
                     _eventFlow.emit(
                         NotesDetailActions.ShowRestoreNoteSnackBar(
-                            text = getApplication<Application>().applicationContext.getString(R.string.note_detail_disabled_text),
-                            label = getApplication<Application>().applicationContext.getString(R.string.label_restore)
+                            text = getString(R.string.note_detail_disabled_text),
+                            label = getString(R.string.label_restore)
                         )
                     )
                 }
