@@ -1,5 +1,6 @@
 package br.com.mynotes.features.notes.ui.screens.home.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,30 +23,15 @@ fun HomeList(
     val fixedNotes = notes.filter { it.isFixed }
     val otherNotes = notes.filter { !it.isFixed }
     if (fixedNotes.isNotEmpty()) {
-        Text(
-            text = stringResource(R.string.notes_list_fixed_label),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
-        )
-        NotesList(
-            isInGridMode = isInGridMode,
-            notes = fixedNotes,
-            onItemClick = { note ->
-                viewModel.onItemClick(note, navHostController)
-            },
-            onItemLongClick = { note ->
-                viewModel.onItemLongClick(note)
-            }
-        )
-        if (otherNotes.isNotEmpty()) {
+        Column {
             Text(
-                text = stringResource(R.string.notes_list_others_label),
+                text = stringResource(R.string.notes_list_fixed_label),
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, top = 16.dp)
             )
             NotesList(
                 isInGridMode = isInGridMode,
-                notes = otherNotes,
+                notes = fixedNotes,
                 onItemClick = { note ->
                     viewModel.onItemClick(note, navHostController)
                 },
@@ -53,6 +39,23 @@ fun HomeList(
                     viewModel.onItemLongClick(note)
                 }
             )
+            if (otherNotes.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.notes_list_others_label),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.padding(start = 16.dp)
+                )
+                NotesList(
+                    isInGridMode = isInGridMode,
+                    notes = otherNotes,
+                    onItemClick = { note ->
+                        viewModel.onItemClick(note, navHostController)
+                    },
+                    onItemLongClick = { note ->
+                        viewModel.onItemLongClick(note)
+                    }
+                )
+            }
         }
     } else {
         NotesList(
