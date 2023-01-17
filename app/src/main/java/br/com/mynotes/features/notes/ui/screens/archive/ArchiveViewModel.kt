@@ -37,7 +37,7 @@ class ArchiveViewModel @Inject constructor(
                 disableSelectedMode()
             }
             is ArchiveEvents.MoveNoteToTrashCan -> {
-                recentlyDeletedNotes.addAll(selectedNotes())
+                recentlyAffectedNotes.addAll(selectedNotes())
                 moveToTrashCan(selectedNotes().map { note ->
                     note.copy(
                         isInTrashCan = true,
@@ -47,8 +47,8 @@ class ArchiveViewModel @Inject constructor(
                 disableSelectedMode()
             }
             is ArchiveEvents.RestoreNotes -> {
-                restoreNotes(recentlyDeletedNotes)
-                recentlyDeletedNotes.removeAll { true }
+                restoreNotes(recentlyAffectedNotes)
+                recentlyAffectedNotes.removeAll { true }
                 disableSelectedMode()
             }
             is ArchiveEvents.ToggleMarkPin -> {

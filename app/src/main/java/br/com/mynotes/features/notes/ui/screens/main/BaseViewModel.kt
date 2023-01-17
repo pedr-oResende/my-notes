@@ -22,7 +22,7 @@ open class BaseViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    protected val recentlyDeletedNotes = mutableListOf<Note>()
+    protected val recentlyAffectedNotes = mutableListOf<Note>()
     protected var getNotesJob: Job? = null
     private val _notesUI = mutableStateOf(NotesUI())
     val notesUI: State<NotesUI> = _notesUI

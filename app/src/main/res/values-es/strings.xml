@@ -11,6 +11,7 @@
     <string name="notes_list_fixed_label">Marcadas</string>
     <string name="notes_list_others_label">Otros</string>
     <string name="notes_list_notes_removed_message">Algunas notas han sido eliminadas</string>
+    <string name="notes_list_notes_archived_message">Notas archivadas</string>
     <string name="label_undo">Deshacer</string>
     <string name="menu_item_home">Home</string>
     <string name="menu_item_archive">Archivado</string>

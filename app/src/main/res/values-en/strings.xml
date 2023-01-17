@@ -11,6 +11,7 @@
     <string name="notes_list_fixed_label">Marked</string>
     <string name="notes_list_others_label">Others</string>
     <string name="notes_list_notes_removed_message">Notes moved to trash can</string>
+    <string name="notes_list_notes_archived_message">Notes moved to archive</string>
     <string name="menu_item_home">Home</string>
     <string name="menu_item_archive">Archive</string>
     <string name="menu_item_trash_can">Trash can</string>

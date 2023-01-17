@@ -33,22 +33,18 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: HomeEvents) {
         when (event) {
             is HomeEvents.ArchiveNote -> {
+                recentlyAffectedNotes.addAll(selectedNotes())
                 archiveNotes(selectedNotes())
                 disableSelectedMode()
             }
             is HomeEvents.MoveNoteToTrashCan -> {
-                recentlyDeletedNotes.addAll(selectedNotes())
-                moveToTrashCan(selectedNotes().map { note ->
-                    note.copy(
-                        isInTrashCan = true,
-                        isArchived = false
-                    )
-                })
+                recentlyAffectedNotes.addAll(selectedNotes())
+                moveToTrashCan(selectedNotes())
                 disableSelectedMode()
             }
             is HomeEvents.RestoreNotes -> {
-                restoreNotes(recentlyDeletedNotes)
-                recentlyDeletedNotes.removeAll { true }
+                restoreNotes(recentlyAffectedNotes)
+                recentlyAffectedNotes.clear()
                 disableSelectedMode()
             }
             is HomeEvents.ToggleMarkPin -> {
