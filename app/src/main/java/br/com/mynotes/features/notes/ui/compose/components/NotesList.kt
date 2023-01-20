@@ -10,21 +10,24 @@ fun NotesList(
     isInGridMode: Boolean,
     notes: List<Note>,
     onItemClick: (Note) -> Unit,
-    onItemLongClick: (Note) -> Unit
+    onItemLongClick: (Note) -> Unit,
+    onSwipe: ((Note) -> Unit)? = null
 ) {
     if (isInGridMode) {
         GridNotesList(
             modifier = modifier,
             notes = notes,
             onItemClick = onItemClick,
-            onItemLongClick = onItemLongClick
+            onItemLongClick = onItemLongClick,
+            onDismiss = onSwipe
         )
     } else {
         LinearNotesList(
             modifier = modifier,
             notes = notes,
             onItemClick = onItemClick,
-            onItemLongClick = onItemLongClick
+            onItemLongClick = onItemLongClick,
+            onDismiss = onSwipe
         )
     }
 }

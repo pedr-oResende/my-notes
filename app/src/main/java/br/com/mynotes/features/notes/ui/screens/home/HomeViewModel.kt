@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: HomeEvents) {
         when (event) {
-            is HomeEvents.ArchiveNote -> {
+            is HomeEvents.ArchiveNotes -> {
                 recentlyAffectedNotes.addAll(selectedNotes())
                 archiveNotes(selectedNotes())
                 disableSelectedMode()
@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(
             }
             emitSnackBarEvent(
                 SnackBarEvents.ShowUndoSnackBar(
-                    message = getString(R.string.notes_list_notes_removed_message),
+                    message = getString(R.string.notes_list_notes_archived_message),
                     label = getString(R.string.label_undo)
                 )
             )
@@ -106,5 +106,11 @@ class HomeViewModel @Inject constructor(
                 homeUseCases.markPinUseCase(note = note, isFixed = !notes.all { it.isFixed })
             }
         }
+    }
+
+    fun archiveOnSwipe(note: Note) {
+        recentlyAffectedNotes.clear()
+        recentlyAffectedNotes.add(note)
+        archiveNotes(listOf(note))
     }
 }

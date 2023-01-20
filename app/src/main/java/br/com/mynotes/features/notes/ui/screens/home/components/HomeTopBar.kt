@@ -77,7 +77,7 @@ fun HomeTopBar(
                                 DropdownMenuItem(
                                     onClick = {
                                         toggleMenuMore(showMenuMore)
-                                        viewModel.onEvent(HomeEvents.ArchiveNote)
+                                        viewModel.onEvent(HomeEvents.ArchiveNotes)
                                     },
                                     text = {
                                         Text(

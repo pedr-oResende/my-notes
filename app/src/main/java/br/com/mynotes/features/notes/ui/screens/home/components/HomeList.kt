@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import br.com.mynotes.R
+import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.NotesList
 import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
 
@@ -17,11 +18,20 @@ import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
 fun HomeList(
     viewModel: HomeViewModel,
     navHostController: NavHostController,
-    isInGridMode: Boolean
+    isInGridMode: Boolean,
 ) {
     val notes = viewModel.getNotesListFilteredByText()
     val fixedNotes = notes.filter { it.isFixed }
     val otherNotes = notes.filter { !it.isFixed }
+    val onItemClick: (Note) -> Unit = { note ->
+        viewModel.onItemClick(note, navHostController)
+    }
+    val onItemLongClick: (Note) -> Unit = { note ->
+        viewModel.onItemLongClick(note)
+    }
+    val archiveOnSwipe: (Note) -> Unit = { note ->
+        viewModel.archiveOnSwipe(note)
+    }
     if (fixedNotes.isNotEmpty()) {
         Column {
             Text(
@@ -32,12 +42,9 @@ fun HomeList(
             NotesList(
                 isInGridMode = isInGridMode,
                 notes = fixedNotes,
-                onItemClick = { note ->
-                    viewModel.onItemClick(note, navHostController)
-                },
-                onItemLongClick = { note ->
-                    viewModel.onItemLongClick(note)
-                }
+                onItemClick = onItemClick,
+                onItemLongClick = onItemLongClick,
+                onSwipe = archiveOnSwipe
             )
             if (otherNotes.isNotEmpty()) {
                 Text(
@@ -48,12 +55,9 @@ fun HomeList(
                 NotesList(
                     isInGridMode = isInGridMode,
                     notes = otherNotes,
-                    onItemClick = { note ->
-                        viewModel.onItemClick(note, navHostController)
-                    },
-                    onItemLongClick = { note ->
-                        viewModel.onItemLongClick(note)
-                    }
+                    onItemClick = onItemClick,
+                    onItemLongClick = onItemLongClick,
+                    onSwipe = archiveOnSwipe
                 )
             }
         }
@@ -61,12 +65,9 @@ fun HomeList(
         NotesList(
             isInGridMode = isInGridMode,
             notes = notes,
-            onItemClick = { note ->
-                viewModel.onItemClick(note, navHostController)
-            },
-            onItemLongClick = { note ->
-                viewModel.onItemLongClick(note)
-            }
+            onItemClick = onItemClick,
+            onItemLongClick = onItemLongClick,
+            onSwipe = archiveOnSwipe
         )
     }
 }
