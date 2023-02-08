@@ -2,13 +2,16 @@ package br.com.mynotes.commom.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
-import io.paperdb.Paper
-import timber.log.Timber
 
 class PreferencesWrapper private constructor(context: Context) {
     
     private var screen: DrawerScreens? = null
+
+    init {
+        sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
+    }
     
     fun putString(key: String, value: String?) {
         save(key, value)
@@ -26,12 +29,8 @@ class PreferencesWrapper private constructor(context: Context) {
         save(key, value)
     }
 
-    fun getString(key: String?): String? {
-        return sharedPreferences?.getString(key, "")
-    }
-
-    fun getString(key: String?, valueDefault: String? = ""): String? {
-        return sharedPreferences?.getString(key, valueDefault)
+    fun getString(key: String?, valueDefault: String = ""): String {
+        return sharedPreferences?.getString(key, valueDefault) ifNull valueDefault
     }
 
     fun getBoolean(key: String?, valueDefault: Boolean = true): Boolean? {
@@ -66,32 +65,7 @@ class PreferencesWrapper private constructor(context: Context) {
         editor?.putLong(key, value)?.apply()
     }
 
-    @Synchronized
-    fun getScreen(): DrawerScreens? {
-        if (screen == null) {
-            try {
-                screen = Paper.book(PAPER_USER_BOOK).read(PreferencesKey.SCREEN_STATE_KEY)
-            } catch (e: Exception) {
-                Timber.e(e, "Error getting screen from paperDB")
-            }
-        }
-        return screen
-    }
-
-    @Synchronized
-    fun setScreen(screen: DrawerScreens) {
-        this.screen = screen
-        try {
-            val book = Paper.book(PAPER_USER_BOOK)
-            book.delete(PreferencesKey.SCREEN_STATE_KEY)
-            book.write(PreferencesKey.SCREEN_STATE_KEY, screen)
-        } catch (e: Exception) {
-            Timber.e(e, "Error setting screen")
-        }
-    }
-
     companion object {
-        private const val PAPER_USER_BOOK = "USER_BOOK"
         
         private var preferencesWrapper: PreferencesWrapper? = null
         private var sharedPreferences: SharedPreferences? = null
@@ -109,9 +83,5 @@ class PreferencesWrapper private constructor(context: Context) {
                 }
                 return preferencesWrapper
             }
-    }
-
-    init {
-        sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
     }
 }

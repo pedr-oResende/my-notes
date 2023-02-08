@@ -1,6 +1,7 @@
 package br.com.mynotes.features.notes.ui.compose.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
@@ -55,7 +56,6 @@ private fun DrawerHeader() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DrawerBody(
     items: List<MenuItem>,

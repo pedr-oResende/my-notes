@@ -124,10 +124,4 @@ dependencies {
     // Material 3
     implementation "androidx.compose.material3:material3:1.1.0-alpha04"
 
-    // Paper
-    implementation 'io.github.pilgr:paperdb:2.7.2'
-
-    // Timber
-    implementation "com.jakewharton.timber:timber:5.0.1"
-
 }

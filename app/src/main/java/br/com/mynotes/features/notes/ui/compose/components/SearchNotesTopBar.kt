@@ -69,7 +69,7 @@ fun SearchNotesTopBar(
                         onClick = {
                             isInGridMode.value = !isInGridMode.value
                             PreferencesWrapper.instance?.putBoolean(
-                                key = PreferencesKey.NOTE_LIST_TYPE_STATE_KEY,
+                                key = PreferencesKey.NOTE_LIST_TYPE_KEY,
                                 value = isInGridMode.value
                             )
                         },

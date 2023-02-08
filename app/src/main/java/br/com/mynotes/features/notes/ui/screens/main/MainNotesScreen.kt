@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import br.com.mynotes.commom.extensions.enumValueOf
 import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
@@ -26,16 +27,15 @@ fun MainNotesScreen(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val screenState: MutableState<DrawerScreens> = remember {
-        mutableStateOf(PreferencesWrapper.instance?.getScreen() ifNull DrawerScreens.Home)
-    }
-    val isInGridMode = remember {
-        mutableStateOf(
-            value = PreferencesWrapper.instance?.getBoolean(
-                key = PreferencesKey.NOTE_LIST_TYPE_STATE_KEY
-            ) ifNull true
-        )
-    }
+    val initialScreen = enumValueOf(
+        value = PreferencesWrapper.instance?.getString(PreferencesKey.SCREEN_STATE_KEY).orEmpty(),
+        default = DrawerScreens.Home
+    )
+    val initialListState = PreferencesWrapper.instance?.getBoolean(
+        key = PreferencesKey.NOTE_LIST_TYPE_KEY
+    ) ifNull true
+    val screenState = remember { mutableStateOf(initialScreen) }
+    val isInGridMode = remember { mutableStateOf(initialListState) }
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
@@ -46,7 +46,10 @@ fun MainNotesScreen(
                         scope.launch {
                             drawerState.close()
                             screenState.value = item.screen
-                            PreferencesWrapper.instance?.setScreen(item.screen)
+                            PreferencesWrapper.instance?.putString(
+                                key = PreferencesKey.SCREEN_STATE_KEY,
+                                value = item.screen.name
+                            )
                         }
                     },
                     currentScreen = screenState.value
@@ -64,7 +67,7 @@ fun MainNotesScreen(
                     )
                 },
                 floatingActionButton = {
-                    if (screenState.value is DrawerScreens.Home) {
+                    if (screenState.value == DrawerScreens.Home) {
                         FloatingActionButton(
                             onClick = {
                                 navHostController.navigate(Screens.NoteDetail.route)
@@ -83,7 +86,7 @@ fun MainNotesScreen(
                     screenState = screenState,
                     navHostController = navHostController,
                     snackbarHostState = snackbarHostState,
-                    isInGridMode =  isInGridMode
+                    isInGridMode = isInGridMode
                 )
             }
         }

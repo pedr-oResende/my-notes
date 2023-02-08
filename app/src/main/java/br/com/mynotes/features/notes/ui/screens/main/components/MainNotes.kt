@@ -21,24 +21,22 @@ fun MainNotes(
     snackbarHostState: SnackbarHostState,
     isInGridMode: MutableState<Boolean>
 ) {
-    Box(
-        modifier = modifier.fillMaxSize()
-    ) {
-        FadeTransition(visible = screenState.value is DrawerScreens.Home) {
+    Box(modifier = modifier.fillMaxSize()) {
+        FadeTransition(visible = screenState.value == DrawerScreens.Home) {
             HomeNotesScreen(
                 navHostController = navHostController,
                 snackbarHostState = snackbarHostState,
                 isInGridMode = isInGridMode.value
             )
         }
-        FadeTransition(visible = screenState.value is DrawerScreens.Archive) {
+        FadeTransition(visible = screenState.value == DrawerScreens.Archive) {
             ArchiveNotesScreen(
                 navHostController = navHostController,
                 snackbarHostState = snackbarHostState,
                 isInGridMode = isInGridMode.value
             )
         }
-        FadeTransition(visible = screenState.value is DrawerScreens.TrashCan) {
+        FadeTransition(visible = screenState.value == DrawerScreens.TrashCan) {
             TrashCanNotesScreen(
                 navHostController = navHostController
             )
