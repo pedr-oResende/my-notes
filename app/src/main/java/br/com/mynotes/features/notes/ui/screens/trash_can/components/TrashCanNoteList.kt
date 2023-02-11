@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.NotesList
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanViewModel
 
 @Composable
@@ -13,7 +14,7 @@ fun TrashCanNoteList(
     navHostController: NavHostController
 ) {
     NotesList(
-        isInGridMode = true,
+        noteListState = NoteListState.Grid,
         notes = notes,
         onItemClick = { note ->
             viewModel.onItemClick(note, navHostController)

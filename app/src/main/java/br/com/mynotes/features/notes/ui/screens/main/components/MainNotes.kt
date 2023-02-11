@@ -11,6 +11,7 @@ import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.screens.archive.ArchiveNotesScreen
 import br.com.mynotes.features.notes.ui.screens.home.HomeNotesScreen
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import br.com.mynotes.features.notes.ui.screens.trash_can.TrashCanNotesScreen
 
 @Composable
@@ -19,21 +20,21 @@ fun MainNotes(
     screenState: MutableState<DrawerScreens>,
     navHostController: NavHostController,
     snackbarHostState: SnackbarHostState,
-    isInGridMode: MutableState<Boolean>
+    noteListState: MutableState<NoteListState>
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         FadeTransition(visible = screenState.value == DrawerScreens.Home) {
             HomeNotesScreen(
                 navHostController = navHostController,
                 snackbarHostState = snackbarHostState,
-                isInGridMode = isInGridMode.value
+                noteListState = noteListState.value
             )
         }
         FadeTransition(visible = screenState.value == DrawerScreens.Archive) {
             ArchiveNotesScreen(
                 navHostController = navHostController,
                 snackbarHostState = snackbarHostState,
-                isInGridMode = isInGridMode.value
+                noteListState = noteListState.value
             )
         }
         FadeTransition(visible = screenState.value == DrawerScreens.TrashCan) {

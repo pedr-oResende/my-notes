@@ -6,6 +6,7 @@ import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveTopBar
 import br.com.mynotes.features.notes.ui.screens.home.components.HomeTopBar
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import br.com.mynotes.features.notes.ui.screens.trash_can.components.TrashCanTopBar
 import kotlinx.coroutines.launch
 
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 fun MainTopBar(
     screen: DrawerScreens,
     drawerState: DrawerState,
-    isInGridMode: MutableState<Boolean>
+    noteListState: MutableState<NoteListState>
 ) {
     val scope = rememberCoroutineScope()
     val openDrawer: () -> Unit = {
@@ -22,13 +23,13 @@ fun MainTopBar(
     FadeTransition(visible = screen == DrawerScreens.Home) {
         HomeTopBar(
             openDrawer = openDrawer,
-            isInGridMode = isInGridMode
+            noteListState = noteListState
         )
     }
     FadeTransition(visible = screen == DrawerScreens.Archive) {
         ArchiveTopBar(
             openDrawer = openDrawer,
-            isInGridMode = isInGridMode
+            noteListState = noteListState
         )
     }
     FadeTransition(visible = screen == DrawerScreens.TrashCan) {

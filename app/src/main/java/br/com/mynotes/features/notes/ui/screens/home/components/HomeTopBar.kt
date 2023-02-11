@@ -28,12 +28,13 @@ import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
 import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
 import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 
 @Composable
 fun HomeTopBar(
     viewModel: HomeViewModel = hiltViewModel(),
     openDrawer: () -> Unit,
-    isInGridMode: MutableState<Boolean>
+    noteListState: MutableState<NoteListState>
 ) {
     val showMenuMore = remember { mutableStateOf(false) }
     val notesUI = viewModel.notesUI.value
@@ -121,7 +122,7 @@ fun HomeTopBar(
                     imageVector = Icons.Filled.Menu
                 )
             },
-            isInGridMode = isInGridMode
+            noteListState = noteListState
         )
     }
 }

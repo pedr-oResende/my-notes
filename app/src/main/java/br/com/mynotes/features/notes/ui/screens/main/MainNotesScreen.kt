@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import br.com.mynotes.commom.extensions.enumValueOf
-import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.compose.components.DefaultNavigationDrawer
@@ -17,6 +16,7 @@ import br.com.mynotes.features.notes.ui.compose.theme.MyNotesTheme
 import br.com.mynotes.features.notes.ui.screens.main.components.MainNotes
 import br.com.mynotes.features.notes.ui.screens.main.components.MainTopBar
 import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,11 +31,12 @@ fun MainNotesScreen(
         value = PreferencesWrapper.instance?.getString(PreferencesKey.SCREEN_STATE_KEY).orEmpty(),
         default = DrawerScreens.Home
     )
-    val initialListState = PreferencesWrapper.instance?.getBoolean(
-        key = PreferencesKey.NOTE_LIST_TYPE_KEY
-    ) ifNull true
+    val initialListState = enumValueOf(
+        value = PreferencesWrapper.instance?.getString(PreferencesKey.NOTE_LIST_TYPE_KEY).orEmpty(),
+        default = NoteListState.Grid
+    )
     val screenState = remember { mutableStateOf(initialScreen) }
-    val isInGridMode = remember { mutableStateOf(initialListState) }
+    val noteListState = remember { mutableStateOf(initialListState) }
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
@@ -63,7 +64,7 @@ fun MainNotesScreen(
                     MainTopBar(
                         screen = screenState.value,
                         drawerState = drawerState,
-                        isInGridMode = isInGridMode
+                        noteListState = noteListState
                     )
                 },
                 floatingActionButton = {
@@ -86,7 +87,7 @@ fun MainNotesScreen(
                     screenState = screenState,
                     navHostController = navHostController,
                     snackbarHostState = snackbarHostState,
-                    isInGridMode = isInGridMode
+                    noteListState = noteListState
                 )
             }
         }

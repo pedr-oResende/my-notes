@@ -19,6 +19,7 @@ import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.ui.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.ui.compose.widgets.CustomEditText
 import br.com.mynotes.features.notes.ui.compose.widgets.TopBarIcon
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import kotlinx.coroutines.delay
 
 @Composable
@@ -33,25 +34,25 @@ fun SearchNotesTopBar(
     isError: Boolean = false,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    isInGridMode: MutableState<Boolean>
+    noteListState: MutableState<NoteListState>
 ) {
-    val showPlaceholder = remember { mutableStateOf(false) }
-    LaunchedEffect(key1 = true) {
+    var showPlaceholder by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
         delay(1500L)
-        showPlaceholder.value = true
+        showPlaceholder = true
     }
     CustomEditText(
         modifier = modifier
             .clip(RoundedCornerShape(50)),
         placeholder = {
-            FadeTransition(visible = showPlaceholder.value.not()) {
+            FadeTransition(visible = showPlaceholder.not()) {
                 Text(
                     text = screenName,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
-            FadeTransition(visible = showPlaceholder.value) {
+            FadeTransition(visible = showPlaceholder) {
                 Text(
                     text = placeholder,
                     style = MaterialTheme.typography.bodyMedium,
@@ -67,20 +68,18 @@ fun SearchNotesTopBar(
                 Row {
                     TopBarIcon(
                         onClick = {
-                            isInGridMode.value = !isInGridMode.value
-                            PreferencesWrapper.instance?.putBoolean(
+                            noteListState.value = noteListState.value.switch()
+                            PreferencesWrapper.instance?.putString(
                                 key = PreferencesKey.NOTE_LIST_TYPE_KEY,
-                                value = isInGridMode.value
+                                value = noteListState.value.name
                             )
                         },
-                        imageVector = if (isInGridMode.value)
-                            Icons.Outlined.ViewAgenda
-                        else
-                            Icons.Outlined.GridView
+                        imageVector = when (noteListState.value) {
+                            NoteListState.Grid -> Icons.Outlined.ViewAgenda
+                            NoteListState.Linear -> Icons.Outlined.GridView
+                        }
                     )
-                    if (trailingIcon != null) {
-                        trailingIcon()
-                    }
+                    trailingIcon?.invoke()
                 }
         },
         isError = isError,

@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.ui.screens.home.components.HomeList
 import br.com.mynotes.features.notes.ui.screens.home.ui.HomeEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import br.com.mynotes.features.notes.ui.screens.main.ui.SnackBarEvents
 import kotlinx.coroutines.flow.collectLatest
 
@@ -16,7 +17,7 @@ fun HomeNotesScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navHostController: NavHostController,
     snackbarHostState: SnackbarHostState,
-    isInGridMode: Boolean
+    noteListState: NoteListState
 ) {
     LaunchedEffect(key1 = true) {
         val emptyNoteMessage = viewModel.getSnackBarMessage()
@@ -47,6 +48,6 @@ fun HomeNotesScreen(
     HomeList(
         viewModel = viewModel,
         navHostController = navHostController,
-        isInGridMode = isInGridMode
+        noteListState = noteListState
     )
 }

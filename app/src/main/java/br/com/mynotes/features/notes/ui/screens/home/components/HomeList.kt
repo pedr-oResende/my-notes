@@ -13,12 +13,13 @@ import br.com.mynotes.R
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.components.NotesList
 import br.com.mynotes.features.notes.ui.screens.home.HomeViewModel
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 
 @Composable
 fun HomeList(
     viewModel: HomeViewModel,
     navHostController: NavHostController,
-    isInGridMode: Boolean,
+    noteListState: NoteListState
 ) {
     val notes = viewModel.getNotesListFilteredByText()
     val fixedNotes = notes.filter { it.isFixed }
@@ -40,7 +41,7 @@ fun HomeList(
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp)
             )
             NotesList(
-                isInGridMode = isInGridMode,
+                noteListState = noteListState,
                 notes = fixedNotes,
                 onItemClick = onItemClick,
                 onItemLongClick = onItemLongClick,
@@ -53,7 +54,7 @@ fun HomeList(
                     modifier = Modifier.padding(start = 16.dp)
                 )
                 NotesList(
-                    isInGridMode = isInGridMode,
+                    noteListState = noteListState,
                     notes = otherNotes,
                     onItemClick = onItemClick,
                     onItemLongClick = onItemLongClick,
@@ -63,7 +64,7 @@ fun HomeList(
         }
     } else {
         NotesList(
-            isInGridMode = isInGridMode,
+            noteListState = noteListState,
             notes = notes,
             onItemClick = onItemClick,
             onItemLongClick = onItemLongClick,

@@ -6,6 +6,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import br.com.mynotes.features.notes.ui.screens.archive.components.ArchiveNotesList
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import br.com.mynotes.features.notes.ui.screens.main.ui.SnackBarEvents
 import kotlinx.coroutines.flow.collectLatest
 
@@ -14,7 +15,7 @@ fun ArchiveNotesScreen(
     navHostController: NavHostController,
     viewModel: ArchiveViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState,
-    isInGridMode: Boolean
+    noteListState: NoteListState
 ) {
     LaunchedEffect(key1 = true) {
         val emptyNoteMessage = viewModel.getSnackBarMessage()
@@ -45,6 +46,6 @@ fun ArchiveNotesScreen(
     ArchiveNotesList(
         viewModel = viewModel,
         navHostController = navHostController,
-        isInGridMode = isInGridMode
+        noteListState = noteListState
     )
 }

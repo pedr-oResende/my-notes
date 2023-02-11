@@ -29,12 +29,13 @@ import br.com.mynotes.features.notes.ui.screens.archive.ArchiveViewModel
 import br.com.mynotes.features.notes.ui.screens.archive.ui.ArchiveEvents
 import br.com.mynotes.features.notes.ui.screens.home.components.toggleMenuMore
 import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
+import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 
 @Composable
 fun ArchiveTopBar(
     viewModel: ArchiveViewModel = hiltViewModel(),
     openDrawer: () -> Unit,
-    isInGridMode: MutableState<Boolean>
+    noteListState: MutableState<NoteListState>
 ) {
     val showMenuMore = remember { mutableStateOf(false) }
     val notesUI = viewModel.notesUI.value
@@ -120,7 +121,7 @@ fun ArchiveTopBar(
                     imageVector = Icons.Filled.Menu
                 )
             },
-            isInGridMode = isInGridMode
+            noteListState = noteListState
         )
     }
 }
