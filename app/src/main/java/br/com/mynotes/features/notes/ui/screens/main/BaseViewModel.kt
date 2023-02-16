@@ -7,7 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import br.com.mynotes.commom.extensions.getArgument
-import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.ui.compose.navigation.Screens
 import br.com.mynotes.features.notes.ui.screens.main.ui.MainUIEvents
@@ -47,19 +46,20 @@ open class BaseViewModel(
     }
 
     fun getSnackBarMessage() =
-        savedStateHandle.getArgument<String>(Screens.Home.argumentKey) ifNull ""
+        savedStateHandle.getArgument<String>(Screens.Home.argumentKey).orEmpty()
 
     private fun selectNote(note: Note) {
-        val selectedNotes: List<Note> = notesUI.value.notes.let { notes ->
+        val notes: List<Note> = notesUI.value.notes.let { notes ->
             notes.map {
                 it.copy(
                     isSelected = if (it.id == note.id) !it.isSelected else it.isSelected
                 )
             }
         }
+        val selectedNotes = notes.filter { it.isSelected }
         _notesUI.value = notesUI.value.copy(
-            notes = selectedNotes,
-            isInSelectedMode = selectedNotes.any { it.isSelected },
+            notes = notes,
+            isInSelectedMode = selectedNotes.isNotEmpty(),
             isPinFilled = selectedNotes.all { it.isFixed }
         )
     }
