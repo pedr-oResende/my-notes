@@ -2,7 +2,7 @@ package br.com.mynotes.di
 
 import android.app.Application
 import androidx.room.Room
-import br.com.mynotes.features.notes.data.data_source.NoteDatabase
+import br.com.mynotes.features.notes.data.local.database.NoteDatabase
 import br.com.mynotes.features.notes.data.repository.NoteRepositoryImpl
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
 import br.com.mynotes.features.notes.domain.use_case.*

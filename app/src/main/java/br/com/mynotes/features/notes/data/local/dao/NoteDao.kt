@@ -1,4 +1,4 @@
-package br.com.mynotes.features.notes.data.data_source
+package br.com.mynotes.features.notes.data.local.dao
 
 import androidx.room.*
 import br.com.mynotes.features.notes.domain.model.Note

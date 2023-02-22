@@ -1,6 +1,6 @@
 package br.com.mynotes.features.notes.data.repository
 
-import br.com.mynotes.features.notes.data.data_source.NoteDao
+import br.com.mynotes.features.notes.data.local.dao.NoteDao
 import br.com.mynotes.features.notes.domain.model.Note
 import br.com.mynotes.features.notes.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow

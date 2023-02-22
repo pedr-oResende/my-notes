@@ -3,6 +3,7 @@ package br.com.mynotes.features.notes.ui.compose.components
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,7 +25,11 @@ fun LinearNotesList(
     onItemLongClick: (Note) -> Unit,
     onDismiss: ((Note) -> Unit)?
 ) {
-    LazyColumn(modifier = modifier.padding(top = 16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(all = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         items(notes) { note ->
             CustomSwipeToDismiss(
                 onDismiss = { onDismiss?.invoke(note) },
@@ -33,7 +38,6 @@ fun LinearNotesList(
                 NoteItem(
                     modifier = Modifier
                         .alpha(alpha)
-                        .padding(horizontal = 16.dp)
                         .clip(MaterialTheme.shapes.large)
                         .combinedClickable(
                             onClick = {

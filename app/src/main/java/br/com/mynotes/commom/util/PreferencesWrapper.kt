@@ -65,6 +65,10 @@ class PreferencesWrapper private constructor(context: Context) {
         editor?.putLong(key, value)?.apply()
     }
 
+    fun clearPreferences() {
+        sharedPreferences?.edit()?.clear()?.apply()
+    }
+
     companion object {
         
         private var preferencesWrapper: PreferencesWrapper? = null

@@ -2,7 +2,7 @@ package br.com.mynotes.features.notes.ui.compose.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -36,7 +36,7 @@ fun GridNotesList(
                 NoteItem(
                     modifier = Modifier
                         .alpha(alpha)
-                        .padding(all = 8.dp)
+                        .padding(all = 4.dp)
                         .clip(MaterialTheme.shapes.large)
                         .combinedClickable(
                             onClick = {
