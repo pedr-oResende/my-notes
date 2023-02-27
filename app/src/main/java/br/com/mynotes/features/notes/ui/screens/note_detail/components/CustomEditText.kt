@@ -31,7 +31,8 @@ fun CustomEditText(
             )
         },
         colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onBackground,
+            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+            unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
             disabledTextColor = Color.Transparent,
             containerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,

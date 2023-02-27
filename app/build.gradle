@@ -68,7 +68,6 @@ dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
     // Compose
     implementation "androidx.activity:activity-compose:$activity_compose_version"
@@ -76,7 +75,6 @@ dependencies {
     implementation "androidx.compose.material:material-icons-core:$material_icons_version"
     implementation "androidx.compose.animation:animation:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$viewmodel_compose_version"
     implementation "com.google.accompanist:accompanist-appcompat-theme:$accompanist_compose_version"
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_compose_version"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_compose_version"
@@ -104,9 +102,11 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version-rc1"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version-rc1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version-rc1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version-rc1"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -116,10 +116,10 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Worker
-    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'androidx.work:work-runtime-ktx:2.8.0'
     implementation 'androidx.hilt:hilt-work:1.0.0'
 
     // Material 3
-    implementation "androidx.compose.material3:material3:1.1.0-alpha05"
+    implementation "androidx.compose.material3:material3:1.1.0-alpha07"
 
 }

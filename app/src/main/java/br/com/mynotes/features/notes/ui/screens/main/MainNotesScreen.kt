@@ -19,7 +19,6 @@ import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
 import br.com.mynotes.features.notes.ui.screens.main.ui.NoteListState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainNotesScreen(
     navHostController: NavHostController,

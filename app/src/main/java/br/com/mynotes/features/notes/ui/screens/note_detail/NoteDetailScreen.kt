@@ -39,7 +39,6 @@ import br.com.mynotes.features.notes.ui.screens.note_detail.state.NoteDetailUIEv
 import br.com.mynotes.features.notes.ui.screens.note_detail.state.NotesDetailActions
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
     navHostController: NavHostController,
