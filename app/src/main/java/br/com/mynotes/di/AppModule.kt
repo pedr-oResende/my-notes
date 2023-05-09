@@ -9,7 +9,7 @@ import br.com.mynotes.features.notes.domain.use_case.*
 import br.com.mynotes.features.notes.domain.use_case.wrapper.ArchiveUseCases
 import br.com.mynotes.features.notes.domain.use_case.wrapper.HomeUseCases
 import br.com.mynotes.features.notes.domain.use_case.wrapper.TrashCanUseCases
-import br.com.mynotes.features.notes.ui.work_manager.DeleteNoteScheduler
+import br.com.mynotes.features.notes.presentation.work_manager.DeleteNoteScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.MyNotes" parent="android:Theme.Material.Light.NoActionBar"/>
+
+    <style name="Theme.MyNotes" parent="Theme.Material3.DayNight">
+        <item name="android:statusBarColor">@color/background</item>
+    </style>
+
+    <style name="SplashScreenTheme" parent="Theme.MyNotes">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+    </style>
+
 </resources>

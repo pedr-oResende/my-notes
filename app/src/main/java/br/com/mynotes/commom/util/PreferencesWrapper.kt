@@ -3,7 +3,7 @@ package br.com.mynotes.commom.util
 import android.content.Context
 import android.content.SharedPreferences
 import br.com.mynotes.commom.extensions.ifNull
-import br.com.mynotes.features.notes.ui.screens.main.ui.DrawerScreens
+import br.com.mynotes.features.notes.presentation.screens.main.ui.DrawerScreens
 
 class PreferencesWrapper private constructor(context: Context) {
     
