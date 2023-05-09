@@ -13,7 +13,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import br.com.mynotes.commom.extensions.ifNull
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomEditText(
     modifier: Modifier = Modifier,
@@ -28,7 +27,9 @@ fun CustomEditText(
     trailingIcon: @Composable (() -> Unit)? = null
 ) {
     TextField(
-        modifier = modifier.fillMaxWidth().height(50.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(50.dp),
         value = value,
         onValueChange = { newText ->
             onValueChange(newText)
@@ -39,20 +40,18 @@ fun CustomEditText(
             keyboardType = keyboardType ifNull KeyboardType.Text,
             imeAction = ImeAction.Next
         ),
-        colors = TextFieldDefaults.textFieldColors(
-            focusedLabelColor = Color.Transparent,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = backgroundColor,
+            unfocusedContainerColor = backgroundColor,
+            disabledContainerColor = backgroundColor,
             cursorColor = MaterialTheme.colorScheme.onSurface,
-            containerColor = backgroundColor,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
+            focusedLabelColor = Color.Transparent,
         ),
         visualTransformation = visualTransformation ifNull VisualTransformation.None,
         isError = isError,
-        leadingIcon = if (leadingIcon != null) {
-            { leadingIcon() }
-        } else null,
-        trailingIcon = if (trailingIcon != null) {
-            { trailingIcon() }
-        } else null
+        leadingIcon = { leadingIcon?.invoke() },
+        trailingIcon = { trailingIcon?.invoke() }
     )
 }

@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import br.com.mynotes.R
-import br.com.mynotes.commom.util.PreferencesKey
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.presentation.compose.animations.FadeTransition
 import br.com.mynotes.features.notes.presentation.compose.widgets.CustomEditText
@@ -69,10 +68,7 @@ fun SearchNotesTopBar(
                     TopBarIcon(
                         onClick = {
                             noteListState.value = noteListState.value.switch()
-                            PreferencesWrapper.instance?.putString(
-                                key = PreferencesKey.NOTE_LIST_TYPE_KEY,
-                                value = noteListState.value.name
-                            )
+                            PreferencesWrapper.instance?.listType = noteListState.value
                         },
                         imageVector = when (noteListState.value) {
                             NoteListState.Grid -> Icons.Outlined.ViewAgenda

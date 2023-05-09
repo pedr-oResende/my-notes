@@ -26,7 +26,7 @@ fun NavGraphBuilder.home(
     ) {
         MainNotesScreen(
             navHostController = navHostController,
-            snackbarHostState = snackbarHostState
+            snackBarHostState = snackbarHostState
         )
     }
 }

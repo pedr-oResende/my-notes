@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomEditText(
     text: String,
@@ -30,14 +29,16 @@ fun CustomEditText(
                 color = MaterialTheme.colorScheme.onBackground
             )
         },
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.colors(
             focusedTextColor = MaterialTheme.colorScheme.onBackground,
             unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
             disabledTextColor = Color.Transparent,
-            containerColor = Color.Transparent,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            disabledIndicatorColor = Color.Transparent,
         ),
         readOnly = readOnly
     )

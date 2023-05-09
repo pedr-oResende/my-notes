@@ -3,17 +3,53 @@ package br.com.mynotes.commom.util
 import android.content.Context
 import android.content.SharedPreferences
 import br.com.mynotes.commom.extensions.ifNull
+import br.com.mynotes.features.notes.presentation.screens.main.ui.NoteListState
+import br.com.mynotes.commom.extensions.enumValueOf
 import br.com.mynotes.features.notes.presentation.screens.main.ui.DrawerScreens
 
 class PreferencesWrapper private constructor(context: Context) {
-    
-    private var screen: DrawerScreens? = null
+
+    var listType: NoteListState
+        get() {
+            val default = NoteListState.Grid
+            return enumValueOf(
+                value = getString(
+                    key = PreferencesKey.NOTE_LIST_TYPE_KEY,
+                    default = default.name
+                ),
+                default = default
+            )
+        }
+        set(state) {
+            putString(
+                key = PreferencesKey.NOTE_LIST_TYPE_KEY,
+                value = state.name
+            )
+        }
+
+    var screenState: DrawerScreens
+        get() {
+            val default = DrawerScreens.Home
+            return enumValueOf(
+                value = getString(
+                    key = PreferencesKey.SCREEN_STATE_KEY,
+                    default = default.name
+                ),
+                default = default
+            )
+        }
+        set(screen) {
+            putString(
+                key = PreferencesKey.SCREEN_STATE_KEY,
+                value = screen.name
+            )
+        }
 
     init {
         sharedPreferences = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
     }
-    
-    fun putString(key: String, value: String?) {
+
+    private fun putString(key: String, value: String?) {
         save(key, value)
     }
 
@@ -29,8 +65,8 @@ class PreferencesWrapper private constructor(context: Context) {
         save(key, value)
     }
 
-    fun getString(key: String?, valueDefault: String = ""): String {
-        return sharedPreferences?.getString(key, valueDefault) ifNull valueDefault
+    private fun getString(key: String?, default: String = ""): String {
+        return sharedPreferences?.getString(key, default) ifNull default
     }
 
     fun getBoolean(key: String?, valueDefault: Boolean = true): Boolean? {
@@ -70,7 +106,7 @@ class PreferencesWrapper private constructor(context: Context) {
     }
 
     companion object {
-        
+
         private var preferencesWrapper: PreferencesWrapper? = null
         private var sharedPreferences: SharedPreferences? = null
         fun initPreferences(context: Context) {

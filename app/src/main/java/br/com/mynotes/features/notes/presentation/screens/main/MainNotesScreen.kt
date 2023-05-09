@@ -7,8 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import br.com.mynotes.commom.extensions.enumValueOf
-import br.com.mynotes.commom.util.PreferencesKey
+import br.com.mynotes.commom.extensions.ifNull
 import br.com.mynotes.commom.util.PreferencesWrapper
 import br.com.mynotes.features.notes.presentation.compose.components.DefaultNavigationDrawer
 import br.com.mynotes.features.notes.presentation.compose.navigation.Screens
@@ -22,18 +21,12 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainNotesScreen(
     navHostController: NavHostController,
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val initialScreen = enumValueOf(
-        value = PreferencesWrapper.instance?.getString(PreferencesKey.SCREEN_STATE_KEY).orEmpty(),
-        default = DrawerScreens.Home
-    )
-    val initialListState = enumValueOf(
-        value = PreferencesWrapper.instance?.getString(PreferencesKey.NOTE_LIST_TYPE_KEY).orEmpty(),
-        default = NoteListState.Grid
-    )
+    val initialScreen = PreferencesWrapper.instance?.screenState ifNull DrawerScreens.Home
+    val initialListState = PreferencesWrapper.instance?.listType ifNull NoteListState.Grid
     val screenState = remember { mutableStateOf(initialScreen) }
     val noteListState = remember { mutableStateOf(initialListState) }
     ModalNavigationDrawer(
@@ -46,10 +39,7 @@ fun MainNotesScreen(
                         scope.launch {
                             drawerState.close()
                             screenState.value = item.screen
-                            PreferencesWrapper.instance?.putString(
-                                key = PreferencesKey.SCREEN_STATE_KEY,
-                                value = item.screen.name
-                            )
+                            PreferencesWrapper.instance?.screenState = item.screen
                         }
                     },
                     currentScreen = screenState.value
@@ -79,13 +69,13 @@ fun MainNotesScreen(
                         }
                     }
                 },
-                snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+                snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
             ) { paddingValues ->
                 MainNotes(
                     modifier = Modifier.padding(paddingValues = paddingValues),
                     screenState = screenState,
                     navHostController = navHostController,
-                    snackbarHostState = snackbarHostState,
+                    snackbarHostState = snackBarHostState,
                     noteListState = noteListState
                 )
             }
