@@ -21,11 +21,6 @@
             tools:node="merge">
 
             <meta-data
-                android:name="androidx.work.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
-
-            <meta-data
                 android:name="br.com.mynotes.features.notes.domain.initializer.PreferencesInitializer"
                 android:value="androidx.startup" />
 

@@ -19,7 +19,7 @@ fun CustomSwipeToDismiss(
     content: @Composable (alpha: Float) -> Unit
 ) {
     val limit = 180f
-    var offset by remember { mutableStateOf(0f) }
+    var offset by remember { mutableFloatStateOf(0f) }
     val state = rememberDraggableState {
         if (enabled) {
             offset += it

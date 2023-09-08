@@ -1,8 +1,8 @@
 package br.com.mynotes.features.notes.presentation.screens.home.ui
 
 sealed class HomeEvents {
-    object ArchiveNotes : HomeEvents()
-    object MoveNoteToTrashCan : HomeEvents()
-    object RestoreNotes : HomeEvents()
-    object ToggleMarkPin : HomeEvents()
+    data object ArchiveNotes : HomeEvents()
+    data object MoveNoteToTrashCan : HomeEvents()
+    data object RestoreNotes : HomeEvents()
+    data object ToggleMarkPin : HomeEvents()
 }

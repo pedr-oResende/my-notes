@@ -2,20 +2,15 @@
 package br.com.mynotes.features.notes.presentation.compose.navigation
 
 import androidx.activity.OnBackPressedDispatcher
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material3.SnackbarHostState
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
+import androidx.navigation.*
+import androidx.navigation.compose.composable
 import br.com.mynotes.features.notes.presentation.screens.main.MainNotesScreen
 import br.com.mynotes.features.notes.presentation.screens.note_detail.NoteDetailScreen
-import com.google.accompanist.navigation.animation.composable
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.home(
     navHostController: NavHostController,
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState
 ) {
     composable(
         route = Screens.Home.route,
@@ -26,23 +21,22 @@ fun NavGraphBuilder.home(
     ) {
         MainNotesScreen(
             navHostController = navHostController,
-            snackBarHostState = snackbarHostState
+            snackBarHostState = snackBarHostState
         )
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.noteDetail(
     navHostController: NavHostController,
     onBackPressedDispatcher: OnBackPressedDispatcher,
-    snackbarHostState: SnackbarHostState
+    snackBarHostState: SnackbarHostState
 ) {
     composable(
         route = Screens.NoteDetail.route
     ) {
         NoteDetailScreen(
             navHostController = navHostController,
-            snackbarHostState = snackbarHostState,
+            snackbarHostState = snackBarHostState,
             onBackPressedDispatcher = onBackPressedDispatcher
         )
     }

@@ -4,31 +4,24 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'com.google.devtools.ksp' version "1.9.0-1.0.13"
 }
 
 android {
 
     namespace 'br.com.mynotes'
 
-    compileSdk 33
-
     defaultConfig {
-        minSdk 21
-        targetSdk 33
+        minSdkVersion rootProject.minSdkVersion
+        compileSdk rootProject.compileSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
-        }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
-            }
         }
     }
 
@@ -53,7 +46,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.0'
+        kotlinCompilerExtensionVersion rootProject.compose_version
     }
 
     packagingOptions {
@@ -70,34 +63,36 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_ktx_version"
 
     // Compose
+    def composeBom = platform("androidx.compose:compose-bom:2023.06.01")
+    implementation composeBom
+    androidTestImplementation composeBom
+    implementation 'androidx.compose.material:material'
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.material:material-icons-extended'
+    implementation "androidx.compose.animation:animation"
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.navigation:navigation-compose'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    implementation "androidx.compose.runtime:runtime-livedata"
+
     implementation "androidx.activity:activity-compose:$activity_compose_version"
-    implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    implementation "androidx.compose.material:material-icons-core:$compose_version"
-    implementation "androidx.compose.animation:animation:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    implementation "com.google.accompanist:accompanist-appcompat-theme:$accompanist_compose_version"
-    implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_compose_version"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_compose_version"
-    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.30.1"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     // Coroutine
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
     kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt_version"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
@@ -112,7 +107,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_compiler_version"
-    kapt "androidx.room:room-compiler:$room_compiler_version"
+    ksp "androidx.room:room-compiler:$room_compiler_version"
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Worker
@@ -120,10 +115,10 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.0.0'
 
     // Material
-    implementation "androidx.compose.material3:material3:1.1.0-rc01"
+    implementation "androidx.compose.material3:material3:1.2.0-alpha07"
     implementation "com.google.android.material:material:1.9.0"
 
     // Splash Screen
-    implementation "androidx.core:core-splashscreen:1.0.1"
+    implementation "androidx.core:core-splashscreen:1.1.0-alpha02"
 
 }
